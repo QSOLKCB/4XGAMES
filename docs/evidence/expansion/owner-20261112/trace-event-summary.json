@@ -1,0 +1,99 @@
+{
+  "derivation": "Count traceEvents by exact name; identify GPU PIDs from process_name metadata. Raw traces remain local and are identified by SHA-256. Counts include trace phases and are not GPU utilization or elapsed execution measurements.",
+  "traces": [
+    {
+      "campaign": "machine-dawn",
+      "file": "gpu-trace-machine-dawn.json",
+      "sourcePath": "test-results/owner-20261112-run2/guided/gpu-trace-machine-dawn.json",
+      "bytes": 6979903,
+      "sha256": "3488688bbde3fd7f2294a69b06ab66cdf3300fcc3c29d66b9f179c4ca3cc7d96",
+      "workload": {
+        "frames": 121,
+        "elapsedMs": 2002.2999999970198,
+        "canvasWidth": 853,
+        "canvasHeight": 550
+      },
+      "eventCount": 37369,
+      "eventsOnGpuProcess": 14784,
+      "selectedEventCounts": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 138,
+        "GpuChannel::Flush": 384,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 242,
+        "SkiaRenderer::SwapBuffers": 121,
+        "Display::DrawAndSwap": 121,
+        "RasterImplementation::RasterCHROMIUM": 121,
+        "GpuRasterBuffer::Playback": 0
+      },
+      "selectedEventsOnGpuProcess": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 138,
+        "GpuChannel::Flush": 128,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 242,
+        "SkiaRenderer::SwapBuffers": 121,
+        "Display::DrawAndSwap": 121,
+        "RasterImplementation::RasterCHROMIUM": 0,
+        "GpuRasterBuffer::Playback": 0
+      },
+      "processNames": [
+        {
+          "name": "Browser"
+        },
+        {
+          "name": "Renderer"
+        },
+        {
+          "name": "GPU Process"
+        },
+        {
+          "name": "Service: tracing.mojom.TracingService"
+        }
+      ]
+    },
+    {
+      "campaign": "grand-frontier",
+      "file": "gpu-trace-grand-frontier.json",
+      "sourcePath": "test-results/owner-20261112-run2/guided/gpu-trace-grand-frontier.json",
+      "bytes": 7082268,
+      "sha256": "80b6556582d57a9c30b0e5db5c6b882ad2199c1474a29bcac5d07161c0b63be0",
+      "workload": {
+        "frames": 121,
+        "elapsedMs": 2009.5,
+        "canvasWidth": 853,
+        "canvasHeight": 550
+      },
+      "eventCount": 37809,
+      "eventsOnGpuProcess": 14726,
+      "selectedEventCounts": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 146,
+        "GpuChannel::Flush": 441,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 242,
+        "SkiaRenderer::SwapBuffers": 121,
+        "Display::DrawAndSwap": 121,
+        "RasterImplementation::RasterCHROMIUM": 134,
+        "GpuRasterBuffer::Playback": 12
+      },
+      "selectedEventsOnGpuProcess": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 146,
+        "GpuChannel::Flush": 147,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 242,
+        "SkiaRenderer::SwapBuffers": 121,
+        "Display::DrawAndSwap": 121,
+        "RasterImplementation::RasterCHROMIUM": 0,
+        "GpuRasterBuffer::Playback": 0
+      },
+      "processNames": [
+        {
+          "name": "Browser"
+        },
+        {
+          "name": "Renderer"
+        },
+        {
+          "name": "GPU Process"
+        },
+        {
+          "name": "Service: tracing.mojom.TracingService"
+        }
+      ]
+    }
+  ]
+}

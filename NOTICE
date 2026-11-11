@@ -18,3 +18,13 @@ Vendored files are unmodified, file-level licensed, and shipped as source.
 Their licenses do not relicense the other files of this larger work.
 No scientific validation, physical interpretation, or formal proof of VOIDWARD
 is claimed through the use of upstream mathematical and visual modules.
+
+Expansion adapters additionally use unchanged VANILLAJS Workbench model,
+Component Forge, Asset Foundry and Mod SDK modules (Apache-2.0), with their
+exact sources recorded in vendor/PROVENANCE.json. GAMES SOVEREIGN LATTICE fleet,
+AI and last-seen intelligence patterns are adapted under MIT; its upstream
+notices are retained in vendor/games/SOVEREIGN_LATTICE/NOTICE.md. OFFLINE-GAMES
+campaign/source-mod lifecycle code was inspected as a design reference.
+Original campaign fiction, names, objective tables and geography are independent
+VOIDWARD content. Workbench-imported user assets retain their declared source
+licence and digest in their pack; their metadata does not relicense this code.

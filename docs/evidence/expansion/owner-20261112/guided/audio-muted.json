@@ -1,0 +1,15 @@
+{
+  "audio": {
+    "enabled": false,
+    "context": "suspended",
+    "cachedNotes": 7,
+    "noteBytes": 4327680,
+    "levels": {
+      "music": 0.55,
+      "effects": 0.8
+    },
+    "musicVoices": 0
+  },
+  "peak": 0.01763222925364971,
+  "note": "Mute signal measurement; downstream speaker output not verified"
+}

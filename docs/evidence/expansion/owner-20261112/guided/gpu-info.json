@@ -1,0 +1,12 @@
+{
+  "info": {
+    "gpu": {
+      "rendererPath": "NVIDIA via ANGLE/OpenGL",
+      "canvas2d": "enabled",
+      "gpuCompositing": "enabled",
+      "detailPolicy": "Detailed device, driver, process and launch metadata retained only in local originals. Hardware participation is supported by the separately summarized workload trace; exclusive GPU execution and utilization are not established."
+    }
+  },
+  "browser": "156",
+  "at": "2026-11-11T22:29:18.456Z"
+}

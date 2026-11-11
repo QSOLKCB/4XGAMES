@@ -1,0 +1,13 @@
+{
+  "gpu": {
+    "rendererPath": "NVIDIA via ANGLE/OpenGL",
+    "canvas2d": "enabled",
+    "gpuCompositing": "enabled",
+    "detailPolicy": "Detailed device, driver, process and launch metadata retained only in local originals. Hardware participation is supported by the separately summarized workload trace; exclusive GPU execution and utilization are not established."
+  },
+  "webgl": {
+    "available": true,
+    "renderer": "NVIDIA via ANGLE/OpenGL"
+  },
+  "assessment": "SOFTWARE_RENDERER_DETECTED; game acceleration unverified"
+}

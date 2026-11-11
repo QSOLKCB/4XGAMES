@@ -1,0 +1,2159 @@
+{
+  "node": "v22",
+  "policy": "engine.ai controls the chosen human via the same legal commands; desired branch selected through chooseObjective as soon as active; other empires use normal endTurn AI; no state edits. Every state validated and every run independently replayed. This is an automated policy, not manual player proof.",
+  "seeds": [
+    0,
+    7,
+    2401
+  ],
+  "difficulties": [
+    "standard"
+  ],
+  "results": [
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ba51bfb523f534dec2375ec22ec3c37d8cdcd30e1ef3600fce9139d053b1c850",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-chart",
+        "0:settled-reach",
+        "0:concord",
+        "0:concord-labs",
+        "0:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 75269,
+          "energy": 22094,
+          "science": 477
+        },
+        {
+          "minerals": 124824,
+          "energy": 28956,
+          "science": 5444
+        },
+        {
+          "minerals": 31898,
+          "energy": 17208,
+          "science": 3608
+        }
+      ],
+      "colonies": [
+        60,
+        47,
+        13
+      ],
+      "ships": 107,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 157024
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "0615652158b753fe6fab75f87253bebb1c6206f2df2c009ae015982a32fdda60",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-chart",
+        "0:settled-reach",
+        "0:concord",
+        "0:concord-labs",
+        "0:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 63173,
+          "energy": 22873,
+          "science": 1024
+        },
+        {
+          "minerals": 97770,
+          "energy": 23917,
+          "science": 4506
+        },
+        {
+          "minerals": 26201,
+          "energy": 17531,
+          "science": 2680
+        }
+      ],
+      "colonies": [
+        49,
+        42,
+        25
+      ],
+      "ships": 85,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 161183
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 100,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "7b3d93a5436e08526112f88d5a892253f7ce7ebd5013ab4932fd9651c167bc7f",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-chart",
+        "0:settled-reach",
+        "0:concord",
+        "0:concord-labs",
+        "0:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 98738,
+          "energy": 24198,
+          "science": 3023
+        },
+        {
+          "minerals": 76515,
+          "energy": 21601,
+          "science": 2477
+        },
+        {
+          "minerals": 106177,
+          "energy": 26508,
+          "science": 751
+        }
+      ],
+      "colonies": [
+        39,
+        41,
+        46
+      ],
+      "ships": 137,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 180852
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "c6d7730d1ed04a55c7eecce18a500014eb344e0dfde15035a6be517d709d0a47",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-chart",
+        "0:settled-reach",
+        "0:dominion",
+        "0:dominion-arms",
+        "0:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 32482,
+          "energy": 22779,
+          "science": 4584
+        },
+        {
+          "minerals": 92298,
+          "energy": 25246,
+          "science": 4318
+        },
+        {
+          "minerals": 2989,
+          "energy": 20386,
+          "science": 5288
+        }
+      ],
+      "colonies": [
+        49,
+        44,
+        30
+      ],
+      "ships": 100,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 173166
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 100,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "4f59b330680e4dd3a9083d0a5199433d5ecd2d6b12cd0ae19ddabdab836b4753",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-chart",
+        "0:settled-reach",
+        "0:dominion",
+        "0:dominion-arms",
+        "0:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 101478,
+          "energy": 26351,
+          "science": 4453
+        },
+        {
+          "minerals": 103188,
+          "energy": 24975,
+          "science": 2100
+        },
+        {
+          "minerals": 11891,
+          "energy": 14266,
+          "science": 844
+        }
+      ],
+      "colonies": [
+        28,
+        45,
+        48
+      ],
+      "ships": 125,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 176403
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 100,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "6401ed6f78daec4d8993329f1af03d1c4a579d6473ed9c6a2d658f22b74e2f37",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-chart",
+        "0:settled-reach",
+        "0:dominion",
+        "0:dominion-arms",
+        "0:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 80453,
+          "energy": 26060,
+          "science": 5305
+        },
+        {
+          "minerals": 106214,
+          "energy": 24426,
+          "science": 5580
+        },
+        {
+          "minerals": 115287,
+          "energy": 26588,
+          "science": 5129
+        }
+      ],
+      "colonies": [
+        43,
+        39,
+        46
+      ],
+      "ships": 114,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 159909
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 1,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 100,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "229973386d595c6e9f2274056f67147332836abe8c42bffea280f3d04a5e8e13",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-chart",
+        "1:settled-reach",
+        "1:concord",
+        "1:concord-labs",
+        "1:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 49471,
+          "energy": 19792,
+          "science": 3176
+        },
+        {
+          "minerals": 81649,
+          "energy": 22257,
+          "science": 698
+        },
+        {
+          "minerals": 85187,
+          "energy": 21725,
+          "science": 4641
+        }
+      ],
+      "colonies": [
+        32,
+        42,
+        39
+      ],
+      "ships": 107,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 169290
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 1,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 100,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "acf4a8a8b163e5059921d280231c14f56a5eee873261638b0aacb22b2b925dbe",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-chart",
+        "1:settled-reach",
+        "1:concord",
+        "1:concord-labs",
+        "1:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 98865,
+          "energy": 21527,
+          "science": 1221
+        },
+        {
+          "minerals": 112162,
+          "energy": 26024,
+          "science": 512
+        },
+        {
+          "minerals": 101565,
+          "energy": 25593,
+          "science": 3074
+        }
+      ],
+      "colonies": [
+        38,
+        44,
+        46
+      ],
+      "ships": 135,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 175538
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 1,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 100,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "7adee139fb244ff438aaaf46c3136e7e292ef2fd63976f8dcb8d4d8f66cc2d79",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-chart",
+        "1:settled-reach",
+        "1:concord",
+        "1:concord-labs",
+        "1:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 101195,
+          "energy": 25691,
+          "science": 1108
+        },
+        {
+          "minerals": 107000,
+          "energy": 22729,
+          "science": 2316
+        },
+        {
+          "minerals": 116328,
+          "energy": 27239,
+          "science": 1566
+        }
+      ],
+      "colonies": [
+        43,
+        36,
+        49
+      ],
+      "ships": 119,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 162179
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 1,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "e7cc37a7b7383d7629bba3eb4d3795a1bb708f2fd41796582f4b673a77a68dc2",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-chart",
+        "1:settled-reach",
+        "1:dominion",
+        "1:dominion-arms",
+        "1:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 107901,
+          "energy": 28283,
+          "science": 1830
+        },
+        {
+          "minerals": 714,
+          "energy": 16083,
+          "science": 3420
+        },
+        {
+          "minerals": 77494,
+          "energy": 20898,
+          "science": 4570
+        }
+      ],
+      "colonies": [
+        68,
+        7,
+        40
+      ],
+      "ships": 85,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 159709
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 1,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 100,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ca2d6b557352372c614e516fcd37b1b75c3793a0aa00af261b2165ca4fa7eaec",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-chart",
+        "1:settled-reach",
+        "1:dominion",
+        "1:dominion-arms",
+        "1:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 118587,
+          "energy": 24185,
+          "science": 3072
+        },
+        {
+          "minerals": 104669,
+          "energy": 30044,
+          "science": 82
+        },
+        {
+          "minerals": 100796,
+          "energy": 25592,
+          "science": 2451
+        }
+      ],
+      "colonies": [
+        37,
+        46,
+        45
+      ],
+      "ships": 107,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 155564
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 1,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 100,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "7845f94f5d68bfcd0df0cf1ca24f39c4008411e51a19dfef638ec9e70517902c",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-chart",
+        "1:settled-reach",
+        "1:dominion",
+        "1:dominion-arms",
+        "1:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 114553,
+          "energy": 27073,
+          "science": 941
+        },
+        {
+          "minerals": 84883,
+          "energy": 21706,
+          "science": 1984
+        },
+        {
+          "minerals": 119339,
+          "energy": 26956,
+          "science": 469
+        }
+      ],
+      "colonies": [
+        42,
+        38,
+        47
+      ],
+      "ships": 111,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 154390
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 2,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 100,
+      "winner": 1,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "820c9dc69c8010b82f024239c78ba6b10ae610c7265584712772c329ea16baad",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-chart",
+        "2:settled-reach",
+        "2:concord",
+        "2:concord-labs",
+        "2:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 36443,
+          "energy": 20550,
+          "science": 1693
+        },
+        {
+          "minerals": 95180,
+          "energy": 24745,
+          "science": 1599
+        },
+        {
+          "minerals": 12824,
+          "energy": 18260,
+          "science": 2039
+        }
+      ],
+      "colonies": [
+        30,
+        45,
+        44
+      ],
+      "ships": 144,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 194666
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 2,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "86d6ae57eede4bf587efab84b1f42f8d2df6b8829ace3e2ae9768e0fbcdd7527",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-chart",
+        "2:settled-reach",
+        "2:concord",
+        "2:concord-labs",
+        "2:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 57156,
+          "energy": 17836,
+          "science": 5340
+        },
+        {
+          "minerals": 102243,
+          "energy": 23578,
+          "science": 4384
+        },
+        {
+          "minerals": 38637,
+          "energy": 21908,
+          "science": 3301
+        }
+      ],
+      "colonies": [
+        49,
+        42,
+        28
+      ],
+      "ships": 109,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 167810
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 2,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "20e7134a39325d7bfbb76e9c584180cd9441c1fe74393fe35357572479d9f29c",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-chart",
+        "2:settled-reach",
+        "2:concord",
+        "2:concord-labs",
+        "2:long-concord"
+      ],
+      "resources": [
+        {
+          "minerals": 18839,
+          "energy": 19054,
+          "science": 5218
+        },
+        {
+          "minerals": 83700,
+          "energy": 21614,
+          "science": 346
+        },
+        {
+          "minerals": 38806,
+          "energy": 21321,
+          "science": 1182
+        }
+      ],
+      "colonies": [
+        44,
+        41,
+        29
+      ],
+      "ships": 86,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 178214
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 2,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "ca637811abf277af0864985364906852a9e0d6360772db3e848b69e991def38a",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-chart",
+        "2:settled-reach",
+        "2:dominion",
+        "2:dominion-arms",
+        "2:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 88119,
+          "energy": 22594,
+          "science": 4196
+        },
+        {
+          "minerals": 90185,
+          "energy": 23077,
+          "science": 4743
+        },
+        {
+          "minerals": 38841,
+          "energy": 20416,
+          "science": 1272
+        }
+      ],
+      "colonies": [
+        56,
+        42,
+        20
+      ],
+      "ships": 101,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 171116
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 2,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 100,
+      "winner": 0,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "298c97cfb57c910f1f7d3291ebc6325925ebf5285a08c1e7c56f9d5812be1be0",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-chart",
+        "2:settled-reach",
+        "2:dominion",
+        "2:dominion-arms",
+        "2:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 65478,
+          "energy": 24177,
+          "science": 4949
+        },
+        {
+          "minerals": 88815,
+          "energy": 24497,
+          "science": 1537
+        },
+        {
+          "minerals": 2297,
+          "energy": 18864,
+          "science": 181
+        }
+      ],
+      "colonies": [
+        51,
+        45,
+        24
+      ],
+      "ships": 91,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 165727
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 2,
+      "branch": "dominion",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 100,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "476ecdb71c77e8b7a07ad52e3800b6641b76910c86d9b9bba064f228e1c13aae",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-chart",
+        "2:settled-reach",
+        "2:dominion",
+        "2:dominion-arms",
+        "2:long-dominion"
+      ],
+      "resources": [
+        {
+          "minerals": 41043,
+          "energy": 21065,
+          "science": 2209
+        },
+        {
+          "minerals": 81119,
+          "energy": 21286,
+          "science": 3581
+        },
+        {
+          "minerals": 57284,
+          "energy": 23448,
+          "science": 301
+        }
+      ],
+      "colonies": [
+        35,
+        40,
+        45
+      ],
+      "ships": 122,
+      "events": {
+        "survey-grant": 12,
+        "outer-charter": 35,
+        "council-call": 65,
+        "renewal": 90
+      },
+      "saveBytes": 180757
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "5e73a6b375763cb4d6dafc4803ef1c9d148e16f035d7acf5ab3ecc14e84540fc",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-signal",
+        "0:archive-key",
+        "0:restoration",
+        "0:restoration-field",
+        "0:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 15846,
+          "energy": 7266,
+          "science": 1064
+        },
+        {
+          "minerals": 20383,
+          "energy": 8924,
+          "science": 1662
+        },
+        {
+          "minerals": 12955,
+          "energy": 9033,
+          "science": 991
+        }
+      ],
+      "colonies": [
+        19,
+        21,
+        22
+      ],
+      "ships": 91,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 115281
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "b4ddc65a4e0ef3537ea4d359eeeb7f9635542deca9a2c7fb578f35a44f2d0083",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-signal",
+        "0:archive-key",
+        "0:restoration",
+        "0:restoration-field",
+        "0:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 13926,
+          "energy": 8234,
+          "science": 1986
+        },
+        {
+          "minerals": 16592,
+          "energy": 7852,
+          "science": 275
+        },
+        {
+          "minerals": 23158,
+          "energy": 9735,
+          "science": 1538
+        }
+      ],
+      "colonies": [
+        21,
+        20,
+        27
+      ],
+      "ships": 100,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 121575
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 70,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2a3016813f67dd01ee97017f843226d9852f085298785e207883381df4aa2386",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-signal",
+        "0:archive-key",
+        "0:restoration",
+        "0:restoration-field",
+        "0:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 23507,
+          "energy": 9069,
+          "science": 2245
+        },
+        {
+          "minerals": 17068,
+          "energy": 7332,
+          "science": 158
+        },
+        {
+          "minerals": 18725,
+          "energy": 7099,
+          "science": 811
+        }
+      ],
+      "colonies": [
+        21,
+        18,
+        19
+      ],
+      "ships": 85,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 109072
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 70,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "1820c31883888520e0984113b231e4ba5753f3762675703250631e0cb306c0f3",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-signal",
+        "0:archive-key",
+        "0:new-path",
+        "0:path-engines",
+        "0:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 1759,
+          "energy": 8623,
+          "science": 934
+        },
+        {
+          "minerals": 20059,
+          "energy": 8877,
+          "science": 2245
+        },
+        {
+          "minerals": 10293,
+          "energy": 8229,
+          "science": 1230
+        }
+      ],
+      "colonies": [
+        23,
+        21,
+        20
+      ],
+      "ships": 94,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 115880
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 70,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "3b948db764037d833c636a0030cc4b8c0083ac1928f6e79435f8ecb9b2194c2c",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-signal",
+        "0:archive-key",
+        "0:new-path",
+        "0:path-engines",
+        "0:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 8126,
+          "energy": 9178,
+          "science": 1249
+        },
+        {
+          "minerals": 19137,
+          "energy": 7890,
+          "science": 283
+        },
+        {
+          "minerals": 19872,
+          "energy": 9456,
+          "science": 2102
+        }
+      ],
+      "colonies": [
+        24,
+        20,
+        24
+      ],
+      "ships": 95,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 117726
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 70,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "7941b581c36bb878cb729a076a2c5fd4ee26c4e0262d98bdc0aadfaef41a20f5",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:first-signal",
+        "0:archive-key",
+        "0:new-path",
+        "0:path-engines",
+        "0:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 3864,
+          "energy": 8912,
+          "science": 813
+        },
+        {
+          "minerals": 15157,
+          "energy": 7699,
+          "science": 1233
+        },
+        {
+          "minerals": 20882,
+          "energy": 7628,
+          "science": 1237
+        }
+      ],
+      "colonies": [
+        23,
+        18,
+        20
+      ],
+      "ships": 88,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 113190
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 1,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 70,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "c42ee9d3034d705b9f623b0d5671ae7a05875ab1fc14fdefd9f0bc6789e10a95",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-signal",
+        "1:archive-key",
+        "1:restoration",
+        "1:restoration-field",
+        "1:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 13617,
+          "energy": 7502,
+          "science": 599
+        },
+        {
+          "minerals": 17705,
+          "energy": 8719,
+          "science": 1166
+        },
+        {
+          "minerals": 12492,
+          "energy": 8569,
+          "science": 241
+        }
+      ],
+      "colonies": [
+        19,
+        24,
+        21
+      ],
+      "ships": 90,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 123343
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 1,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "afedd3ca47689b622cf043e8116b00585e0d0d20af22b86f672f808fdd25cf48",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-signal",
+        "1:archive-key",
+        "1:restoration",
+        "1:restoration-field",
+        "1:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 20753,
+          "energy": 7985,
+          "science": 187
+        },
+        {
+          "minerals": 15895,
+          "energy": 8282,
+          "science": 281
+        },
+        {
+          "minerals": 23423,
+          "energy": 9336,
+          "science": 2443
+        }
+      ],
+      "colonies": [
+        20,
+        21,
+        26
+      ],
+      "ships": 94,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 116505
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 1,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "b9c55df15536b0cbd2204d1025adf49361ef46357c3db1cf66506638ea380f2f",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-signal",
+        "1:archive-key",
+        "1:restoration",
+        "1:restoration-field",
+        "1:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 22086,
+          "energy": 8421,
+          "science": 711
+        },
+        {
+          "minerals": 16067,
+          "energy": 8558,
+          "science": 758
+        },
+        {
+          "minerals": 22193,
+          "energy": 8917,
+          "science": 481
+        }
+      ],
+      "colonies": [
+        21,
+        20,
+        24
+      ],
+      "ships": 99,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 117210
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 1,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 70,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a3e5010699c0560cc772be035813e4529063c38c2b98d790f578453256a538dd",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-signal",
+        "1:archive-key",
+        "1:new-path",
+        "1:path-engines",
+        "1:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 12966,
+          "energy": 7556,
+          "science": 758
+        },
+        {
+          "minerals": 1792,
+          "energy": 8789,
+          "science": 122
+        },
+        {
+          "minerals": 11706,
+          "energy": 7711,
+          "science": 1190
+        }
+      ],
+      "colonies": [
+        20,
+        23,
+        19
+      ],
+      "ships": 110,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 122051
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 1,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "81eba5b04c5cdcf0b871b393074987ce86aa73fce2ab44830263fa1f75e89485",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-signal",
+        "1:archive-key",
+        "1:new-path",
+        "1:path-engines",
+        "1:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 19494,
+          "energy": 8067,
+          "science": 2111
+        },
+        {
+          "minerals": 6751,
+          "energy": 8676,
+          "science": 475
+        },
+        {
+          "minerals": 12876,
+          "energy": 8930,
+          "science": 1946
+        }
+      ],
+      "colonies": [
+        21,
+        23,
+        23
+      ],
+      "ships": 100,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 118617
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 1,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 70,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "05c03c543af808d8d3633b3424a10d51903d13282f7a294a64eb383600b30efa",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:first-signal",
+        "1:archive-key",
+        "1:new-path",
+        "1:path-engines",
+        "1:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 15400,
+          "energy": 7442,
+          "science": 1296
+        },
+        {
+          "minerals": 2155,
+          "energy": 9201,
+          "science": 814
+        },
+        {
+          "minerals": 14036,
+          "energy": 7781,
+          "science": 1136
+        }
+      ],
+      "colonies": [
+        19,
+        25,
+        19
+      ],
+      "ships": 98,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 117928
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 2,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "56fc2c991301ca71a35d23491ba8d1e0eea71b8a26091fc97d0f5d349aa55520",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-signal",
+        "2:archive-key",
+        "2:restoration",
+        "2:restoration-field",
+        "2:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 24404,
+          "energy": 8690,
+          "science": 1300
+        },
+        {
+          "minerals": 17359,
+          "energy": 7825,
+          "science": 626
+        },
+        {
+          "minerals": 21418,
+          "energy": 9320,
+          "science": 2486
+        }
+      ],
+      "colonies": [
+        21,
+        20,
+        24
+      ],
+      "ships": 88,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 113711
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 2,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 70,
+      "winner": 1,
+      "playerWon": false,
+      "victory": "Campaign objectives complete",
+      "sha256": "acbb66d2d217aab748ee330366930641468383eab8e2ecca3e45fb11e0961f09",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-signal",
+        "2:archive-key",
+        "2:restoration",
+        "2:restoration-field",
+        "2:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 18242,
+          "energy": 7897,
+          "science": 1335
+        },
+        {
+          "minerals": 11368,
+          "energy": 8714,
+          "science": 1294
+        },
+        {
+          "minerals": 22173,
+          "energy": 7546,
+          "science": 641
+        }
+      ],
+      "colonies": [
+        20,
+        23,
+        19
+      ],
+      "ships": 90,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 112597
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 2,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "4c19b444b4bf3dcdd980d0c72062576fc84497ee9463dd12ad3ce41cd04b1704",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-signal",
+        "2:archive-key",
+        "2:restoration",
+        "2:restoration-field",
+        "2:restored-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 18097,
+          "energy": 8344,
+          "science": 1915
+        },
+        {
+          "minerals": 18965,
+          "energy": 8500,
+          "science": 1143
+        },
+        {
+          "minerals": 21121,
+          "energy": 9081,
+          "science": 1848
+        }
+      ],
+      "colonies": [
+        18,
+        22,
+        24
+      ],
+      "ships": 100,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 121499
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 2,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "3864c88e4854632d8a34c3d53b69ec0bfb7615ad7bc4a0446cf55637a052ca80",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-signal",
+        "2:archive-key",
+        "2:new-path",
+        "2:path-engines",
+        "2:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 16568,
+          "energy": 7594,
+          "science": 610
+        },
+        {
+          "minerals": 17235,
+          "energy": 7354,
+          "science": 1427
+        },
+        {
+          "minerals": 4934,
+          "energy": 10364,
+          "science": 1529
+        }
+      ],
+      "colonies": [
+        20,
+        18,
+        29
+      ],
+      "ships": 90,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 117438
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 2,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a34b80165cdb26f61b97185484e698c64aea56d3c6feef8fbe9d5f20ab394208",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-signal",
+        "2:archive-key",
+        "2:new-path",
+        "2:path-engines",
+        "2:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 21835,
+          "energy": 8346,
+          "science": 517
+        },
+        {
+          "minerals": 11476,
+          "energy": 8592,
+          "science": 1435
+        },
+        {
+          "minerals": 4242,
+          "energy": 8633,
+          "science": 1117
+        }
+      ],
+      "colonies": [
+        20,
+        22,
+        25
+      ],
+      "ships": 102,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 119464
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 2,
+      "branch": "path",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 70,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "7eccc43f6a125ce0ef9761a08ccd5b7edb22d30c187416c2473f803323b2a28c",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:first-signal",
+        "2:archive-key",
+        "2:new-path",
+        "2:path-engines",
+        "2:open-meridian"
+      ],
+      "resources": [
+        {
+          "minerals": 22707,
+          "energy": 8864,
+          "science": 1270
+        },
+        {
+          "minerals": 17561,
+          "energy": 8725,
+          "science": 1842
+        },
+        {
+          "minerals": 6465,
+          "energy": 9178,
+          "science": 399
+        }
+      ],
+      "colonies": [
+        20,
+        22,
+        25
+      ],
+      "ships": 102,
+      "events": {
+        "signal": 6,
+        "key-supply": 12,
+        "archive-decoded": 20,
+        "gate-echo": 45
+      },
+      "saveBytes": 123627
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "branch": "endure",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 90,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "621ee803c74b210ca781abcdb9ff6f89db9c1ee965a315f25831d863900a8e72",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:foothold",
+        "0:defence-doctrine",
+        "0:endure"
+      ],
+      "resources": [
+        {
+          "minerals": 806,
+          "energy": 7783,
+          "science": 515
+        },
+        {
+          "minerals": 199807,
+          "energy": 39250,
+          "science": 50029
+        },
+        {
+          "minerals": 303,
+          "energy": 3462,
+          "science": 236
+        }
+      ],
+      "colonies": [
+        6,
+        63,
+        2
+      ],
+      "ships": 59,
+      "events": {
+        "ultimatum": 3,
+        "pale-war": 10,
+        "relief": 84,
+        "mandate-war": 18,
+        "first-incursion": 85,
+        "second-incursion": 85,
+        "last-reserve": 65
+      },
+      "saveBytes": 86558
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "branch": "endure",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 90,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ee41c37bb38965a7fe2d02d50f4b07b37a73ddd3680eec768a030d66934621a3",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:foothold",
+        "0:defence-doctrine",
+        "0:endure"
+      ],
+      "resources": [
+        {
+          "minerals": 242785,
+          "energy": 38836,
+          "science": 55185
+        },
+        {
+          "minerals": 849,
+          "energy": 4582,
+          "science": 32
+        },
+        {
+          "minerals": 4109,
+          "energy": 10028,
+          "science": 448
+        }
+      ],
+      "colonies": [
+        40,
+        4,
+        36
+      ],
+      "ships": 46,
+      "events": {
+        "ultimatum": 3,
+        "pale-war": 10,
+        "relief": 84,
+        "mandate-war": 18,
+        "first-incursion": 85,
+        "second-incursion": 85,
+        "last-reserve": 65
+      },
+      "saveBytes": 84208
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "branch": "endure",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 90,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a2d5a670129d847f530d0da090030b0324108c1326ecb8b1864af606e82ccff2",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:foothold",
+        "0:defence-doctrine",
+        "0:endure"
+      ],
+      "resources": [
+        {
+          "minerals": 73810,
+          "energy": 25304,
+          "science": 17451
+        },
+        {
+          "minerals": 228,
+          "energy": 4994,
+          "science": 33
+        },
+        {
+          "minerals": 40869,
+          "energy": 17120,
+          "science": 6079
+        }
+      ],
+      "colonies": [
+        22,
+        0,
+        51
+      ],
+      "ships": 19,
+      "events": {
+        "ultimatum": 3,
+        "pale-war": 10,
+        "relief": 84,
+        "mandate-war": 18,
+        "first-incursion": 85,
+        "second-incursion": 85,
+        "last-reserve": 65
+      },
+      "saveBytes": 94545
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "branch": "reclaim",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 60,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "f1f3de39fd0fd416a15e8f7af0e0319cfbd450389cda1dfc0637ee7318cbcfca",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:foothold",
+        "0:liberate-pale",
+        "0:liberate-obsidian",
+        "0:reconquest"
+      ],
+      "resources": [
+        {
+          "minerals": 20439,
+          "energy": 14808,
+          "science": 2176
+        },
+        {
+          "minerals": 88,
+          "energy": 4944,
+          "science": 174
+        },
+        {
+          "minerals": 1649,
+          "energy": 8119,
+          "science": 1163
+        }
+      ],
+      "colonies": [
+        50,
+        0,
+        15
+      ],
+      "ships": 25,
+      "events": {
+        "ultimatum": 3,
+        "pale-war": 10,
+        "relief": 56,
+        "mandate-war": 18,
+        "first-incursion": 55,
+        "second-incursion": 53
+      },
+      "saveBytes": 90470
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "branch": "reclaim",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 60,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "5500dd42763ea8346b0a3cff287ce037daa5e75096eaf7fc877db4bf64949772",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:foothold",
+        "0:liberate-pale",
+        "0:liberate-obsidian",
+        "0:reconquest"
+      ],
+      "resources": [
+        {
+          "minerals": 15358,
+          "energy": 11769,
+          "science": 694
+        },
+        {
+          "minerals": 351,
+          "energy": 5096,
+          "science": 657
+        },
+        {
+          "minerals": 498,
+          "energy": 7583,
+          "science": 1089
+        }
+      ],
+      "colonies": [
+        53,
+        2,
+        2
+      ],
+      "ships": 31,
+      "events": {
+        "ultimatum": 3,
+        "pale-war": 10,
+        "relief": 56,
+        "mandate-war": 18,
+        "first-incursion": 55,
+        "second-incursion": 53
+      },
+      "saveBytes": 86856
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "branch": "reclaim",
+      "difficulty": "standard",
+      "seed": 2401,
+      "turn": 47,
+      "winner": 2,
+      "playerWon": false,
+      "victory": "Your civilisation has fallen",
+      "sha256": "d0dd85af52908119936ea4db2bc79fd811729745d329b22ebd03a9050bdd24b6",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:foothold"
+      ],
+      "resources": [
+        {
+          "minerals": 10,
+          "energy": 5515,
+          "science": 95
+        },
+        {
+          "minerals": 266,
+          "energy": 4548,
+          "science": 616
+        },
+        {
+          "minerals": 4627,
+          "energy": 9548,
+          "science": 875
+        }
+      ],
+      "colonies": [
+        0,
+        4,
+        48
+      ],
+      "ships": 20,
+      "events": {
+        "ultimatum": 3,
+        "pale-war": 10,
+        "relief": 42,
+        "mandate-war": 18,
+        "first-incursion": 45,
+        "second-incursion": 45
+      },
+      "saveBytes": 83289
+    }
+  ]
+}

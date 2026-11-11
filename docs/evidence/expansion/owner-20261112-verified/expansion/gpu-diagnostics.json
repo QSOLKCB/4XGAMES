@@ -1,0 +1,24 @@
+{
+  "gpu": {
+    "rendererPath": "NVIDIA via ANGLE/OpenGL",
+    "canvas2d": "enabled",
+    "gpuCompositing": "enabled",
+    "detailPolicy": "Detailed device, driver, process and launch metadata retained only in local originals. Hardware participation is supported by the separately summarized workload trace; exclusive GPU execution and utilization are not established."
+  },
+  "webgl": {
+    "available": true,
+    "renderer": "NVIDIA via ANGLE/OpenGL"
+  },
+  "assessment": {
+    "rendererAssessment": "NO_SOFTWARE_RENDERER_REPORTED",
+    "renderers": [
+      "NVIDIA via ANGLE/OpenGL"
+    ],
+    "softwareRenderers": [],
+    "reportedFeatures": {
+      "canvas2d": "enabled",
+      "gpuCompositing": "enabled"
+    },
+    "workloadAcceleration": "UNVERIFIED; renderer identity and reported feature status do not attribute game work to the GPU; interpret the captured workload trace separately"
+  }
+}

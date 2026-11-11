@@ -1,0 +1,1095 @@
+{
+  "started": "2026-11-11T22:24:25.760Z",
+  "status": "FAIL",
+  "ownerGate": "VOIDWARD_OWNER_PROCEED=1; operator must retain conversation approval",
+  "browserMode": "headed dedicated temporary Chromium profiles; Playwright protocol only",
+  "workload": "untouched baseline suite, proposed legacy suite, expanded campaign/player/creator suite",
+  "manualRequirements": [
+    "Inspect screenshots and play a representative section after automation.",
+    "Listen to generated sound if output is available.",
+    "Classify actual GPU path from diagnostics; hardware presence is insufficient."
+  ],
+  "runs": [
+    {
+      "name": "baseline-harness-preparation",
+      "status": "PREPARED",
+      "source": "baseline-checkout/tests/browser.mjs",
+      "sourceSha256": "cb24f663f8966d0a5254b183648355688dc0952f544886714d65e3da7a103717",
+      "adaptedSha256": "be48a1a14499863ae7f4c7d37a28c8af9ac1ec3d03f9aab21ec4bbf7824b955d",
+      "changes": [
+        "absolute checkout/stage/output paths",
+        "headed browser; Chromium generates a separate temporary profile"
+      ]
+    },
+    {
+      "name": "baseline",
+      "script": "generated-harness/baseline.mjs",
+      "started": "2026-11-11T22:24:25.805Z",
+      "status": "PASS",
+      "signal": null,
+      "exitCode": 0,
+      "finished": "2026-11-11T22:24:30.660Z"
+    },
+    {
+      "name": "legacy-proposed-harness-preparation",
+      "status": "PREPARED",
+      "source": "tests/browser.mjs",
+      "sourceSha256": "cb24f663f8966d0a5254b183648355688dc0952f544886714d65e3da7a103717",
+      "adaptedSha256": "a72d5320e83a9960546d1e6189df1dda205560ea288ee6d204a3797e935bfd71",
+      "changes": [
+        "absolute checkout/stage/output paths",
+        "headed browser; Chromium generates a separate temporary profile"
+      ]
+    },
+    {
+      "name": "legacy-proposed",
+      "script": "generated-harness/legacy-proposed.mjs",
+      "started": "2026-11-11T22:24:30.661Z",
+      "status": "PASS",
+      "signal": null,
+      "exitCode": 0,
+      "finished": "2026-11-11T22:24:35.456Z"
+    },
+    {
+      "name": "expansion",
+      "script": "tests/expansion-browser.mjs",
+      "started": "2026-11-11T22:24:35.456Z",
+      "status": "FAIL",
+      "signal": null,
+      "exitCode": 1,
+      "finished": "2026-11-11T22:24:49.573Z"
+    }
+  ],
+  "proposed": {
+    "checkout": "<repository>",
+    "commit": "98d8e9727281f597f60d8b52ea109c3e8c79e5ed",
+    "trackedDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "baseline": {
+    "checkout": "baseline-checkout",
+    "commit": "b8de5866d6c6c66a4f81e6881b111aa50b173be6",
+    "trackedDiffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "proposedPackage": {
+    "directory": "_site",
+    "sha256": "689b15c78500151348db107a827bc4190ffc7ec4e548f94254981bc682507ff9",
+    "files": [
+      {
+        "path": ".nojekyll",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "docs/ARCHITECTURE.md",
+        "sha256": "d0d9ed1673eb1e4131edf428af4246f50a8c4f79e17b573f88194c4edfbef79b"
+      },
+      {
+        "path": "docs/CAMPAIGNS.md",
+        "sha256": "5edc9d84c385bca647edb388481552716c753a905be308e649975c1b08110882"
+      },
+      {
+        "path": "docs/evidence/browser-result.json",
+        "sha256": "68dd1cf9cde087fff60c879ab785a4982c7765c0e3467c1a0c58d907ac7ca2dc"
+      },
+      {
+        "path": "docs/evidence/expansion/baseline-engine.json",
+        "sha256": "bb4ebf3e7a77f88c6fba049e021d79f99b17d7f3f01c60c6ed139b4385afe7e5"
+      },
+      {
+        "path": "docs/evidence/expansion/baseline.json",
+        "sha256": "35d9f1bc663258caa3431757e5991e180ee7dc3ec9b445742b3d20334bd7314f"
+      },
+      {
+        "path": "docs/evidence/expansion/campaign-difficulties.json",
+        "sha256": "d17dbfb24381b06d6b03138d1ec1f819a6136b5f3591bb5bb9e9e9d47294961d"
+      },
+      {
+        "path": "docs/evidence/expansion/campaign-sweep-iteration.json",
+        "sha256": "72782928d755ab7a282002563d5a7d29f32d01d9cccd99e99b722bb3a2980ca0"
+      },
+      {
+        "path": "docs/evidence/expansion/campaign-sweep.json",
+        "sha256": "53aa2139678627a67575947f29f07ac23f5d09f32a9b44ac183131b8cf24f9be"
+      },
+      {
+        "path": "docs/evidence/expansion/expanded-engine.json",
+        "sha256": "efb5a88bc3c9b9732563287d7698ef84032d3b215ae68b7f90cfa4a2b93f106c"
+      },
+      {
+        "path": "docs/evidence/expansion/node-tests.json",
+        "sha256": "9f089094fd98c2bc8b32a47e9c6d880df3d9e430642c1d6546c57889bec7c17b"
+      },
+      {
+        "path": "docs/evidence/expansion/reference-engine.json",
+        "sha256": "72a26f3412c884f7d388e7085af19d7ea735abd3b67d56f75818a60a4c90419e"
+      },
+      {
+        "path": "docs/evidence/expansion/stress-pack.json",
+        "sha256": "6aa030c8d6087694aceca8c68faa3872e16bf1b6b2d0f37d0c3ffdcdb458f983"
+      },
+      {
+        "path": "docs/evidence/texture-reuse.json",
+        "sha256": "ab17b04220b696452f7c70787cf84064ea49a1510a1f4062a9067c588171435d"
+      },
+      {
+        "path": "docs/OPT_CONTRACT.md",
+        "sha256": "ad823734a41275a9e15ce99a3ffce4430a57b6df06ea5061ac8ac530255d05ad"
+      },
+      {
+        "path": "docs/OWNER_BROWSER_TEST.md",
+        "sha256": "f358695d87e1b992e9b4358692e519dbc72f892dd6189b35b661b7c427aa8d83"
+      },
+      {
+        "path": "docs/PLAYER_GUIDE.md",
+        "sha256": "e1e0bc365b0e6df1ec0dbbd4c36c106261b035a3055af898a0b453ab6291432f"
+      },
+      {
+        "path": "docs/VALIDATION.md",
+        "sha256": "78a926c6af960e505441b7152f0be116bf447db7a0e7140c21fcfab167b30402"
+      },
+      {
+        "path": "docs/WORKSHOP.md",
+        "sha256": "17a26e55924100938f7467e8c815fa20d69438ed1f5dace1269d7e4e026825f5"
+      },
+      {
+        "path": "icon.svg",
+        "sha256": "3b6765168e225bbddc1b5c263c14e01356f4cb2619f4e4b5d18cc6222dca74fb"
+      },
+      {
+        "path": "index.html",
+        "sha256": "74649ecb51216b2c2c53468095c3fd56bff0a19acc77147a912516a6ddd615d2"
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "5d97c47eec5be18bb5f714aea8c9bd2b6cc3c3770c62c14a1406371c9e7f4b97"
+      },
+      {
+        "path": "js/audio.js",
+        "sha256": "edeb34665aafec58d3905af76e8a15363c71c1dd914526f9ce07286410cd5249"
+      },
+      {
+        "path": "js/content.js",
+        "sha256": "6f12b9ac080b22b45360143e56b2c77bdbd3c4d5bb3294becc0eae282bef0f39"
+      },
+      {
+        "path": "js/core.js",
+        "sha256": "d2095ace5ba248d9214178de6c26af033ba484865f2bcd6b858ab6af8bf9cd3e"
+      },
+      {
+        "path": "js/render.js",
+        "sha256": "bd7c4eec916f63c7f2d67274bfba442051acdb3967ace2e91cc46eeb82d76023"
+      },
+      {
+        "path": "js/workbench-bridge.js",
+        "sha256": "5fcd802baae281b2c7f58d19ed3cf7aca7e8226e6ad5f5d776e510dde6fe236f"
+      },
+      {
+        "path": "js/workshop.js",
+        "sha256": "ce03ccc6c7fc76a57093b2c593b9f2b31bcb6654e60f02d6c999d02103f0f0d4"
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "manifest.webmanifest",
+        "sha256": "e09233c233f23134edc87721d134d2b477d9d1629257c1de7dcb2484d9895e24"
+      },
+      {
+        "path": "MOD_GUIDE.md",
+        "sha256": "f908735dc8ba33de9e06a897519c0ec4d1e0e9e4d56ef3a66342924f2f2685d5"
+      },
+      {
+        "path": "mods/fallen-gates/ai.txt",
+        "sha256": "9cbb7e9212521883d4dc76afbeb089995386f2b7b18f474ab1762f8d2d257104"
+      },
+      {
+        "path": "mods/fallen-gates/buildings.txt",
+        "sha256": "62bb953895c16766bab1b2e0bda006b13486ef0050d4b789459e39f1aa7de369"
+      },
+      {
+        "path": "mods/fallen-gates/campaign.txt",
+        "sha256": "18632b7db0e2c92f32355f59d196b474ecf94f30c0afdea6f9425897afc22ca7"
+      },
+      {
+        "path": "mods/fallen-gates/components.txt",
+        "sha256": "3beb5810ecc4684f5d50c5c0de6130c57558e8bf7e6b41ffb535971f72ba567e"
+      },
+      {
+        "path": "mods/fallen-gates/dependencies.txt",
+        "sha256": "573badfd17153596f369d282eedcbdae137e00563e0e294d063924c34069ba59"
+      },
+      {
+        "path": "mods/fallen-gates/empire_names.txt",
+        "sha256": "f743937e2e102baa7d354a6495ae1779c6118402a557292a7391695ee4dbcdad"
+      },
+      {
+        "path": "mods/fallen-gates/empires.txt",
+        "sha256": "3813bbf467d75c987382a0fca607213cbbfdd1ffa38001f11c83462efea4b9fb"
+      },
+      {
+        "path": "mods/fallen-gates/events.txt",
+        "sha256": "b6afb21a56bd80918a35ad7211f65ecd15976ffd249ca80fdd13a6662716a129"
+      },
+      {
+        "path": "mods/fallen-gates/hulls.txt",
+        "sha256": "604823c9467f1400708f75384e528c44b09cb72b5ba2aa11a6e2482b131dcd27"
+      },
+      {
+        "path": "mods/fallen-gates/layout.txt",
+        "sha256": "7dabdd65adf863f14b7ad54777a649ae140db78d139d9cdda942ba2a62d79e6b"
+      },
+      {
+        "path": "mods/fallen-gates/map.txt",
+        "sha256": "bdea862eeb979693bc97d206dfdcd5419468690995210054a925af36aecf3fa6"
+      },
+      {
+        "path": "mods/fallen-gates/music.txt",
+        "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4"
+      },
+      {
+        "path": "mods/fallen-gates/objectives.txt",
+        "sha256": "ee706ede9f37a691db51957a7e552ac14ea707b6bc75143ff4b0c7be2e6a5120"
+      },
+      {
+        "path": "mods/fallen-gates/planet_names.txt",
+        "sha256": "c2cf0ed8ec70004fb4108928cb26384250b67f1adf8173f536875d8e80ee9cf7"
+      },
+      {
+        "path": "mods/fallen-gates/planet_types.txt",
+        "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a"
+      },
+      {
+        "path": "mods/fallen-gates/research.txt",
+        "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596"
+      },
+      {
+        "path": "mods/fallen-gates/rules.txt",
+        "sha256": "447d839cab825fb9b1e79bbcfb17801213b17a82160b6ec8b8f2adaacdd32833"
+      },
+      {
+        "path": "mods/fallen-gates/scenario.txt",
+        "sha256": "36ae0ac264ba303888e4ac590812f44aab6cea223af15a6d69ac6f6c1e7878c9"
+      },
+      {
+        "path": "mods/fallen-gates/ships.txt",
+        "sha256": "b83867e7d4253ad378a67b7751859ceced0ddc8d18b59ec8e8c75e39881a58b4"
+      },
+      {
+        "path": "mods/fallen-gates/starts.txt",
+        "sha256": "5491745fd96c86d23f197f8e3c1d432a5fa2056eb5c7c853aee0ce1c4f632c18"
+      },
+      {
+        "path": "mods/fallen-gates/system_names.txt",
+        "sha256": "37667bad84281f0bf015385b8a4a4a6a7cfef40215b7510b06af82b9bc3d1592"
+      },
+      {
+        "path": "mods/frontier/buildings.txt",
+        "sha256": "930b874d75743472d5941b8e4c128ddf495bfd1c305a66d5dacab976dfbece1c"
+      },
+      {
+        "path": "mods/frontier/campaign.txt",
+        "sha256": "e97c2871791efcd254be66d8a3afd15f8b7bd94c8ace906bfa100020eaf390b1"
+      },
+      {
+        "path": "mods/frontier/components.txt",
+        "sha256": "e9ffb24657f254d8f99f735da5e506481da604dea93426a5b24a8d04cb8d8b96"
+      },
+      {
+        "path": "mods/frontier/empire_names.txt",
+        "sha256": "40c266148ec7f3da9df6898f2ac2df27947a628abdd2c6fc7779792d7e60db86"
+      },
+      {
+        "path": "mods/frontier/empires.txt",
+        "sha256": "e3ddd049453a89c91712bebe9a4b7a89c5d79911f94232c4ef2cb2acb3267a85"
+      },
+      {
+        "path": "mods/frontier/hulls.txt",
+        "sha256": "aa4d8724141c7bdc2a839d3bdc36eb6ad787b03086b130cf2aefbb1eb1846468"
+      },
+      {
+        "path": "mods/frontier/map.txt",
+        "sha256": "36107ada5f99af71c969545d88056fdde68711d509b3cdb4dc17487116b5def9"
+      },
+      {
+        "path": "mods/frontier/music.txt",
+        "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4"
+      },
+      {
+        "path": "mods/frontier/planet_names.txt",
+        "sha256": "8f5146f02304984b46f6faf227c7cd33688383234c80bc61e227f787a117aca8"
+      },
+      {
+        "path": "mods/frontier/planet_types.txt",
+        "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a"
+      },
+      {
+        "path": "mods/frontier/research.txt",
+        "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596"
+      },
+      {
+        "path": "mods/frontier/rules.txt",
+        "sha256": "7bd2b002fd29a249b7b79b440933da18bebd46493d293ec25f185dc27489ed0c"
+      },
+      {
+        "path": "mods/frontier/ships.txt",
+        "sha256": "12cce7f423d80a4d205a5ac7a0ba1a3e8709f142d2100bbedd88c337fc16a671"
+      },
+      {
+        "path": "mods/frontier/system_names.txt",
+        "sha256": "708b974d76a19ff703a9f670a14e5667a9c96e3240c874bc4caed8b484840298"
+      },
+      {
+        "path": "mods/grand-frontier/ai.txt",
+        "sha256": "a6ba9cb54c255c39401ba8c0ca44f2349ce83b9f23ba605de766ef2b3fa3af1a"
+      },
+      {
+        "path": "mods/grand-frontier/buildings.txt",
+        "sha256": "62bb953895c16766bab1b2e0bda006b13486ef0050d4b789459e39f1aa7de369"
+      },
+      {
+        "path": "mods/grand-frontier/campaign.txt",
+        "sha256": "27d984e9075c91f0cc465e06b1ac6762009fe6888e1bc914ada87595dc8120f2"
+      },
+      {
+        "path": "mods/grand-frontier/components.txt",
+        "sha256": "3beb5810ecc4684f5d50c5c0de6130c57558e8bf7e6b41ffb535971f72ba567e"
+      },
+      {
+        "path": "mods/grand-frontier/dependencies.txt",
+        "sha256": "573badfd17153596f369d282eedcbdae137e00563e0e294d063924c34069ba59"
+      },
+      {
+        "path": "mods/grand-frontier/empire_names.txt",
+        "sha256": "ff9fb19c37abe07d42b212a771103cedbf1bb6132db0462341b0b7af915f6a45"
+      },
+      {
+        "path": "mods/grand-frontier/empires.txt",
+        "sha256": "0528d3984dfca79543bbee54324ff0ed3930d713dfdc8e54d90f4b3bb89f5aab"
+      },
+      {
+        "path": "mods/grand-frontier/events.txt",
+        "sha256": "4f631856e20d63612d3ce2bd61450ffb8b616c6492dde7d2f54ccb02253b43c6"
+      },
+      {
+        "path": "mods/grand-frontier/hulls.txt",
+        "sha256": "36f6d93bb5967108df40e24cd7d128dc50ac7c4a6eafb570d8dd25eeee36e25a"
+      },
+      {
+        "path": "mods/grand-frontier/layout.txt",
+        "sha256": "b00252923107d28f57a1411cccb3ba230ae8f36c5695cbd0d5874345bbd57043"
+      },
+      {
+        "path": "mods/grand-frontier/map.txt",
+        "sha256": "32f90312ca3b9eec9087db0933809d0e2af8130b01d2f79a75550aa57a050ff2"
+      },
+      {
+        "path": "mods/grand-frontier/music.txt",
+        "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4"
+      },
+      {
+        "path": "mods/grand-frontier/objectives.txt",
+        "sha256": "8843389fb880bc99dc518acb9c4efde2c261deda6a82f8585fe1023dd9a13e9b"
+      },
+      {
+        "path": "mods/grand-frontier/planet_names.txt",
+        "sha256": "00d3ef5aa5c8c1bb16a15020c4b2e9121e3af3c9f53c8517bb591bad668b8649"
+      },
+      {
+        "path": "mods/grand-frontier/planet_types.txt",
+        "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a"
+      },
+      {
+        "path": "mods/grand-frontier/research.txt",
+        "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596"
+      },
+      {
+        "path": "mods/grand-frontier/rules.txt",
+        "sha256": "c577da44705c0b47443c66bc31b5f3ebaa41dcfde3cd653b29211f0566bf8aeb"
+      },
+      {
+        "path": "mods/grand-frontier/scenario.txt",
+        "sha256": "d0dd165c19b1a6e3ca09b404b3fc81a41b22216281ac5572f8187af8cd144ae3"
+      },
+      {
+        "path": "mods/grand-frontier/ships.txt",
+        "sha256": "7c25ee7a7f49c284f0403b21c1d6d7bb1bdd43106362a06e214fb1b03de74437"
+      },
+      {
+        "path": "mods/grand-frontier/starts.txt",
+        "sha256": "22b56cfc6e01c670a49f97c5286c4c1644ec043c4b08077a7cf114b3238515ff"
+      },
+      {
+        "path": "mods/grand-frontier/system_names.txt",
+        "sha256": "e306d09a7b2b92f1a90e529f544afc1f8d667fb0a0993839184ae88df6c60ed9"
+      },
+      {
+        "path": "mods/machine-dawn/buildings.txt",
+        "sha256": "930b874d75743472d5941b8e4c128ddf495bfd1c305a66d5dacab976dfbece1c"
+      },
+      {
+        "path": "mods/machine-dawn/campaign.txt",
+        "sha256": "4437a1174d436b289b37d9284d5c6a439285343e4cb993630998ef9141361591"
+      },
+      {
+        "path": "mods/machine-dawn/components.txt",
+        "sha256": "e9ffb24657f254d8f99f735da5e506481da604dea93426a5b24a8d04cb8d8b96"
+      },
+      {
+        "path": "mods/machine-dawn/empire_names.txt",
+        "sha256": "a1f3b76f7c7248531eaa57b670f98112143102fb50aa2a128d6b022de53b8cc8"
+      },
+      {
+        "path": "mods/machine-dawn/empires.txt",
+        "sha256": "21e3941ccac0172e192969a34089e1cdf6a0db00fcc42c41aacf6a56250409ae"
+      },
+      {
+        "path": "mods/machine-dawn/hooks.js",
+        "sha256": "10ef17e407a80c06e33c41661ace58df6b7ed3ffa739613424c59d569a089173"
+      },
+      {
+        "path": "mods/machine-dawn/hulls.txt",
+        "sha256": "aa4d8724141c7bdc2a839d3bdc36eb6ad787b03086b130cf2aefbb1eb1846468"
+      },
+      {
+        "path": "mods/machine-dawn/map.txt",
+        "sha256": "ca5d39d7e9fa718f8da20e26d9b144b0523864e96597120df897fbab0550073e"
+      },
+      {
+        "path": "mods/machine-dawn/music.txt",
+        "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4"
+      },
+      {
+        "path": "mods/machine-dawn/planet_names.txt",
+        "sha256": "4f6b57980c84c88ba59e1a834578d266c167eb5aa81f38108a5c8c23f5086ada"
+      },
+      {
+        "path": "mods/machine-dawn/planet_types.txt",
+        "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a"
+      },
+      {
+        "path": "mods/machine-dawn/research.txt",
+        "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596"
+      },
+      {
+        "path": "mods/machine-dawn/rules.txt",
+        "sha256": "f7457e359c88e212028c6405cb526ff7a0ca7aa5783864642eeafaffc8437b09"
+      },
+      {
+        "path": "mods/machine-dawn/ships.txt",
+        "sha256": "a30e9de650d9d012c0aa9ad9e6b5f4b691183347fdce5992f9a9b7f499baccce"
+      },
+      {
+        "path": "mods/machine-dawn/system_names.txt",
+        "sha256": "699b0cd328d725e40306a43cbfe998f19e11b3a6d8a8050b89dc06a20430e0f9"
+      },
+      {
+        "path": "mods/outer-rim/ai.txt",
+        "sha256": "8c9d123ee1b344e4486ab5e9e8165f0b3528d77da29c86a9ccf007b5261e0a33"
+      },
+      {
+        "path": "mods/outer-rim/buildings.txt",
+        "sha256": "62bb953895c16766bab1b2e0bda006b13486ef0050d4b789459e39f1aa7de369"
+      },
+      {
+        "path": "mods/outer-rim/campaign.txt",
+        "sha256": "bd0a302e03b6fe337a19a865ce33b43ea1cc6edc82f8b270c5bc255b451ce9a3"
+      },
+      {
+        "path": "mods/outer-rim/components.txt",
+        "sha256": "3beb5810ecc4684f5d50c5c0de6130c57558e8bf7e6b41ffb535971f72ba567e"
+      },
+      {
+        "path": "mods/outer-rim/dependencies.txt",
+        "sha256": "573badfd17153596f369d282eedcbdae137e00563e0e294d063924c34069ba59"
+      },
+      {
+        "path": "mods/outer-rim/empire_names.txt",
+        "sha256": "74b5bb6959056d0ea44ebf38c657833424e554d78195553f5e42d44cd90d64f8"
+      },
+      {
+        "path": "mods/outer-rim/empires.txt",
+        "sha256": "c9933b932a1602c667a9b4b3bfab25790e2729e90be4294d9ff3344e57792070"
+      },
+      {
+        "path": "mods/outer-rim/events.txt",
+        "sha256": "df3e77b1df4817f42028315c7c672b4be97737c31eb08e02c3617db7622de7cf"
+      },
+      {
+        "path": "mods/outer-rim/hulls.txt",
+        "sha256": "229b2d5ccdc379ec3e0265762af03732e65a0002ebb9bc1123c8525888c29acd"
+      },
+      {
+        "path": "mods/outer-rim/layout.txt",
+        "sha256": "72ce3ca483e1987648f87f09e21fd7bd66d196b408b87a28ad65c0561b68433b"
+      },
+      {
+        "path": "mods/outer-rim/map.txt",
+        "sha256": "7adebb4407baaf4b37ecbdf4979d4dbd18d2613ac54fafd400ee3b8c237a35a3"
+      },
+      {
+        "path": "mods/outer-rim/music.txt",
+        "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4"
+      },
+      {
+        "path": "mods/outer-rim/objectives.txt",
+        "sha256": "9b66b7fca53108913fef36345635f373db2f1d16eb36aeb22d545a2816dde51c"
+      },
+      {
+        "path": "mods/outer-rim/planet_names.txt",
+        "sha256": "006f6012af5e611481a00d34019f252bec0b0e3fc3b91b7b7b0a717f9dbde844"
+      },
+      {
+        "path": "mods/outer-rim/planet_types.txt",
+        "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a"
+      },
+      {
+        "path": "mods/outer-rim/research.txt",
+        "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596"
+      },
+      {
+        "path": "mods/outer-rim/rules.txt",
+        "sha256": "8e935c785d6871d96d0f5e87227c25593c1398338657eed465e50a3c1095108f"
+      },
+      {
+        "path": "mods/outer-rim/scenario.txt",
+        "sha256": "1e87be79b4407e857e37d2a90807e3013abb631c8322fe83062cf17868e700af"
+      },
+      {
+        "path": "mods/outer-rim/ships.txt",
+        "sha256": "6d91f2ea4740f77df96f5f6324a06f18df57406c9930858cbef4a2e7ea4b9ea7"
+      },
+      {
+        "path": "mods/outer-rim/starts.txt",
+        "sha256": "7f8d06ec727a0b58ddc1ec45613cff74e2f0df8c432dd01ef8fde843de9b435c"
+      },
+      {
+        "path": "mods/outer-rim/system_names.txt",
+        "sha256": "09a91edc194287bf060b4955c19f9a28f5a0dbecaac60338e2721cea79a92922"
+      },
+      {
+        "path": "mods/registry.js",
+        "sha256": "da4302d5710836a0b1ad462f45c4e0739dd246c4e7c3edf90b76f803865f4168"
+      },
+      {
+        "path": "NOTICE",
+        "sha256": "998ccf1b0c474b3509352ac382cea0c93547c3adf5305874e40d6952b3cf9e46"
+      },
+      {
+        "path": "README.md",
+        "sha256": "faa8336caf27904b06916c201fd90c8b8fa04f0bb360b98bbe6641753c3c31fe"
+      },
+      {
+        "path": "style.css",
+        "sha256": "ce0da485e05db5e824fd227536115f2e4c681d3f9c682f5ad5243349f4729e08"
+      },
+      {
+        "path": "sw.js",
+        "sha256": "80ac76ec4fa9246c3561a5f1034bf3c12364fa7f57e97bcb6f2392aedf18e493"
+      },
+      {
+        "path": "vendor/arcade/js/audio.js",
+        "sha256": "2cc4dbf8d8358eff4d64ba2d283c4c3bd3d8e03a1d0738ec69bc1629b82da1d5"
+      },
+      {
+        "path": "vendor/arcade/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/arcade/NOTICE",
+        "sha256": "f6c326ee5c1f790099fefbc730f771bf571c7f56f755498aeb67915900027400"
+      },
+      {
+        "path": "vendor/galaxy/data/uff/NOTICE",
+        "sha256": "7b6d4173f0739742dbb61b4dd274e631491dedc4a8d4bc18acea2b875992a440"
+      },
+      {
+        "path": "vendor/galaxy/data/uff/provenance.json",
+        "sha256": "6e0512806d578c655a6665e91494fb3d8903cfd9288ee3e595056df0f40c39bc"
+      },
+      {
+        "path": "vendor/galaxy/data/uff-demo.js",
+        "sha256": "3635e6574ab5f7f175109220f7f1b04cd77f2518f4bbbb6ad9a9c57b16b63f6d"
+      },
+      {
+        "path": "vendor/galaxy/galaxy-core.js",
+        "sha256": "217739552ff631710481cfa7270df91108c3b41413ca5be66e7e7223d070649e"
+      },
+      {
+        "path": "vendor/galaxy/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/galaxy/LICENSES/MPL-2.0.txt",
+        "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+      },
+      {
+        "path": "vendor/galaxy/NOTICE.md",
+        "sha256": "bbaa05d2856a6e8d1bb8083330aa3b60ece514a1221e947b5e72d97f7191c4c9"
+      },
+      {
+        "path": "vendor/galaxy/uff-physics.js",
+        "sha256": "ef4490f65fc3a0822ba6f68a720916de2ec13ccabc3e815c5dfe8e6ad7d4565a"
+      },
+      {
+        "path": "vendor/games/LICENSE",
+        "sha256": "848bce75fc595f347fc64d1c59c25c18e64b15e12743edbddf9dcbd3b5dc077c"
+      },
+      {
+        "path": "vendor/games/shared/NOTICE.md",
+        "sha256": "36ceb2c7e605248b2550f4201dcdccd2cf550f88de9bd2f0790331e9d475ba91"
+      },
+      {
+        "path": "vendor/games/shared/qsol-input.js",
+        "sha256": "aafd16b43dec818da8aa5e848a742e08cc94e0a82d0f4829eb42438864129cbb"
+      },
+      {
+        "path": "vendor/games/SOVEREIGN_LATTICE/NOTICE.md",
+        "sha256": "f7955eb159410505c40c2ab25ca11e14d21392531dbf73b970ac9dc7fda781d2"
+      },
+      {
+        "path": "vendor/gluball/gluball-core.js",
+        "sha256": "74c296f7847da97f88c922a44d3a5ceab403fe0bdfcf05eeb76df77b2a8258a9"
+      },
+      {
+        "path": "vendor/gluball/LICENSE",
+        "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+      },
+      {
+        "path": "vendor/offline-games/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/offline-games/NOTICE",
+        "sha256": "7f250e9ec867345f08c68dd47bf7f997bd1d49e09e1d1701297f9dfbe75b1de8"
+      },
+      {
+        "path": "vendor/offline-games/shared/surface-detail.js",
+        "sha256": "9d35906b7a4b78bae21ccbb5d1d3d52eb18ac5ac81a3e44221ef26d41e8a8a70"
+      },
+      {
+        "path": "vendor/opt/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/opt/optimizations/OPT-INV-001-invariant-driven-reuse.md",
+        "sha256": "34ca6dc977e0f15e31f534a9183a33597782cde7a4008bf9012a8667e8ec7efc"
+      },
+      {
+        "path": "vendor/PROVENANCE.json",
+        "sha256": "00664e645128e11222256b8c8b34e0eae17e26f3152283c7cd9c960dbc7edbd3"
+      },
+      {
+        "path": "vendor/sonification/APP/js/math64.js",
+        "sha256": "f99f0b943394f14fc865b327173ed5f448db85cd851f8cd3f1a3da007134dc40"
+      },
+      {
+        "path": "vendor/sonification/APP/js/namespace.js",
+        "sha256": "803dabfe27d3feec1e99dd2eb5972b60d246a580c8c6d626acca9c07ab714ddb"
+      },
+      {
+        "path": "vendor/sonification/APP/js/synthesis.js",
+        "sha256": "5d008ffa3f18717c46cd2317060589a49fc96e9cd19d7a7e8919831178950f13"
+      },
+      {
+        "path": "vendor/sonification/LICENSE",
+        "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85"
+      },
+      {
+        "path": "vendor/sonification/NOTICE",
+        "sha256": "a0868be95f49e17c4538022a95c3331eb42ef89cf493005b66159d1b182e7bcc"
+      },
+      {
+        "path": "vendor/vanillajs/demos/editor/asset-foundry.js",
+        "sha256": "0e027213bfcc67574e29b9d1845eaedaaa287f98dbbb58dc6bd8e9d8d92e7293"
+      },
+      {
+        "path": "vendor/vanillajs/demos/editor/components.js",
+        "sha256": "06909dee76b29c0fd64cbb894306ebacf2dbe18c871acde8cad84448c5e8f6f1"
+      },
+      {
+        "path": "vendor/vanillajs/demos/editor/model.js",
+        "sha256": "0684530070b112627fecad974d1a8df035fcf9a94d22a4b144c2a286c3330c70"
+      },
+      {
+        "path": "vendor/vanillajs/docs/4X_GAME_LAB.md",
+        "sha256": "9d1cd7596c4cd129bb515fd44f91acf64f4c9ee22047aa5dad8700947c317044"
+      },
+      {
+        "path": "vendor/vanillajs/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/vanillajs/modules/audio2d/index.js",
+        "sha256": "07e19391b84034acba56ef840a4d622b70e815f5376de123b6a07a9ccebf3098"
+      },
+      {
+        "path": "vendor/vanillajs/modules/exact-graph/index.js",
+        "sha256": "cdfb0e74a330e62ea1312ff042b570856707bfac2c491e3e3125647b2867aa10"
+      },
+      {
+        "path": "vendor/vanillajs/modules/exact-rational/index.js",
+        "sha256": "dbc7e08ee27e824c874b339074804a0d103906fb91b2f2c3b3ad806cf05e0f48"
+      },
+      {
+        "path": "vendor/vanillajs/modules/integer-math/index.js",
+        "sha256": "4c0bb66780bf9e810efb1963c0238d9356814abf79c959dcd1734164de57905f"
+      },
+      {
+        "path": "vendor/vanillajs/modules/math/index.js",
+        "sha256": "4f4ebf0786b97342c11004b8830a535890b16693458a0436edb1fc581a411da7"
+      },
+      {
+        "path": "vendor/vanillajs/modules/mod-sdk/index.js",
+        "sha256": "1b8e11d442d77365e4ec79ace6736855dcb8b7946edabbf0123168f790f52b64"
+      },
+      {
+        "path": "vendor/vanillajs/NOTICE",
+        "sha256": "926a5ca59c5a886696f863d500ae64c1dca5babf3fcd15e197def21e70e65a85"
+      }
+    ]
+  },
+  "baselinePackage": {
+    "directory": "baseline-stage",
+    "sha256": "7e570bd1c8568b9305f595d369d55f9cf17d90a6299cbde7b4a8813425f78718",
+    "files": [
+      {
+        "path": ".nojekyll",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "docs/evidence/browser-result.json",
+        "sha256": "68dd1cf9cde087fff60c879ab785a4982c7765c0e3467c1a0c58d907ac7ca2dc"
+      },
+      {
+        "path": "docs/evidence/texture-reuse.json",
+        "sha256": "ab17b04220b696452f7c70787cf84064ea49a1510a1f4062a9067c588171435d"
+      },
+      {
+        "path": "docs/OPT_CONTRACT.md",
+        "sha256": "00b64e2cdb235b714f214e5b0902b59f3268495df99ea521898bbee73c80a087"
+      },
+      {
+        "path": "docs/VALIDATION.md",
+        "sha256": "b47d2aca6cc02a5d6651c25bcade790c7ca4edd8d8874a88031e5f64978818a2"
+      },
+      {
+        "path": "icon.svg",
+        "sha256": "3b6765168e225bbddc1b5c263c14e01356f4cb2619f4e4b5d18cc6222dca74fb"
+      },
+      {
+        "path": "index.html",
+        "sha256": "74649ecb51216b2c2c53468095c3fd56bff0a19acc77147a912516a6ddd615d2"
+      },
+      {
+        "path": "js/app.js",
+        "sha256": "1202d6b74465b1a85c9778666400da0742f7e96d5094fc3e1d700b523dec16ce"
+      },
+      {
+        "path": "js/audio.js",
+        "sha256": "0bed1d0062ba31612323a72f88af4edf9cdc99edd64db9d9fe1d78873d38c1fc"
+      },
+      {
+        "path": "js/content.js",
+        "sha256": "e0270c23c3fb16c4c522a4f2fdfad6f480ebf4878470404c35f5f37dce37eda2"
+      },
+      {
+        "path": "js/core.js",
+        "sha256": "7da74fc0d7422d0a333b12d66286b1e68af3368fdc2638bf9bafbbbd85bfc591"
+      },
+      {
+        "path": "js/render.js",
+        "sha256": "7804673a42bb3412b8eb48921244e670dfa377c39c6b6ae7cd788c9f945c4e71"
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "manifest.webmanifest",
+        "sha256": "e09233c233f23134edc87721d134d2b477d9d1629257c1de7dcb2484d9895e24"
+      },
+      {
+        "path": "MOD_GUIDE.md",
+        "sha256": "aad77eb9d069d936cc0a53ed7a142d5376dd66e8f3ba3f400fd22ac59715801a"
+      },
+      {
+        "path": "mods/frontier/buildings.txt",
+        "sha256": "930b874d75743472d5941b8e4c128ddf495bfd1c305a66d5dacab976dfbece1c"
+      },
+      {
+        "path": "mods/frontier/campaign.txt",
+        "sha256": "e97c2871791efcd254be66d8a3afd15f8b7bd94c8ace906bfa100020eaf390b1"
+      },
+      {
+        "path": "mods/frontier/components.txt",
+        "sha256": "e9ffb24657f254d8f99f735da5e506481da604dea93426a5b24a8d04cb8d8b96"
+      },
+      {
+        "path": "mods/frontier/empire_names.txt",
+        "sha256": "40c266148ec7f3da9df6898f2ac2df27947a628abdd2c6fc7779792d7e60db86"
+      },
+      {
+        "path": "mods/frontier/empires.txt",
+        "sha256": "e3ddd049453a89c91712bebe9a4b7a89c5d79911f94232c4ef2cb2acb3267a85"
+      },
+      {
+        "path": "mods/frontier/hulls.txt",
+        "sha256": "aa4d8724141c7bdc2a839d3bdc36eb6ad787b03086b130cf2aefbb1eb1846468"
+      },
+      {
+        "path": "mods/frontier/map.txt",
+        "sha256": "36107ada5f99af71c969545d88056fdde68711d509b3cdb4dc17487116b5def9"
+      },
+      {
+        "path": "mods/frontier/music.txt",
+        "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4"
+      },
+      {
+        "path": "mods/frontier/planet_names.txt",
+        "sha256": "8f5146f02304984b46f6faf227c7cd33688383234c80bc61e227f787a117aca8"
+      },
+      {
+        "path": "mods/frontier/planet_types.txt",
+        "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a"
+      },
+      {
+        "path": "mods/frontier/research.txt",
+        "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596"
+      },
+      {
+        "path": "mods/frontier/rules.txt",
+        "sha256": "7bd2b002fd29a249b7b79b440933da18bebd46493d293ec25f185dc27489ed0c"
+      },
+      {
+        "path": "mods/frontier/ships.txt",
+        "sha256": "12cce7f423d80a4d205a5ac7a0ba1a3e8709f142d2100bbedd88c337fc16a671"
+      },
+      {
+        "path": "mods/frontier/system_names.txt",
+        "sha256": "708b974d76a19ff703a9f670a14e5667a9c96e3240c874bc4caed8b484840298"
+      },
+      {
+        "path": "mods/machine-dawn/buildings.txt",
+        "sha256": "930b874d75743472d5941b8e4c128ddf495bfd1c305a66d5dacab976dfbece1c"
+      },
+      {
+        "path": "mods/machine-dawn/campaign.txt",
+        "sha256": "4437a1174d436b289b37d9284d5c6a439285343e4cb993630998ef9141361591"
+      },
+      {
+        "path": "mods/machine-dawn/components.txt",
+        "sha256": "e9ffb24657f254d8f99f735da5e506481da604dea93426a5b24a8d04cb8d8b96"
+      },
+      {
+        "path": "mods/machine-dawn/empire_names.txt",
+        "sha256": "a1f3b76f7c7248531eaa57b670f98112143102fb50aa2a128d6b022de53b8cc8"
+      },
+      {
+        "path": "mods/machine-dawn/empires.txt",
+        "sha256": "21e3941ccac0172e192969a34089e1cdf6a0db00fcc42c41aacf6a56250409ae"
+      },
+      {
+        "path": "mods/machine-dawn/hooks.js",
+        "sha256": "10ef17e407a80c06e33c41661ace58df6b7ed3ffa739613424c59d569a089173"
+      },
+      {
+        "path": "mods/machine-dawn/hulls.txt",
+        "sha256": "aa4d8724141c7bdc2a839d3bdc36eb6ad787b03086b130cf2aefbb1eb1846468"
+      },
+      {
+        "path": "mods/machine-dawn/map.txt",
+        "sha256": "ca5d39d7e9fa718f8da20e26d9b144b0523864e96597120df897fbab0550073e"
+      },
+      {
+        "path": "mods/machine-dawn/music.txt",
+        "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4"
+      },
+      {
+        "path": "mods/machine-dawn/planet_names.txt",
+        "sha256": "4f6b57980c84c88ba59e1a834578d266c167eb5aa81f38108a5c8c23f5086ada"
+      },
+      {
+        "path": "mods/machine-dawn/planet_types.txt",
+        "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a"
+      },
+      {
+        "path": "mods/machine-dawn/research.txt",
+        "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596"
+      },
+      {
+        "path": "mods/machine-dawn/rules.txt",
+        "sha256": "f7457e359c88e212028c6405cb526ff7a0ca7aa5783864642eeafaffc8437b09"
+      },
+      {
+        "path": "mods/machine-dawn/ships.txt",
+        "sha256": "a30e9de650d9d012c0aa9ad9e6b5f4b691183347fdce5992f9a9b7f499baccce"
+      },
+      {
+        "path": "mods/machine-dawn/system_names.txt",
+        "sha256": "699b0cd328d725e40306a43cbfe998f19e11b3a6d8a8050b89dc06a20430e0f9"
+      },
+      {
+        "path": "mods/registry.js",
+        "sha256": "cfae206727f5d497160812e968d90885f3ad012be80c13f4222afa2778b07ab6"
+      },
+      {
+        "path": "NOTICE",
+        "sha256": "31344d7a9e66d720c2b86d4fb0a948a720bfb1719d427e367dbaaf0b3f63eb7d"
+      },
+      {
+        "path": "README.md",
+        "sha256": "aa0f4d320e7c662ec22239d6e6e6705e5b784685a5083f38d0038c7260515940"
+      },
+      {
+        "path": "style.css",
+        "sha256": "5aec890c68a7a243806ec6556dbcb3e84a433bf48829e447f93218bb13d01b3f"
+      },
+      {
+        "path": "sw.js",
+        "sha256": "3e031f4fbb787845b4f1b6135b740089419965eaa07cdfc6127145f1f756ea81"
+      },
+      {
+        "path": "vendor/arcade/js/audio.js",
+        "sha256": "2cc4dbf8d8358eff4d64ba2d283c4c3bd3d8e03a1d0738ec69bc1629b82da1d5"
+      },
+      {
+        "path": "vendor/arcade/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/arcade/NOTICE",
+        "sha256": "f6c326ee5c1f790099fefbc730f771bf571c7f56f755498aeb67915900027400"
+      },
+      {
+        "path": "vendor/galaxy/data/uff/NOTICE",
+        "sha256": "7b6d4173f0739742dbb61b4dd274e631491dedc4a8d4bc18acea2b875992a440"
+      },
+      {
+        "path": "vendor/galaxy/data/uff/provenance.json",
+        "sha256": "6e0512806d578c655a6665e91494fb3d8903cfd9288ee3e595056df0f40c39bc"
+      },
+      {
+        "path": "vendor/galaxy/data/uff-demo.js",
+        "sha256": "3635e6574ab5f7f175109220f7f1b04cd77f2518f4bbbb6ad9a9c57b16b63f6d"
+      },
+      {
+        "path": "vendor/galaxy/galaxy-core.js",
+        "sha256": "217739552ff631710481cfa7270df91108c3b41413ca5be66e7e7223d070649e"
+      },
+      {
+        "path": "vendor/galaxy/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/galaxy/LICENSES/MPL-2.0.txt",
+        "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+      },
+      {
+        "path": "vendor/galaxy/NOTICE.md",
+        "sha256": "bbaa05d2856a6e8d1bb8083330aa3b60ece514a1221e947b5e72d97f7191c4c9"
+      },
+      {
+        "path": "vendor/galaxy/uff-physics.js",
+        "sha256": "ef4490f65fc3a0822ba6f68a720916de2ec13ccabc3e815c5dfe8e6ad7d4565a"
+      },
+      {
+        "path": "vendor/games/LICENSE",
+        "sha256": "848bce75fc595f347fc64d1c59c25c18e64b15e12743edbddf9dcbd3b5dc077c"
+      },
+      {
+        "path": "vendor/games/shared/NOTICE.md",
+        "sha256": "36ceb2c7e605248b2550f4201dcdccd2cf550f88de9bd2f0790331e9d475ba91"
+      },
+      {
+        "path": "vendor/games/shared/qsol-input.js",
+        "sha256": "aafd16b43dec818da8aa5e848a742e08cc94e0a82d0f4829eb42438864129cbb"
+      },
+      {
+        "path": "vendor/gluball/gluball-core.js",
+        "sha256": "74c296f7847da97f88c922a44d3a5ceab403fe0bdfcf05eeb76df77b2a8258a9"
+      },
+      {
+        "path": "vendor/gluball/LICENSE",
+        "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+      },
+      {
+        "path": "vendor/offline-games/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/offline-games/NOTICE",
+        "sha256": "7f250e9ec867345f08c68dd47bf7f997bd1d49e09e1d1701297f9dfbe75b1de8"
+      },
+      {
+        "path": "vendor/offline-games/shared/surface-detail.js",
+        "sha256": "9d35906b7a4b78bae21ccbb5d1d3d52eb18ac5ac81a3e44221ef26d41e8a8a70"
+      },
+      {
+        "path": "vendor/opt/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/opt/optimizations/OPT-INV-001-invariant-driven-reuse.md",
+        "sha256": "34ca6dc977e0f15e31f534a9183a33597782cde7a4008bf9012a8667e8ec7efc"
+      },
+      {
+        "path": "vendor/PROVENANCE.json",
+        "sha256": "c4835ca61acb7173a9469f887da684c166990a8ae60bf800e7cce5ad4fbb9a91"
+      },
+      {
+        "path": "vendor/sonification/APP/js/math64.js",
+        "sha256": "f99f0b943394f14fc865b327173ed5f448db85cd851f8cd3f1a3da007134dc40"
+      },
+      {
+        "path": "vendor/sonification/APP/js/namespace.js",
+        "sha256": "803dabfe27d3feec1e99dd2eb5972b60d246a580c8c6d626acca9c07ab714ddb"
+      },
+      {
+        "path": "vendor/sonification/APP/js/synthesis.js",
+        "sha256": "5d008ffa3f18717c46cd2317060589a49fc96e9cd19d7a7e8919831178950f13"
+      },
+      {
+        "path": "vendor/sonification/LICENSE",
+        "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85"
+      },
+      {
+        "path": "vendor/sonification/NOTICE",
+        "sha256": "a0868be95f49e17c4538022a95c3331eb42ef89cf493005b66159d1b182e7bcc"
+      },
+      {
+        "path": "vendor/vanillajs/docs/4X_GAME_LAB.md",
+        "sha256": "9d1cd7596c4cd129bb515fd44f91acf64f4c9ee22047aa5dad8700947c317044"
+      },
+      {
+        "path": "vendor/vanillajs/LICENSE",
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+      },
+      {
+        "path": "vendor/vanillajs/modules/audio2d/index.js",
+        "sha256": "07e19391b84034acba56ef840a4d622b70e815f5376de123b6a07a9ccebf3098"
+      },
+      {
+        "path": "vendor/vanillajs/modules/exact-graph/index.js",
+        "sha256": "cdfb0e74a330e62ea1312ff042b570856707bfac2c491e3e3125647b2867aa10"
+      },
+      {
+        "path": "vendor/vanillajs/modules/exact-rational/index.js",
+        "sha256": "dbc7e08ee27e824c874b339074804a0d103906fb91b2f2c3b3ad806cf05e0f48"
+      },
+      {
+        "path": "vendor/vanillajs/modules/integer-math/index.js",
+        "sha256": "4c0bb66780bf9e810efb1963c0238d9356814abf79c959dcd1734164de57905f"
+      },
+      {
+        "path": "vendor/vanillajs/modules/math/index.js",
+        "sha256": "4f4ebf0786b97342c11004b8830a535890b16693458a0436edb1fc581a411da7"
+      },
+      {
+        "path": "vendor/vanillajs/NOTICE",
+        "sha256": "926a5ca59c5a886696f863d500ae64c1dca5babf3fcd15e197def21e70e65a85"
+      }
+    ]
+  },
+  "error": "Error: expansion failed; preserved evidence at test-results/owner-20261112-run2/expansion\n    at run (scripts/owner-browser.mjs:31:35)\n    at async scripts/owner-browser.mjs:49:3",
+  "finished": "2026-11-11T22:24:49.574Z"
+}

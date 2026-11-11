@@ -1,0 +1,63 @@
+{
+  "derivation": "Count traceEvents by exact name; identify GPU PIDs from process_name metadata. Raw traces remain local and are identified by SHA-256. Counts include trace phases and are not GPU utilization or elapsed execution measurements.",
+  "traces": [
+    {
+      "campaign": "machine-dawn",
+      "file": "gpu-trace-machine-dawn.json",
+      "sourcePath": "test-results/owner-20261112-verify1/expansion/gpu-trace-machine-dawn.json",
+      "bytes": 9928411,
+      "sha256": "c0c69e8e9d0f9acab6c94e6996297cbdc8eae7a1b462fac825672cf1619a49af",
+      "workload": {
+        "frames": 121,
+        "elapsedMs": 2003.2000000029802,
+        "canvasWidth": 853,
+        "canvasHeight": 550
+      },
+      "eventCount": 53291,
+      "eventsOnGpuProcess": 19658,
+      "selectedEventCounts": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 183,
+        "GpuChannel::Flush": 774,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 305,
+        "SkiaRenderer::SwapBuffers": 121,
+        "Display::DrawAndSwap": 123
+      },
+      "selectedEventsOnGpuProcess": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 183,
+        "GpuChannel::Flush": 258,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 305,
+        "SkiaRenderer::SwapBuffers": 121,
+        "Display::DrawAndSwap": 123
+      }
+    },
+    {
+      "campaign": "grand-frontier",
+      "file": "gpu-trace-grand-frontier.json",
+      "sourcePath": "test-results/owner-20261112-verify1/expansion/gpu-trace-grand-frontier.json",
+      "bytes": 7134374,
+      "sha256": "693816052369543c7ce05faeb4e0d049c8e89c8a7151d0366fd4ee63b77b0a49",
+      "workload": {
+        "frames": 121,
+        "elapsedMs": 2003.6999999955297,
+        "canvasWidth": 853,
+        "canvasHeight": 550
+      },
+      "eventCount": 37827,
+      "eventsOnGpuProcess": 14828,
+      "selectedEventCounts": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 125,
+        "GpuChannel::Flush": 387,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 240,
+        "SkiaRenderer::SwapBuffers": 120,
+        "Display::DrawAndSwap": 122
+      },
+      "selectedEventsOnGpuProcess": {
+        "RasterDecoderImpl::DoRasterCHROMIUM": 125,
+        "GpuChannel::Flush": 129,
+        "SkiaOutputSurfaceImpl::FlushGpuTasks": 240,
+        "SkiaRenderer::SwapBuffers": 120,
+        "Display::DrawAndSwap": 122
+      }
+    }
+  ]
+}

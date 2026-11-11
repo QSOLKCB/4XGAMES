@@ -1,0 +1,334 @@
+{
+  "policy": "Public JSON/Markdown excerpts omit workstation paths, launch arguments, process identifiers and detailed hardware metadata. Outcomes, workload metrics and source hashes are preserved. Original excerpts and full test-results remain local; originalExcerptSha256 identifies their pre-publication bytes. Typed content formats remain byte-identical. This index does not identify review-branch ancestry.",
+  "files": [
+    {
+      "path": "baseline-engine.json",
+      "originalExcerptSha256": "bb4ebf3e7a77f88c6fba049e021d79f99b17d7f3f01c60c6ed139b4385afe7e5",
+      "publicSha256": "73a7948c613a0415a2a3be18af2440f7958376519a8c7949678de2dfff17fd83",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "baseline.json",
+      "originalExcerptSha256": "35d9f1bc663258caa3431757e5991e180ee7dc3ec9b445742b3d20334bd7314f",
+      "publicSha256": "f1fe34f14f06c414140b3f1c4a8aeb79afe98c0664ef5e29a93ce5103ea7c751",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "campaign-difficulties.json",
+      "originalExcerptSha256": "d17dbfb24381b06d6b03138d1ec1f819a6136b5f3591bb5bb9e9e9d47294961d",
+      "publicSha256": "18226dd15f904b99662c2b01c5ca2e12bd5d670fa829c6bedb4e70bc211d019c",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "campaign-sweep-iteration.json",
+      "originalExcerptSha256": "72782928d755ab7a282002563d5a7d29f32d01d9cccd99e99b722bb3a2980ca0",
+      "publicSha256": "6199674f62c26ba74cf2688a41b4d1e09412cad611bb38b88a979b21deb57c43",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "campaign-sweep.json",
+      "originalExcerptSha256": "53aa2139678627a67575947f29f07ac23f5d09f32a9b44ac183131b8cf24f9be",
+      "publicSha256": "381c5748fe107291e9ac1cea8d2ab54ed6e7bc9bdb8bc53f300f7c73360ccd05",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "expanded-engine.json",
+      "originalExcerptSha256": "efb5a88bc3c9b9732563287d7698ef84032d3b215ae68b7f90cfa4a2b93f106c",
+      "publicSha256": "66339f85f616b8072236d413865a2dfe2588c79fad1825108b7c948d4d3b7826",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "node-tests-postfix.json",
+      "originalExcerptSha256": "1925cfa56170a33a463afa3de9db22feb3dd4dece8065da5edd0cc4287b92c60",
+      "publicSha256": "64fa41b2dae8a60abe18bc3e3143fd1ff58f120cb2dfaab14476c4cfce8bcffc",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "node-tests.json",
+      "originalExcerptSha256": "9f089094fd98c2bc8b32a47e9c6d880df3d9e430642c1d6546c57889bec7c17b",
+      "publicSha256": "5ee8586fbe0d47b834f71d0d68ddfcd188f7ec538a4a20229fe18fbc1d42b9f1",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/README.md",
+      "originalExcerptSha256": "daa93104984ce1b09c1d1f98b941fd6be1bc22d2fba28a05d91223bd03f31f33",
+      "publicSha256": "17b294b1871460d56d3a04b0e03efec3e357c274d501343be61d995f2e74e23d",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/artifact-inventory.json",
+      "originalExcerptSha256": "b7418d3f65fcc0072a319a231033a5386d14360301fbcecebcb4c3a383fb0278",
+      "publicSha256": "aa67c408b87df759417dc4bcb49aedc57cce39ab942c3305de128280a3f6713f",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/baseline/browser-result.json",
+      "originalExcerptSha256": "f8e475e3955d8b1ffe4c6b379da5c170bd90163cb716df9bce203475d7fbf1be",
+      "publicSha256": "bae06c06e0a4ba019e27739d7634c045b6ea0cbaf46107929b9ed65a2be2bd8e",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/baseline/texture-reuse.json",
+      "originalExcerptSha256": "e816d142b7f95a65ff166b745267dc1470bd86f1b1f796025955c24e20595463",
+      "publicSha256": "43829340ae13b47db078034661fa09d4086f782dd563ee0b691c37ce9132e519",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/expansion/creator-pack.json",
+      "originalExcerptSha256": "fc70e26f0e8f4826d68a3a1afed677bdc433ae25af710719ed2b771c9336dbbb",
+      "publicSha256": "fc70e26f0e8f4826d68a3a1afed677bdc433ae25af710719ed2b771c9336dbbb",
+      "publication": "original typed content bytes",
+      "bytesIdentical": true
+    },
+    {
+      "path": "owner-20261112-verified/expansion/creator-sdk.json",
+      "originalExcerptSha256": "4f72a2e8beb5fd7986f19a9d1918daa2457c777b7288a62266288cf649fe5fe6",
+      "publicSha256": "4f72a2e8beb5fd7986f19a9d1918daa2457c777b7288a62266288cf649fe5fe6",
+      "publication": "original typed content bytes",
+      "bytesIdentical": true
+    },
+    {
+      "path": "owner-20261112-verified/expansion/creator-workbench-project.json",
+      "originalExcerptSha256": "92c4703d52a0260155443e4df0dc66eff58a30020fbc134183b8cece352d8973",
+      "publicSha256": "92c4703d52a0260155443e4df0dc66eff58a30020fbc134183b8cece352d8973",
+      "publication": "original typed content bytes",
+      "bytesIdentical": true
+    },
+    {
+      "path": "owner-20261112-verified/expansion/expansion-result.json",
+      "originalExcerptSha256": "5a6c5da8074cd9c028d84aabb1d6691d7f2e858eae9f2816c9b4b1936d7cff64",
+      "publicSha256": "779aa8813e48fce40a4215a8fb8385c94f92a46b45c15f55f7bd24fae38619db",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/expansion/gpu-diagnostics.json",
+      "originalExcerptSha256": "c74fc011372a546eb99f5c97eec49b18e1d63dfec66588eeeadfb09e361d2645",
+      "publicSha256": "cd007abd101509e65d0202a33f0f99bba0b72dbe901b92708d46db9da42cda1b",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/expansion/performance-raw.json",
+      "originalExcerptSha256": "4b238b3221141fd6108f8fa4722dd5dd5c955586b8cd7444792577589bf2d7fe",
+      "publicSha256": "82933b082b5a3cb3bfd04bcee9576a350c01a8fad3541cd325e10785f8fc3e36",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/legacy-proposed/browser-result.json",
+      "originalExcerptSha256": "f8e475e3955d8b1ffe4c6b379da5c170bd90163cb716df9bce203475d7fbf1be",
+      "publicSha256": "bae06c06e0a4ba019e27739d7634c045b6ea0cbaf46107929b9ed65a2be2bd8e",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/legacy-proposed/texture-reuse.json",
+      "originalExcerptSha256": "6f946dbb6d9919ae79a890d6809700d9807e77258467ed1cdea50f0439733416",
+      "publicSha256": "7cc39c5fa37f3b5aeef5561b55183e206b2c7ea707c8d929cb0e1b6dfa3a7b17",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/manifest.json",
+      "originalExcerptSha256": "abbccd182fe56ccc5c17c6c48e23cb2f65f8bcb951f0312d229f38addd150005",
+      "publicSha256": "6274e2679655591db6227df9f99c6f461315999045719601c33e9334c923daa9",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112-verified/trace-event-summary.json",
+      "originalExcerptSha256": "cfb6e79bde865831583b0415f4ac94fd0e59f599a4b89d5be5fc0da7cadce53e",
+      "publicSha256": "8cb1fe29c3d19f654805c4fc19a0fea4100e8a97ff640bed80294134dc483589",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/README.md",
+      "originalExcerptSha256": "14db4d074baa6502a8e276dcb5b33ebe9a630a20a6ca499aab89f872ec1f590d",
+      "publicSha256": "2fb384e70da2b23cffb60f278faee1e16be8369e62c3da63d92c245de6e64865",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/artifact-inventory.json",
+      "originalExcerptSha256": "e44324c9ae949eae2d0fcd7bff59a845816833ddce4473a216d6f8c350834181",
+      "publicSha256": "7ac1759803f52c587a6ceda1a59ea7361d913618ea6695e8d0e0f84eb0128c66",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/baseline/browser-result.json",
+      "originalExcerptSha256": "f8e475e3955d8b1ffe4c6b379da5c170bd90163cb716df9bce203475d7fbf1be",
+      "publicSha256": "bae06c06e0a4ba019e27739d7634c045b6ea0cbaf46107929b9ed65a2be2bd8e",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/baseline/texture-reuse.json",
+      "originalExcerptSha256": "18fd52303726062e2b101858027deeeedadaf112b693dd17b64685e580ca865a",
+      "publicSha256": "16a869cc64f561b42c567744ab33f714e4bfaf7973a7a08e242582b56e159417",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/expansion/creator-pack.json",
+      "originalExcerptSha256": "fc70e26f0e8f4826d68a3a1afed677bdc433ae25af710719ed2b771c9336dbbb",
+      "publicSha256": "fc70e26f0e8f4826d68a3a1afed677bdc433ae25af710719ed2b771c9336dbbb",
+      "publication": "original typed content bytes",
+      "bytesIdentical": true
+    },
+    {
+      "path": "owner-20261112/expansion/creator-sdk.json",
+      "originalExcerptSha256": "4f72a2e8beb5fd7986f19a9d1918daa2457c777b7288a62266288cf649fe5fe6",
+      "publicSha256": "4f72a2e8beb5fd7986f19a9d1918daa2457c777b7288a62266288cf649fe5fe6",
+      "publication": "original typed content bytes",
+      "bytesIdentical": true
+    },
+    {
+      "path": "owner-20261112/expansion/creator-workbench-project.json",
+      "originalExcerptSha256": "92c4703d52a0260155443e4df0dc66eff58a30020fbc134183b8cece352d8973",
+      "publicSha256": "92c4703d52a0260155443e4df0dc66eff58a30020fbc134183b8cece352d8973",
+      "publication": "original typed content bytes",
+      "bytesIdentical": true
+    },
+    {
+      "path": "owner-20261112/expansion/expansion-result.json",
+      "originalExcerptSha256": "3be099a636d23c3d07762f6e10bf83bdcfe8707a9c20f91e7ad389f1611df88e",
+      "publicSha256": "7e7465425c74040d6f4ec05b0a68888937e727b5c20683795259d4660745c33f",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/expansion/gpu-diagnostics.json",
+      "originalExcerptSha256": "60de96908ebd83bc3e0940e548a738be65c862920e81a889ed6259b2b73a7597",
+      "publicSha256": "cdaf911607563e363bcb98f2e92361a618a41a6ab71e1a57319c7451dc8721b3",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/actions.json",
+      "originalExcerptSha256": "6ea2b95a958edb9f547e00f319ac93fc309f2babeb2b64e9647b1ca93c932a5a",
+      "publicSha256": "b49e501e2b1c07d9e83b4129f01feee723126b1c2077e82fc03987f79ca42576",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/audio-muted.json",
+      "originalExcerptSha256": "ad4b1588c90f099b54ff1be08582c1e75e30678e5315ef0273d6083e0c6ff4c8",
+      "publicSha256": "87df2304740a2e4376c6eaee7e7c144747d5967e65a76b065ad745d13127a235",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/audio-signal.json",
+      "originalExcerptSha256": "bfd4d91f4c67d5f26ee67c11bcd825547142ac8230134364ec4d9c5d55e2e2dd",
+      "publicSha256": "06ab9ee4d32334f654244746ccea37f314e323776adfa581f4dcd2aa33378d69",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/gpu-info.json",
+      "originalExcerptSha256": "33062d82da81c53be24cdc9212db6bf419b5976352a0838d4f6fa57d7937b470",
+      "publicSha256": "da4d06bc30a5bae3496f2e4fc41bab3e33c345921eae4783b3c059a75618d0ad",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/gpu-trace-summary.json",
+      "originalExcerptSha256": "191d992d732686830b22aa0ba71d78bbcd7fc26085316da437bee6d8a460d3b1",
+      "publicSha256": "3538687c79d6d0ba0c221671b51383a66c34c23971b2d9f9f1f70e5ed9e512e9",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/guided-gameplay.json",
+      "originalExcerptSha256": "188e9b19e6cdfcca255e4fef00975f89dc153f7f7d8be2c509b540f260c7c57a",
+      "publicSha256": "f801b3691a504fff97701e88956df5c46e8884fdecaf6752f4111551ff877cc1",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/raster-path-diagnostic.json",
+      "originalExcerptSha256": "af8da2fe526ee67f4d53ec2b7e685f4f2a9d5b9acb6c799abe59124bd7b90b2c",
+      "publicSha256": "ebf30494d3f7aaf1bfe1daf7b98bb5e0bd67c7f3144a29d474302c5cf7d294d5",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/render-diagnostic.json",
+      "originalExcerptSha256": "6bd107b693b34f3a81ef484b14b8d417a0052d3d017a9682736714ad227c6b9b",
+      "publicSha256": "045a1944e803710fce51c5d6c858e5cb7d0ef53f0a4e31679fb1c761fb24cb5f",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/guided/small-performance.json",
+      "originalExcerptSha256": "7460341a79ee87ddefea8b02311125017d4ab2f28b2b8420f49ab438096cece1",
+      "publicSha256": "f13c7762374197716e4a23585e3bbbf71ab36504d32e886a556a620b0460696f",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/legacy-proposed/browser-result.json",
+      "originalExcerptSha256": "f8e475e3955d8b1ffe4c6b379da5c170bd90163cb716df9bce203475d7fbf1be",
+      "publicSha256": "bae06c06e0a4ba019e27739d7634c045b6ea0cbaf46107929b9ed65a2be2bd8e",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/legacy-proposed/texture-reuse.json",
+      "originalExcerptSha256": "e30ed84670977d7391c80819bc20e5a5aba305e68d895e245dbc9d792852eb67",
+      "publicSha256": "ca26daa1c470129f979b5b940bafb131eb8cd23dd300d4ad6ac330bccedd3adc",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/manifest.json",
+      "originalExcerptSha256": "3fa31f7fcd2fc2a79cbf7430edd104ab2eaf5edb03b4c28e1431df7653582bfa",
+      "publicSha256": "3016c393eede13ab5fc600cf7cbc6cf3cf22fd93076759b5a19462011157215a",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "owner-20261112/trace-event-summary.json",
+      "originalExcerptSha256": "351b9bc2f5cee6e07328b9fdd929c079c25e0b31f3cc6f05b07f2c254b31c7f3",
+      "publicSha256": "93eb39d35f30bbbd566126c5b598d188da31dad6c06228799fa53db7aa439b81",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "reference-engine.json",
+      "originalExcerptSha256": "72a26f3412c884f7d388e7085af19d7ea735abd3b67d56f75818a60a4c90419e",
+      "publicSha256": "5a08146897e66baeaf17251ae626dec54d237d5edff3c5e89b301e1ef74c205a",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "save-admission-node.json",
+      "originalExcerptSha256": "4292f4d95258495394234cd608502aa39b99ba4891de2dc6ed069675ab71f1f0",
+      "publicSha256": "67ed2ae70aaca0419bd0b25dc91c1b085f959ed6fe44d8504a301c1838cb6296",
+      "publication": "sanitized public excerpt",
+      "bytesIdentical": false
+    },
+    {
+      "path": "stress-pack.json",
+      "originalExcerptSha256": "6aa030c8d6087694aceca8c68faa3872e16bf1b6b2d0f37d0c3ffdcdb458f983",
+      "publicSha256": "6aa030c8d6087694aceca8c68faa3872e16bf1b6b2d0f37d0c3ffdcdb458f983",
+      "publication": "original typed content bytes",
+      "bytesIdentical": true
+    }
+  ]
+}

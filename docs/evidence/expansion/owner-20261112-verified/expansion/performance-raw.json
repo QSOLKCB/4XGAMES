@@ -1,0 +1,190 @@
+[
+  {
+    "campaign": "machine-dawn",
+    "render": [
+      {
+        "width": 600,
+        "height": 420,
+        "referenceMs": [
+          0.30000000447034836,
+          0.29999999701976776,
+          0.09999999403953552,
+          0.19999999552965164,
+          0.20000000298023224
+        ],
+        "productionMs": [
+          0.10000000149011612,
+          0.20000000298023224,
+          0.30000000447034836,
+          0.10000000149011612,
+          0.19999999552965164
+        ],
+        "strategy": "reference",
+        "cache": {
+          "entries": 0,
+          "bytes": 0,
+          "mode": "reference"
+        }
+      },
+      {
+        "width": 900,
+        "height": 620,
+        "referenceMs": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.29999999701976776,
+          0.19999999552965164,
+          0.20000000298023224
+        ],
+        "productionMs": [
+          0.19999999552965164,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.20000000298023224,
+          0.19999999552965164
+        ],
+        "strategy": "reference",
+        "cache": {
+          "entries": 0,
+          "bytes": 0,
+          "mode": "reference"
+        }
+      }
+    ],
+    "failures": [],
+    "parity": {
+      "status": "PASS",
+      "comparison": "all RGBA bytes; three planet palettes; two map sizes; zero tolerance"
+    },
+    "approximateHeap": {
+      "usedJSHeapSize": 53190109,
+      "totalJSHeapSize": 104191005
+    },
+    "saveBytes": 11009,
+    "domNodes": 254,
+    "canvasCount": 6,
+    "dpr": 1.0000000149011612,
+    "gpuTrace": {
+      "campaign": "machine-dawn",
+      "categories": [
+        "gpu",
+        "viz",
+        "cc"
+      ],
+      "durationTargetMs": 2000,
+      "status": "CAPTURED",
+      "attribution": "Dedicated browser; explicit repeated game drawMap calls. Trace events require interpretation; no hardware conclusion is inferred.",
+      "workload": {
+        "frames": 121,
+        "elapsedMs": 2003.2000000029802,
+        "canvasWidth": 853,
+        "canvasHeight": 550
+      },
+      "file": "gpu-trace-machine-dawn.json",
+      "bytes": 9928411,
+      "truncated": false
+    },
+    "commandToTwoAnimationFramesMs": [
+      31.5,
+      31.899999998509884,
+      27.099999994039536,
+      31.799999997019768,
+      32.099999994039536
+    ],
+    "latencyMeaning": "DOM click capture to second animation frame; includes simulation, persistence and rendering, not input device latency"
+  },
+  {
+    "campaign": "grand-frontier",
+    "render": [
+      {
+        "width": 600,
+        "height": 420,
+        "referenceMs": [
+          0.30000000447034836,
+          0.20000000298023224,
+          0.10000000149011612,
+          0.19999999552965164,
+          0.19999999552965164
+        ],
+        "productionMs": [
+          0.19999999552965164,
+          0.29999999701976776,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "strategy": "reference",
+        "cache": {
+          "entries": 0,
+          "bytes": 0,
+          "mode": "reference"
+        }
+      },
+      {
+        "width": 900,
+        "height": 620,
+        "referenceMs": [
+          0.29999999701976776,
+          0.29999999701976776,
+          0.10000000149011612,
+          0.19999999552965164,
+          0.19999999552965164
+        ],
+        "productionMs": [
+          0.20000000298023224,
+          0,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "strategy": "reference",
+        "cache": {
+          "entries": 0,
+          "bytes": 0,
+          "mode": "reference"
+        }
+      }
+    ],
+    "failures": [],
+    "parity": {
+      "status": "PASS",
+      "comparison": "all RGBA bytes; three planet palettes; two map sizes; zero tolerance"
+    },
+    "approximateHeap": {
+      "usedJSHeapSize": 41892665,
+      "totalJSHeapSize": 102710153
+    },
+    "saveBytes": 34849,
+    "domNodes": 262,
+    "canvasCount": 6,
+    "dpr": 1.0000000149011612,
+    "gpuTrace": {
+      "campaign": "grand-frontier",
+      "categories": [
+        "gpu",
+        "viz",
+        "cc"
+      ],
+      "durationTargetMs": 2000,
+      "status": "CAPTURED",
+      "attribution": "Dedicated browser; explicit repeated game drawMap calls. Trace events require interpretation; no hardware conclusion is inferred.",
+      "workload": {
+        "frames": 121,
+        "elapsedMs": 2003.6999999955297,
+        "canvasWidth": 853,
+        "canvasHeight": 550
+      },
+      "file": "gpu-trace-grand-frontier.json",
+      "bytes": 7134374,
+      "truncated": false
+    },
+    "commandToTwoAnimationFramesMs": [
+      31.600000001490116,
+      31.80000000447035,
+      31.799999997019768,
+      31.899999998509884,
+      31.700000002980232
+    ],
+    "latencyMeaning": "DOM click capture to second animation frame; includes simulation, persistence and rendering, not input device latency"
+  }
+]

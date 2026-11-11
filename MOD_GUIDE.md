@@ -12,7 +12,8 @@ account, paid SDK, binary database or runtime build service.
    your copied directory. It validates and starts as a data-only campaign.
 4. Alternatively, use **Edit text files** inside the game. **Download this .txt**
    saves an individual edited file. **Validate & start** starts the edited pack;
-   **Export campaign pack** exports all files in a portable JSON envelope.
+   **Export campaign pack** then exports the active campaign in a portable JSON
+   envelope. For an unlaunched visual-workshop draft, use **Export draft pack**.
    Reopen that envelope with **Edit text files → Open portable pack**.
 5. To ship a pack with the game, add its ID, title, description, local directory URL and hooks
    to `mods/registry.js`. Run the offline inventory command below.
@@ -30,17 +31,17 @@ Use ordinary names from your own fiction, or assets you have permission to share
 | --- | --- |
 | `campaign.txt` | Pack ID, semantic version, title and description |
 | `empire_names.txt` | Full empire names, one per line, in empire-ID order |
-| `empires.txt` | `id | short | #primary | #accent | home-system-id | ethos` |
+| `empires.txt` | `id \| short \| #primary \| #accent \| home-system-id \| ethos` |
 | `system_names.txt` | Names of stars, in system-ID order |
 | `planet_names.txt` | Names of worlds, in `system × planetsPerSystem + orbit` order |
-| `planet_types.txt` | `id | name | population-cap | base-minerals | palette` |
-| `map.txt` | `system-id | comma-separated-neighbours | archive-0-or-1` |
-| `hulls.txt` | `id | name | faction-id-or-* | slots | hp | cost | work | research-id | required-level | polygon` |
-| `components.txt` | `id | name | role | slots | cost | hp | attack | speed | research-id | required-level | description` |
-| `ships.txt` | `empire-id | class-name | hull-id | comma-separated-component-ids` |
-| `buildings.txt` | `id | name | cost | work | minerals | energy | science | production | defence | description` |
-| `research.txt` | `id | name | description` |
-| `music.txt` | `MIDI-note-number | duration-in-seconds` |
+| `planet_types.txt` | `id \| name \| population-cap \| base-minerals \| palette` |
+| `map.txt` | `system-id \| comma-separated-neighbours \| archive-0-or-1` |
+| `hulls.txt` | `id \| name \| faction-id-or-* \| slots \| hp \| cost \| work \| research-id \| required-level \| polygon` |
+| `components.txt` | `id \| name \| role \| slots \| cost \| hp \| attack \| speed \| research-id \| required-level \| description` |
+| `ships.txt` | `empire-id \| class-name \| hull-id \| comma-separated-component-ids` |
+| `buildings.txt` | `id \| name \| cost \| work \| minerals \| energy \| science \| production \| defence \| description` |
+| `research.txt` | `id \| name \| description` |
+| `music.txt` | `MIDI-note-number \| duration-in-seconds` |
 | `rules.txt` | Numeric economy, population, construction, diplomacy and victory settings |
 
 Text packs are bounded to 500 KB total, 100 KB per file. Labels are displayed as
@@ -50,8 +51,9 @@ disconnected maps and illegal starting ships are rejected before activation.
 
 ## Empires and worlds
 
-Use 2–6 empires with consecutive IDs starting at zero; **empire 0 is playable**.
-Each empire needs a distinct starting system and at least one ship carrying each
+Use 2–6 empires with consecutive IDs starting at zero; **empire 0 is the default
+playable empire**. Optional `scenario.txt` defines the playable list and may omit
+empire 0. Each empire needs a distinct starting system and at least one ship carrying each
 of `survey`, `colony` and `assault` roles (one ship can carry multiple roles).
 Starting designs must fit their hull and require only level-I technology.
 
@@ -98,8 +100,9 @@ research, role and faction ownership when registering or building a design.
 Queued and built ships keep snapshots; editing another class never refits them.
 
 `ships.txt` defines both the starting ships and each empire's initial design
-archive. Class names may contain 1–32 characters. Built-in AI retains its role
-and upgrades components to researched alternatives that fit the same slot size.
+archive. Class names may contain 1–32 characters. Built-in AI retains its required roles, packs researched components into available
+capacity and can select larger researched combat hulls. It updates templates
+through legal commands; existing ships still require an explicit yard refit.
 For different AI design policies, edit `ai()` in `js/core.js`.
 
 New role semantics, arbitrary 3D meshes, textures and alternate battle engines
@@ -131,7 +134,7 @@ participate in the all-sciences victory condition.
 | `researchBase`, `researchStep` | Next level costs `base + currentLevel² × step` |
 | `maxTech` | Common technology ceiling, 2–8 |
 | `tradeIncome`, `tradeCost`, `peaceCost` | Treaty yields and immediate prices |
-| `warGrace` | Standard AI war grace; relaxed adds 23 turns, aggressive subtracts 14 (minimum 5) |
+| `warGrace` | Standard AI war grace; relaxed adds 23 turns, veteran (Aggressive in the UI) subtracts 14 (minimum 5); `ai.txt` aggression also adjusts the base |
 | `relicScience`, `relicMinerals` | One-time archive salvage |
 | `repair` | Hull points repaired per turn at a friendly shipyard outside fleet combat |
 | `facilityLimit` | Maximum facilities of each type per colony, 1–10 |
@@ -164,13 +167,14 @@ export default {
   },
   onTurn(state, api) {
     if (state.turn === 12) {
-      state.empires[0].minerals += 100;
+      const empire = state.empires[state.player];
+      empire.minerals = Math.min(999999, empire.minerals + 100);
       api.log(state, 'A supply convoy arrives.', 'build');
     }
   },
   victory(state, api) {
-    if (api.colonies(state).length >= 4 && state.empires[0].science >= 400)
-      return { winner: 0, text: 'The observatory network is complete.' };
+    if (api.colonies(state).length >= 4 && state.empires[state.player].science >= 400)
+      return { winner: state.player, text: 'The observatory network is complete.' };
     return null; // Continue checking normal campaign victories.
   }
 };
@@ -196,10 +200,15 @@ working turn-8 event. Hook versioning belongs in the campaign version.
 ## Saves, packaging and testing
 
 Each save key includes the campaign ID, version, complete content SHA-256 and
-whether it uses installed source hooks or imported text. Edits create another
+whether it uses installed source hooks or imported text. Nonzero playable empires
+have separate slots; empire 0 retains the original slot naming. Edits create another
 slot. Starting a fresh game in an existing slot overwrites that slot after the
 new-game dialog; export first to preserve it. Exported saves include the text
-pack and state. Invalid imports leave the live campaign untouched.
+pack and state. Invalid imports leave the live campaign untouched. Portable files
+use compact JSON, with a 49 MiB UTF-8 envelope limit and a 48 MiB state limit;
+older pretty-printed saves within that envelope limit remain supported. Export
+checks its output before downloading. Browser storage quotas can be lower: export
+a file if autosave reports full storage. See [save limits and measured admission](docs/SAVE_LIMITS.md).
 
 Run after any content or runtime edit:
 
@@ -234,3 +243,141 @@ Retain original Apache-2.0 and file-level donor licences, plus attribution for
 your own contributions. No canonical geometry, physical validity, proof coverage
 or cross-runtime audio identity is inherited merely by making a game with these
 modules. Create new worlds and share the source.
+
+## Expansion formats (optional, backwards compatible)
+
+The original fourteen files remain required. Optional files below are included
+in folder/native-pack exports only when authored. Old packs keep their original
+bytes, fingerprints and default rules. Installed packs list their extra file
+stems in their registry entry's `files` array; this avoids requesting missing
+files from old packs.
+
+| Optional file | Columns or settings |
+| --- | --- |
+| `scenario.txt` | `playable`, `victory`, `minVictoryTurn`, `defeatAtLimit` |
+| `layout.txt` | `id \| x \| y`, chart coordinates within −2000..2000 |
+| `dependencies.txt` | `field \| level \| requires \| requiresLevel` |
+| `objectives.txt` | `id \| owner \| kind \| target \| amount \| requires \| branch \| title \| description \| victory` |
+| `events.txt` | `id \| turn \| requires \| kind \| owner \| target \| value \| repeat` |
+| `starts.txt` | `empire \| minerals \| energy \| science \| colonies` |
+| `ai.txt` | `reserveMinerals`, `colonyShips`, `militaryLimit`, `aggression` |
+| `provenance.txt` | `hull \| source \| sha256 \| license \| operation`, retained by the Workbench bridge |
+
+For example, all three empires can be selected in Grand Frontier:
+
+```text
+playable = 0,1,2
+victory = objectives
+minVictoryTurn = 100
+defeatAtLimit = 1
+```
+
+`victory = legacy` is the default. Objective mode suppresses automatic colony and
+all-sciences wins; military elimination still applies. `defeatAtLimit = 1` makes
+missing the deadline a loss for the selected empire. Completed milestones,
+selected route, archive recoveries and once-only event receipts persist in saves.
+One mutually exclusive story route can be selected per empire per expedition;
+all steps with the selected `branch` remain available. Blank branches are shared
+stages. Milestones are historical, not continuously maintained requirements.
+
+Objective owners are `player` (the selected human empire), `*` (each empire races
+independently) or a numeric empire ID. Prerequisite IDs are comma-separated.
+`victory` is 0 or 1. Supported conditions:
+
+| Kind | Target | Progress |
+| --- | --- | --- |
+| `colonies` | `-` | Current owned worlds |
+| `survey` | `*` or system ID | Surveyed count, or 1 for the named system |
+| `archives` | `*` or archive system ID | Archives recovered by this empire |
+| `research` | Field ID | Current level |
+| `trade` | `*` or empire ID | Trade pact count, or 1 for the named partner |
+| `control` | System ID | Owned worlds in that system |
+| `survive` | `-` | Current turn while the empire remains viable |
+| `defeat` | Empire ID | 1 when that empire is defeated |
+| `resources` | `minerals`, `energy`, `science` | Current stockpile |
+
+The shipped Grand Frontier table is a working example:
+
+```text
+first-chart | * | survey | * | 12 | | | A shared chart | Survey twelve stars to establish the frontier survey service. | 0
+settled-reach | * | colonies | - | 6 | first-chart | | Six lights in the dark | Develop six colony worlds before choosing your political future. | 0
+concord | * | trade | * | 1 | settled-reach | concord | The concord charter | Choose a diplomatic future and maintain at least one trade pact. | 0
+```
+
+An event's `turn` is its earliest turn. It waits for its prerequisite objectives
+for its owner. `repeat = 0` means once; a positive value is the minimum interval
+between successful executions. Owners are `player` or an empire ID. Effects are
+explicit bounded operations; text never becomes an expression or a script.
+
+| Event kind | Target | Value |
+| --- | --- | --- |
+| `resources` | Resource name | Amount to add, capped by the stockpile limit |
+| `spawn` | Owner's starting design index, zero-based | System ID where one ship arrives, respecting the fleet cap |
+| `war` | Other empire ID | 0; establishes contact and issues the legal war order |
+| `message` | Printable message | 0 |
+
+For example, Outer Rim supplies 160 minerals every fourteen turns:
+
+```text
+relief | 14 | | resources | player | minerals | 160 | 14
+```
+
+A spawn index refers to the registered design slot initially created by
+`ships.txt`. If that template has been updated, the arriving ship uses its current
+design. It does not replace or upgrade ships already present.
+
+`starts.txt` overrides a named empire's opening stockpiles and adds colonies by
+planet ID, `system × planetsPerSystem + orbit`. Its normal home remains owned.
+Overlapping starting ownership is rejected. A dependency row such as
+`weapons | 4 | industry | 3` gates Weapons IV on Industry III. Cycles, missing
+references, invalid owner dependencies and incompatible branch prerequisites are
+rejected with physical file, line and field diagnostics.
+
+AI defaults are reserves 80 minerals, two desired colony ships, a 35-ship military
+limit and aggression 50. Supported bounds are 0–10000, 1–6, 3–60 and 0–100.
+These are policy targets, not resource cheats. AI issues the same research,
+construction, template update, refit, diplomacy and movement commands; its goals
+use current sensors and last-seen observations. New policies or actions require
+JavaScript changes in `core.js`.
+
+## Visual authoring and Workbench exchange
+
+See [WORKSHOP.md](docs/WORKSHOP.md) for the complete creator tutorial, including
+VANILLAJS Asset Foundry/Component Forge project conversion and Mod SDK limits.
+The map editor selects stars and edits coordinates numerically; it also edits
+reciprocal lanes and starting positions. The hull editor accepts canvas clicks
+or keyboard-entered points. Record forms edit component, faction, ship, research,
+objective, event and economic tables. The text editor remains available for all
+formats. Validate a detached draft before starting it in a separate save slot.
+
+`scenario.txt`'s `minVictoryTurn` gates objective victories only; last-empire
+conquest can win earlier.
+
+## Save migration and source boundaries
+
+State version 2 adds the selected empire, groups, standing orders, refits,
+intelligence snapshots and scenario ledgers. The portable save envelope remains
+`voidward.save.v1` so existing records can still be discovered. Version-1 state
+imports migrate through `engine.migrateState`; unknown or malformed fields are
+rejected. Original ships, queues, balances and installed hook state are retained.
+Old archive ownership cannot be reconstructed from a claimed boolean; migrated
+legacy packs have no new archive objectives. Old surveyed intelligence becomes
+an initial snapshot and then follows current sensor rules.
+
+Editing a pack creates a new content identity. The game does not silently apply
+changed economic or geometry data to an existing save. Export the old save, keep
+its embedded pack, and start a new expedition for the changed pack. Registered
+source-hook saves require the exact installed text version. Source hooks remain
+trusted local JavaScript with page privileges; imported data never enables them.
+
+Supported limits remain 64 systems, four planets per system, six empires, sixty
+ships per empire, five queued orders per world and twenty-four registered designs
+per empire. New limits: 64 objectives, 128 events, 128 dependency rows, one story
+route per empire, 30 retained turn reports and bounded last-seen system records.
+Stockpiles are at most 999999. Monotonic ship/group identifiers may reach one
+million without increasing active fleet limits; admission and overflow are tested. A larger nominal turn limit alone does not extend
+strategic play; test objective reachability and the AI's actual completion time.
+
+New component roles, production resources, diplomatic actions, objective
+predicates, event effects, battle rules or generators require explicit JavaScript
+extensions and tests. Renaming a role in a text row cannot invent a new mechanic.

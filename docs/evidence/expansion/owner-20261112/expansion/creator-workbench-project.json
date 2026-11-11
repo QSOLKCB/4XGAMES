@@ -1,0 +1,96 @@
+{
+  "format": "qsol.vanillajs.asset-project.v1",
+  "scene": {
+    "schemaVersion": 2,
+    "name": "Kestrel",
+    "nextId": 2,
+    "objects": [
+      {
+        "id": "entity-1",
+        "name": "Kestrel",
+        "parent": null,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotationY": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "color": [
+          0.4,
+          0.8,
+          0.9
+        ],
+        "body": "static",
+        "visible": true,
+        "components": {
+          "mesh": {
+            "enabled": true
+          },
+          "collider": {
+            "enabled": true
+          },
+          "rigidbody": {
+            "mode": "static",
+            "gravityScale": 1
+          },
+          "controller": {
+            "enabled": false,
+            "speed": 4,
+            "jumpImpulse": 6.2
+          },
+          "trigger": {
+            "enabled": false,
+            "tag": "checkpoint"
+          },
+          "camera": {
+            "enabled": false,
+            "fov": 70
+          }
+        }
+      }
+    ]
+  },
+  "library": {
+    "schemaVersion": 1,
+    "nextId": 2,
+    "assets": [
+      {
+        "id": "asset-1",
+        "kind": "mesh",
+        "name": "Kestrel",
+        "license": "OWNER-LOCAL-ONLY",
+        "sourceName": "scout-0.obj",
+        "sourceSha256": "a8bdf550319a0cdf77adc4b647df2f678ad33aaaca8c39f307670b1e7633d70d",
+        "vertices": [
+          0,
+          0,
+          -40,
+          0,
+          0,
+          30,
+          0,
+          30,
+          0,
+          0,
+          -30,
+          0,
+          30,
+          0,
+          0
+        ]
+      }
+    ],
+    "placements": [
+      {
+        "entityId": "entity-1",
+        "meshId": "asset-1",
+        "materialId": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+  "drawsPerTrial": 12,
+  "parity": "all RGBA bytes / all 3 palettes",
+  "trials": [
+    {
+      "baselineMs": 117.10000000149012,
+      "reusedMs": 0.10000000149011612
+    },
+    {
+      "baselineMs": 114,
+      "reusedMs": 0.10000000149011612
+    },
+    {
+      "baselineMs": 113.70000000298023,
+      "reusedMs": 0.19999999552965164
+    },
+    {
+      "baselineMs": 115.30000000447035,
+      "reusedMs": 0
+    },
+    {
+      "baselineMs": 115,
+      "reusedMs": 0.10000000149011612
+    }
+  ]
+}

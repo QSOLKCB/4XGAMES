@@ -1,0 +1,504 @@
+{
+  "sourceDirectory": "test-results/owner-20261112-run2",
+  "testedCommit": "98d8e9727281f597f60d8b52ea109c3e8c79e5ed",
+  "files": [
+    {
+      "path": "baseline/browser-result.json",
+      "bytes": 562,
+      "sha256": "f8e475e3955d8b1ffe4c6b379da5c170bd90163cb716df9bce203475d7fbf1be",
+      "retainedHere": true
+    },
+    {
+      "path": "baseline/campaign-workshop.png",
+      "bytes": 230918,
+      "sha256": "92719060abd4e82b9b03515ddaa18688a68fc37516425c0c1de17fcb6a69434e",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/galaxy-320.png",
+      "bytes": 192712,
+      "sha256": "2063edf30a87008445cf17f50e02d42ac635888a026c51acbb07c8aefb744711",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/galaxy-390.png",
+      "bytes": 221035,
+      "sha256": "51d46b965eb14a225b715356c1dc018c2921464411884d9a79ab249eb11875ee",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/galaxy-desktop.png",
+      "bytes": 479486,
+      "sha256": "e5c03f8ea03b9c1eb638f33d6c8bef2d9eabbf362d679fd3c4224ed63ba48bc6",
+      "retainedHere": true
+    },
+    {
+      "path": "baseline/ship-designer.png",
+      "bytes": 215381,
+      "sha256": "62a58f61c99a0e922669c71494b64c50b31611a9ce041d8a28d037ecd5492a07",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/stdout.log",
+      "bytes": 145,
+      "sha256": "1e227f7340b13a4dd1beef3515c49b8d05b30a153796394c47e9cb5c4881060a",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/buildings.txt",
+      "bytes": 590,
+      "sha256": "930b874d75743472d5941b8e4c128ddf495bfd1c305a66d5dacab976dfbece1c",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/campaign.txt",
+      "bytes": 214,
+      "sha256": "b9b9af1e0beac99bcd17e655bc700ee479b5a959d6f10b3422470ec1888f0a7d",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/components.txt",
+      "bytes": 2182,
+      "sha256": "e9ffb24657f254d8f99f735da5e506481da604dea93426a5b24a8d04cb8d8b96",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/empire_names.txt",
+      "bytes": 50,
+      "sha256": "cd4ad70e77ffc08c134e6fb7e556aecc12f01e70fd9c3799c62ee39c74036f34",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/empires.txt",
+      "bytes": 264,
+      "sha256": "e3ddd049453a89c91712bebe9a4b7a89c5d79911f94232c4ef2cb2acb3267a85",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/hulls.txt",
+      "bytes": 1619,
+      "sha256": "aa4d8724141c7bdc2a839d3bdc36eb6ad787b03086b130cf2aefbb1eb1846468",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/map.txt",
+      "bytes": 589,
+      "sha256": "36107ada5f99af71c969545d88056fdde68711d509b3cdb4dc17487116b5def9",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/music.txt",
+      "bytes": 87,
+      "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/planet_names.txt",
+      "bytes": 644,
+      "sha256": "228c3ae0c3ecb36132dbb6d6d2c99685d559612bfb7a7d36f3a3a06868e6ac2b",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/planet_types.txt",
+      "bytes": 150,
+      "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/research.txt",
+      "bytes": 385,
+      "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/rules.txt",
+      "bytes": 523,
+      "sha256": "7a7f09d7c2d1e4ae41856d74c81b321847dda58638cd05691c7df27af4710b0b",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/ships.txt",
+      "bytes": 622,
+      "sha256": "88334d6cd3275a260218e3060d8fcc2eb2f02d44da9ba34ec49ede0ca9221959",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/text-campaign/system_names.txt",
+      "bytes": 188,
+      "sha256": "708b974d76a19ff703a9f670a14e5667a9c96e3240c874bc4caed8b484840298",
+      "retainedHere": false
+    },
+    {
+      "path": "baseline/texture-reuse.json",
+      "bytes": 652,
+      "sha256": "18fd52303726062e2b101858027deeeedadaf112b693dd17b64685e580ca865a",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/combat-report.png",
+      "bytes": 230441,
+      "sha256": "8d3f8bc4e4e2194cd480163e764afe5b0a41cc85e64f616a28d44d384bc6d7fd",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/created-universe.png",
+      "bytes": 474302,
+      "sha256": "5bccea9f8eb96bfe23c799b73aec0ca07e001fbabc77a178438aea1e3ad97090",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/creator-pack.json",
+      "bytes": 9080,
+      "sha256": "fc70e26f0e8f4826d68a3a1afed677bdc433ae25af710719ed2b771c9336dbbb",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/creator-sdk.json",
+      "bytes": 9417,
+      "sha256": "4f72a2e8beb5fd7986f19a9d1918daa2457c777b7288a62266288cf649fe5fe6",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/creator-workbench-project.json",
+      "bytes": 1809,
+      "sha256": "92c4703d52a0260155443e4df0dc66eff58a30020fbc134183b8cece352d8973",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/expansion-result.json",
+      "bytes": 12911,
+      "sha256": "3be099a636d23c3d07762f6e10bf83bdcfe8707a9c20f91e7ad389f1611df88e",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/failure.png",
+      "bytes": 681460,
+      "sha256": "2ff04d6bcf65965062db3a7e28b18900b98af8801ccbbe90b58c2b0bdc124891",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/fallen-gates-empire-0.png",
+      "bytes": 524889,
+      "sha256": "234596e4372afbd475fdcc50f99f5ecfd93ed7d74d3076b31cf72e78e9fcc3ee",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/fallen-gates-empire-1.png",
+      "bytes": 527005,
+      "sha256": "4384dc8490bb96a1142431b4e8c363f8494a01a4d51cf518654253a0cb94e627",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/fallen-gates-empire-2.png",
+      "bytes": 528601,
+      "sha256": "d6c888f156956710b011ac041c311eac7ecd77c1c5fc03683876691838c89b2e",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/frontier-empire-0.png",
+      "bytes": 475275,
+      "sha256": "3bd503fb860c1c762b70cc94a8d871d5d947226f18f725589384cbe563803b5c",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/gpu-diagnostics.json",
+      "bytes": 9958,
+      "sha256": "60de96908ebd83bc3e0940e548a738be65c862920e81a889ed6259b2b73a7597",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/grand-frontier-empire-0.png",
+      "bytes": 525063,
+      "sha256": "1a06d7e809b8a4a851d382762abfdb949525b07daf9b24b5b6b29bbda7a36150",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/grand-frontier-empire-1.png",
+      "bytes": 527163,
+      "sha256": "353e3ec7aa10c32c366152be48ac808ced001d4237aad266da0dc422a452ed5f",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/grand-frontier-empire-2.png",
+      "bytes": 527695,
+      "sha256": "e1e5db89369f7303a4a7ac162700056199e497b05d24f8faa24e9175df14d8f0",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/machine-dawn-empire-0.png",
+      "bytes": 479141,
+      "sha256": "87c0bdf161ae654dd591e0cfd84cf934861e774fb0018e926ab3f275a338ae61",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/narrow-320.png",
+      "bytes": 250428,
+      "sha256": "36ec395758cf71913c68ceb7b0f10c39e814cb3681bc217eebcc9cfeb9656cae",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/narrow-390.png",
+      "bytes": 261553,
+      "sha256": "b8186dd84b29b949e32ed463553384f22cbdcf120fe4323525e01f9c169654fc",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/outer-rim-empire-0.png",
+      "bytes": 538206,
+      "sha256": "eced4c7a855f8967b8effdbaa847ca5800b34e4d524f486e0b68db2f3034eb1d",
+      "retainedHere": true
+    },
+    {
+      "path": "expansion/progress.json",
+      "bytes": 12238,
+      "sha256": "5d6ee648f239ddf7c6e77bdf9ae7aad4108a8e3f48760f7b589f507e8eee40a1",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/stderr.log",
+      "bytes": 464,
+      "sha256": "5657843aa0ed7ad124e9f175d0caf8f70facb9a32309c649f85c77f84c28ca2c",
+      "retainedHere": false
+    },
+    {
+      "path": "expansion/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retainedHere": false
+    },
+    {
+      "path": "guided/actions.json",
+      "bytes": 25090,
+      "sha256": "6ea2b95a958edb9f547e00f319ac93fc309f2babeb2b64e9647b1ca93c932a5a",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/audio-muted.json",
+      "bytes": 312,
+      "sha256": "ad4b1588c90f099b54ff1be08582c1e75e30678e5315ef0273d6083e0c6ff4c8",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/audio-signal.json",
+      "bytes": 1977,
+      "sha256": "bfd4d91f4c67d5f26ee67c11bcd825547142ac8230134364ec4d9c5d55e2e2dd",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/gpu-info.json",
+      "bytes": 10369,
+      "sha256": "33062d82da81c53be24cdc9212db6bf419b5976352a0838d4f6fa57d7937b470",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/gpu-trace-grand-frontier.json",
+      "bytes": 7082268,
+      "sha256": "80b6556582d57a9c30b0e5db5c6b882ad2199c1474a29bcac5d07161c0b63be0",
+      "retainedHere": false
+    },
+    {
+      "path": "guided/gpu-trace-machine-dawn.json",
+      "bytes": 6979903,
+      "sha256": "3488688bbde3fd7f2294a69b06ab66cdf3300fcc3c29d66b9f179c4ca3cc7d96",
+      "retainedHere": false
+    },
+    {
+      "path": "guided/gpu-trace-summary.json",
+      "bytes": 1070,
+      "sha256": "191d992d732686830b22aa0ba71d78bbcd7fc26085316da437bee6d8a460d3b1",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/guided-first-survey.png",
+      "bytes": 480115,
+      "sha256": "2369b35e3e832aa0806e3317367d97c2efda21f57a182becc5568119af6b3afe",
+      "retainedHere": false
+    },
+    {
+      "path": "guided/guided-gameplay.json",
+      "bytes": 2799,
+      "sha256": "188e9b19e6cdfcca255e4fef00975f89dc153f7f7d8be2c509b540f260c7c57a",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/guided-grand-turn13.png",
+      "bytes": 543836,
+      "sha256": "cc2a98b55ed1eef79b0690799f1e52b64025321d0b48c1b67b2dbd1363fecbd7",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/guided-objective-progress.png",
+      "bytes": 207599,
+      "sha256": "577b8fec25ddf7411cb3b96657f9f754dd44cb55e1709b0f58a2ce18b19b3af1",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/raster-path-diagnostic.json",
+      "bytes": 471,
+      "sha256": "af8da2fe526ee67f4d53ec2b7e685f4f2a9d5b9acb6c799abe59124bd7b90b2c",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/render-diagnostic.json",
+      "bytes": 2597,
+      "sha256": "6bd107b693b34f3a81ef484b14b8d417a0052d3d017a9682736714ad227c6b9b",
+      "retainedHere": true
+    },
+    {
+      "path": "guided/small-performance.json",
+      "bytes": 334,
+      "sha256": "7460341a79ee87ddefea8b02311125017d4ab2f28b2b8420f49ab438096cece1",
+      "retainedHere": true
+    },
+    {
+      "path": "legacy-proposed/browser-result.json",
+      "bytes": 562,
+      "sha256": "f8e475e3955d8b1ffe4c6b379da5c170bd90163cb716df9bce203475d7fbf1be",
+      "retainedHere": true
+    },
+    {
+      "path": "legacy-proposed/campaign-workshop.png",
+      "bytes": 325094,
+      "sha256": "58b372a24a1001fd030e3934171e7cf8ad129e1ea01807f462090e8c12df8e9b",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/galaxy-320.png",
+      "bytes": 188187,
+      "sha256": "b617c5d9cd2fffd747163dd9312ac235ddad1440e806143f970b3811e659ef88",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/galaxy-390.png",
+      "bytes": 226332,
+      "sha256": "1b95445c3cf97a665365b40c18a6015cc27295607b951e16f58193ffcdb1f37c",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/galaxy-desktop.png",
+      "bytes": 472845,
+      "sha256": "20089725d2f7bcbf935757f20ec5089b16978aff6451761398b1312f3184750a",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/ship-designer.png",
+      "bytes": 245133,
+      "sha256": "b28715e065a2ff983c0a17bb8f5bf1bdc3d7fff7d7509579f4dc47370d65790d",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/stdout.log",
+      "bytes": 145,
+      "sha256": "1e227f7340b13a4dd1beef3515c49b8d05b30a153796394c47e9cb5c4881060a",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/buildings.txt",
+      "bytes": 590,
+      "sha256": "930b874d75743472d5941b8e4c128ddf495bfd1c305a66d5dacab976dfbece1c",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/campaign.txt",
+      "bytes": 214,
+      "sha256": "b9b9af1e0beac99bcd17e655bc700ee479b5a959d6f10b3422470ec1888f0a7d",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/components.txt",
+      "bytes": 2182,
+      "sha256": "e9ffb24657f254d8f99f735da5e506481da604dea93426a5b24a8d04cb8d8b96",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/empire_names.txt",
+      "bytes": 50,
+      "sha256": "cd4ad70e77ffc08c134e6fb7e556aecc12f01e70fd9c3799c62ee39c74036f34",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/empires.txt",
+      "bytes": 264,
+      "sha256": "e3ddd049453a89c91712bebe9a4b7a89c5d79911f94232c4ef2cb2acb3267a85",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/hulls.txt",
+      "bytes": 1619,
+      "sha256": "aa4d8724141c7bdc2a839d3bdc36eb6ad787b03086b130cf2aefbb1eb1846468",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/map.txt",
+      "bytes": 589,
+      "sha256": "36107ada5f99af71c969545d88056fdde68711d509b3cdb4dc17487116b5def9",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/music.txt",
+      "bytes": 87,
+      "sha256": "d37805c2c5f579201aeda25ad21eac0f863550905428d04dabdc5f4c0b41b1b4",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/planet_names.txt",
+      "bytes": 644,
+      "sha256": "228c3ae0c3ecb36132dbb6d6d2c99685d559612bfb7a7d36f3a3a06868e6ac2b",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/planet_types.txt",
+      "bytes": 150,
+      "sha256": "1a372aaf1533ec45a14034b7e145bde4e30783ec5322606891ac9441f372b63a",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/research.txt",
+      "bytes": 385,
+      "sha256": "a55d85d1d71275794d5f8c762971fe9e1f3536c18bb1504085859bcb714b7596",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/rules.txt",
+      "bytes": 523,
+      "sha256": "7a7f09d7c2d1e4ae41856d74c81b321847dda58638cd05691c7df27af4710b0b",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/ships.txt",
+      "bytes": 622,
+      "sha256": "88334d6cd3275a260218e3060d8fcc2eb2f02d44da9ba34ec49ede0ca9221959",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/text-campaign/system_names.txt",
+      "bytes": 188,
+      "sha256": "708b974d76a19ff703a9f670a14e5667a9c96e3240c874bc4caed8b484840298",
+      "retainedHere": false
+    },
+    {
+      "path": "legacy-proposed/texture-reuse.json",
+      "bytes": 617,
+      "sha256": "e30ed84670977d7391c80819bc20e5a5aba305e68d895e245dbc9d792852eb67",
+      "retainedHere": true
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 41189,
+      "sha256": "3fa31f7fcd2fc2a79cbf7430edd104ab2eaf5edb03b4c28e1431df7653582bfa",
+      "retainedHere": true
+    }
+  ]
+}

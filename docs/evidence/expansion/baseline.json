@@ -1,0 +1,59 @@
+{
+  "repository": "https://github.com/QSOLKCB/4XGAMES",
+  "liveUrl": "https://qsolkcb.github.io/4XGAMES/",
+  "checkout": "<repository>",
+  "baselineCommit": "b8de5866d6c6c66a4f81e6881b111aa50b173be6",
+  "baselineTree": "1b37ee90c28f9be4944aed3b719f32be42cb8c29",
+  "branch": "feat/voidward-universe-expansion",
+  "branchCreatedOnGitHubViaConnector": true,
+  "sourceModifiedAtBaseline": false,
+  "agentsMd": "Absent from the repository and applicable ancestor directories.",
+  "environment": {
+    "node": "v22",
+    "os": "Linux x64"
+  },
+  "executedChecks": [
+    {
+      "command": "node --test tests/*.test.mjs",
+      "exitCode": 0,
+      "note": "Runner surfaced aggregate file pass."
+    },
+    {
+      "command": "node tests/core.test.mjs",
+      "exitCode": 0,
+      "passed": 18,
+      "failed": 0,
+      "durationMs": 1220.994792,
+      "note": "Direct invocation exposed all named subtests, including 32 seeds times two campaigns, paired deterministic simulations and state validation."
+    },
+    {
+      "command": "node scripts/check.mjs",
+      "exitCode": 0,
+      "donorFiles": 34,
+      "campaigns": 2,
+      "offlineInventory": "PASS"
+    },
+    {
+      "command": "node scripts/site.mjs build _site",
+      "exitCode": 0,
+      "note": "Unmodified main staged in ignored _site directory."
+    }
+  ],
+  "preservedFailures": [
+    {
+      "command": "node scripts/site.mjs build <local-path>",
+      "exitCode": 1,
+      "error": "Use an explicit _site* output directory.",
+      "resolution": "Used supported _site target; staging passed. No source change."
+    },
+    {
+      "tool": "web.open",
+      "url": "https://qsolkcb.github.io/4XGAMES/",
+      "result": "Tool could not access URL; no live gameplay verification."
+    }
+  ],
+  "browserStatus": "NOT EXECUTED: user explicitly requires stop and literal proceed before machine browser tests",
+  "screenshots": "Pending baseline browser authorization",
+  "delivery": "Use GitHub connector for pushing commits and opening PRs; leave merge, release and CI review to user.",
+  "resume": "The user updated ordering: prepare implementation and scripts first, then stop all work and wait for literal proceed before any owner browser launch/control. Untouched baseline is preserved at baseline-checkout and baseline-stage. Run baseline then proposed suites in the gated window; preserve evidence. Tell owner when automation has stopped and machine is usable, then continue fixes and GitHub handoff. Repeat gate before later desktop-control tests. Never claim browser PASS until executed."
+}

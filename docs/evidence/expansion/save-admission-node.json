@@ -1,0 +1,79 @@
+{
+  "environment": {
+    "node": "v22",
+    "platform": "linux",
+    "arch": "x64",
+    "gcExposed": true
+  },
+  "workload": {
+    "kind": "synthetic schema boundary, not natural gameplay",
+    "systems": 64,
+    "planets": 256,
+    "empires": 6,
+    "facilityTypes": 128,
+    "ships": 360,
+    "concurrentRefits": 360,
+    "queuedShipSnapshots": 1280,
+    "turnReports": 30,
+    "completionEntries": 18480,
+    "stringWorstCase": "U+0001 escaped to six JSON bytes per character; maximal admitted field lengths",
+    "note": "Queue reservations and historical counts deliberately exercise structural save-admission maxima; not claimed reachable through ordinary commands."
+  },
+  "bounds": {
+    "stateBytes": 50331648,
+    "envelopeBytes": 51380224
+  },
+  "measured": {
+    "stateBytes": 31554454,
+    "envelopeBytes": 31579604,
+    "encodeMs": 79.57965299999998,
+    "decodeMs": 141.95378499999998,
+    "cloneAndValidateMs": 81.91107200000005,
+    "sampledHeapPeakBytes": 93665264,
+    "sampledRssPeakBytes": 204046336
+  },
+  "heapSamples": [
+    {
+      "phase": "validated fixture",
+      "rss": 94781440,
+      "heapTotal": 47808512,
+      "heapUsed": 12471664,
+      "external": 1893352,
+      "arrayBuffers": 16619
+    },
+    {
+      "phase": "encoded",
+      "rss": 161456128,
+      "heapTotal": 83062784,
+      "heapUsed": 48533576,
+      "external": 33472956,
+      "arrayBuffers": 31596223
+    },
+    {
+      "phase": "decoded",
+      "rss": 192749568,
+      "heapTotal": 114622464,
+      "heapUsed": 93665264,
+      "external": 33447806,
+      "arrayBuffers": 31571073
+    },
+    {
+      "phase": "cloned and validated",
+      "rss": 204046336,
+      "heapTotal": 111112192,
+      "heapUsed": 82353664,
+      "external": 1893352,
+      "arrayBuffers": 16619
+    }
+  ],
+  "correctness": {
+    "stateSha256": "325cdf0ea1adc931e1cda73cb5f122adbe26510652568a878ecf2f83f67550e2",
+    "exactStateMatch": true
+  },
+  "limitations": [
+    "Single sequential Node observation; no speedup claim.",
+    "Memory is sampled at phase boundaries, not continuous peak or per-operation allocation.",
+    "Browser large-save admission and latency require the separate owner-approved browser test."
+  ],
+  "stoppingCondition": "One construction, encoding, decoding and clone/validation; exact SHA-256 parity required."
+}

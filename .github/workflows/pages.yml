@@ -35,7 +35,9 @@ jobs:
       - name: Play the packaged game and validate campaign mods
         env:
           PLAYWRIGHT_MODULE: ${{ runner.temp }}/voidward-browser/node_modules/playwright
-        run: node tests/browser.mjs
+        run: |
+          node tests/browser.mjs
+          node tests/expansion-browser.mjs
       - name: Preserve browser evidence, including failures
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

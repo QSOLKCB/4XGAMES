@@ -1,0 +1,33 @@
+{
+  "result": "PASS",
+  "browser": "156",
+  "desktop": "1440x1000",
+  "responsive": [
+    390,
+    320
+  ],
+  "touch": "emulated",
+  "externalRequests": 0,
+  "pageErrors": [],
+  "httpFailures": [],
+  "checks": [
+    "movement",
+    "colonisation",
+    "construction/cancel",
+    "research",
+    "ship-design",
+    "all-views",
+    "web-audio",
+    "save-roundtrip",
+    "rejected-save",
+    "reload",
+    "texture-parity",
+    "directory-mod",
+    "mod-victory",
+    "source-campaign",
+    "responsive",
+    "offline",
+    "keyboard",
+    "touch"
+  ]
+}

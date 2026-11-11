@@ -8,11 +8,18 @@ import { bakePlanet } from '../vendor/offline-games/shared/surface-detail.js';
 // OPT-INV-001: identical palette + fixed light + donor implementation => identical pixels.
 // Only three finite palette keys; generated canvases never escape for mutation.
 const planetTextures = new Map();
-export function paintPlanet(canvas, palette = 'ocean') {
+export function paintPlanet(canvas, palette = 'ocean', variant = 0) {
   if (!['ocean', 'gas', 'ice'].includes(palette)) throw new Error('Unknown planet palette.');
   if (!planetTextures.has(palette)) planetTextures.set(palette, bakePlanet(palette));
   const ctx = canvas.getContext('2d'); canvas.width = canvas.height = 256;
-  ctx.clearRect(0, 0, 256, 256); ctx.drawImage(planetTextures.get(palette), 0, 0);
+  ctx.clearRect(0, 0, 256, 256);
+  if (variant && palette === 'gas') {
+    ctx.save(); ctx.translate(128,128);ctx.rotate(-.35);ctx.strokeStyle='#d4ae7360';ctx.lineWidth=12;ctx.beginPath();ctx.ellipse(0,0,123,42,0,0,Math.PI*2);ctx.stroke();ctx.restore();
+    ctx.drawImage(planetTextures.get(palette),32,32,192,192);
+  } else ctx.drawImage(planetTextures.get(palette),0,0);
+  if (variant && palette !== 'gas') {
+    ctx.save();ctx.globalCompositeOperation='source-atop';const g=ctx.createRadialGradient(128,128,95,128,128,127);g.addColorStop(0,'transparent');g.addColorStop(1,variant%2?'#79cee44a':'#e6b77b38');ctx.fillStyle=g;ctx.fillRect(0,0,256,256);ctx.restore();
+  }
 }
 export function paintShip(canvas, hull, empire, large = false) {
   const ctx = canvas.getContext('2d'), w = large ? 600 : 180, h = large ? 500 : 180;
@@ -23,7 +30,7 @@ export function paintShip(canvas, hull, empire, large = false) {
   // Engine bloom and paneling are cosmetic; the editable polygon owns the silhouette.
   const flame = ctx.createLinearGradient(0, 30, 0, 70); flame.addColorStop(0, empire.color); flame.addColorStop(1, 'transparent');
   ctx.fillStyle = flame; ctx.fillRect(-8, 33, 16, 34);
-  shape(); ctx.shadowColor = empire.color; ctx.shadowBlur = 9; ctx.fillStyle = '#18303e'; ctx.fill(); ctx.shadowBlur = 0;
+  shape(); ctx.shadowColor = empire.color; ctx.shadowBlur = 9; ctx.fillStyle = empire.color + '66'; ctx.fill(); ctx.shadowBlur = 0;
   const metal = ctx.createLinearGradient(-45, -45, 45, 40); metal.addColorStop(0, '#93aab8'); metal.addColorStop(.43, '#4a6576'); metal.addColorStop(.48, '#253f50'); metal.addColorStop(1, '#091723');
   shape(); ctx.fillStyle = metal; ctx.fill(); ctx.strokeStyle = empire.color; ctx.lineWidth = .65; ctx.stroke();
   ctx.save(); shape(); ctx.clip();
@@ -60,15 +67,18 @@ function starField(seed) {
   }
   return galaxyData.get(seed);
 }
-export function drawMap(canvas, state, engine, selected, selectedFleet, zoom = 1, mode = 'political') {
-  const w = canvas.clientWidth, h = canvas.clientHeight;
-  if (!w || !h) return [];
-  const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = w * ratio; canvas.height = h * ratio;
-  const ctx = canvas.getContext('2d'); ctx.scale(ratio, ratio); ctx.fillStyle = '#080f19'; ctx.fillRect(0, 0, w, h);
+// OPT-INV-001 stopping condition: the raster backdrop cache failed exact RGBA
+// parity on the owner's hardware-accelerated Chromium. Keep direct rendering;
+// neither the GPU path nor correctness is traded away for a cosmetic cache.
+// Retain diagnostics and the cache:false reference option for test compatibility.
+export function backdropStats() { return { entries: 0, bytes: 0, mode: 'reference' }; }
+export function clearBackdropCache() {}
+export function drawBackdropReference(ctx, w, h, seed) {
+  ctx.fillStyle = '#080f19'; ctx.fillRect(0, 0, w, h);
   for (const [x, y, radius, color] of [[w * .6, h * .4, w * .7, '#172737'], [w * .25, h * .8, w * .38, '#183b3b'], [w * .8, h * .1, w * .4, '#251d35']]) {
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius); gradient.addColorStop(0, color); gradient.addColorStop(1, 'transparent'); ctx.fillStyle = gradient; ctx.fillRect(0, 0, w, h);
   }
-  for (const p of starField(state.seed)) {
+  for (const p of starField(seed)) {
     ctx.globalAlpha = p.light * .23; ctx.fillStyle = p.tint < .5 ? '#b8d7ed' : '#e5c8a9';
     const x = w / 2 + p.x * w * .64, y = h / 2 + p.y * h * .72; ctx.fillRect(x, y, p.size, p.size);
   }
@@ -76,12 +86,20 @@ export function drawMap(canvas, state, engine, selected, selectedFleet, zoom = 1
   ctx.strokeStyle = '#5e839313'; ctx.lineWidth = .5;
   for (let x = 30; x < w; x += 60) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
   for (let y = 30; y < h; y += 60) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-  const R = engine.content.rules, scale = Math.min((w - 64) / (R.columns * 166), (h - 70) / (R.rows * 156)) * zoom;
-  const offsetX = (w - R.columns * 166 * scale) / 2, offsetY = (h - R.rows * 156 * scale) / 2;
-  const points = state.systems.map(s => ({ x: offsetX + (s.x - 20) * scale, y: offsetY + (s.y - 20) * scale }));
-  const visible = engine.visibleSystems(state), known = new Set(state.empires[0].known);
+}
+export function drawMap(canvas, state, engine, selected, selectedFleet, zoom = 1, mode = 'political', options = {}) {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return [];
+  const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = w * ratio; canvas.height = h * ratio;
+  const ctx = canvas.getContext('2d'); ctx.scale(ratio, ratio); ctx.fillStyle = '#080f19'; ctx.fillRect(0, 0, w, h);
+  drawBackdropReference(ctx, w, h, state.seed);
+  const minX=Math.min(...state.systems.map(s=>s.x)), maxX=Math.max(...state.systems.map(s=>s.x));
+  const minY=Math.min(...state.systems.map(s=>s.y)), maxY=Math.max(...state.systems.map(s=>s.y));
+  const scale=Math.min((w-88)/Math.max(100,maxX-minX),(h-100)/Math.max(100,maxY-minY))*zoom;
+  const points=state.systems.map(s=>({x:w/2+(s.x-(minX+maxX)/2)*scale,y:h/2+(s.y-(minY+maxY)/2)*scale}));
+  const visible = engine.visibleSystems(state), known = new Set(state.empires[state.player ?? 0].known);
   if (mode !== 'survey') for (const s of state.systems) if (known.has(s.id)) {
-    const p = state.planets.find(p => p.system === s.id && p.owner >= 0);
+    const p = engine.systemIntel(state, s.id)?.planets.find(p => p.owner >= 0);
     if (p) { const point = points[s.id], color = engine.content.empires[p.owner].color; const gradient = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, 80 * zoom); gradient.addColorStop(0, color + '20'); gradient.addColorStop(1, color + '00'); ctx.fillStyle = gradient; ctx.fillRect(point.x - 80 * zoom, point.y - 80 * zoom, 160 * zoom, 160 * zoom); }
   }
   for (const s of state.systems) for (const n of s.links) if (n > s.id && (known.has(s.id) || known.has(n))) {
@@ -100,7 +118,7 @@ export function drawMap(canvas, state, engine, selected, selectedFleet, zoom = 1
   for (const s of state.systems) {
     const p = points[s.id];
     if (!visible.has(s.id)) { ctx.fillStyle = '#60738740'; ctx.fillRect(p.x - 1, p.y - 1, 2, 2); }
-    if (known.has(s.id) && s.relic && !s.claimed) paintRelic(ctx, p.x + 25, p.y - 24, 11);
+    if (known.has(s.id) && engine.systemIntel(state,s.id)?.archive) paintRelic(ctx, p.x + 25, p.y - 24, 11);
   }
   return points;
 }

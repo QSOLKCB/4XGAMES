@@ -1,0 +1,118 @@
+TAP version 13
+# Subtest: seeded generation, names, faction ship families and integer resources are reproducible
+ok 1 - seeded generation, names, faction ship families and integer resources are reproducible
+  ---
+  duration_ms: 4.821
+  type: 'test'
+  ...
+# Subtest: frontier exploration, queued movement, colonisation and consumed colony ark
+ok 2 - frontier exploration, queued movement, colonisation and consumed colony ark
+  ---
+  duration_ms: 3.18238
+  type: 'test'
+  ...
+# Subtest: invalid commands are free and leave state byte-for-byte unchanged
+ok 3 - invalid commands are free and leave state byte-for-byte unchanged
+  ---
+  duration_ms: 1.32316
+  type: 'test'
+  ...
+# Subtest: construction admits cost up front, completes, and refunds unfinished work exactly
+ok 4 - construction admits cost up front, completes, and refunds unfinished work exactly
+  ---
+  duration_ms: 3.92209
+  type: 'test'
+  ...
+# Subtest: facility and fleet capacity include queued reservations
+ok 5 - facility and fleet capacity include queued reservations
+  ---
+  duration_ms: 1.23881
+  type: 'test'
+  ...
+# Subtest: ship designer supports repeated parts, faction locks, capacity and research gates
+ok 6 - ship designer supports repeated parts, faction locks, capacity and research gates
+  ---
+  duration_ms: 0.40794
+  type: 'test'
+  ...
+# Subtest: research unlocks newly constructed components without retroactive refits
+ok 7 - research unlocks newly constructed components without retroactive refits
+  ---
+  duration_ms: 0.61097
+  type: 'test'
+  ...
+# Subtest: diplomacy requires contact, has symmetric treaties and real economy consequences
+ok 8 - diplomacy requires contact, has symmetric treaties and real economy consequences
+  ---
+  duration_ms: 0.34603
+  type: 'test'
+  ...
+# Subtest: hostile fleet combat applies volleys and records losses
+ok 9 - hostile fleet combat applies volleys and records losses
+  ---
+  duration_ms: 1.56295
+  type: 'test'
+  ...
+# Subtest: planet capture needs marine role, sufficient attack and no defending fleet
+ok 10 - planet capture needs marine role, sufficient attack and no defending fleet
+  ---
+  duration_ms: 1.27902
+  type: 'test'
+  ...
+# Subtest: expansion, scientific victory, defeat and council scoring terminate campaigns
+ok 11 - expansion, scientific victory, defeat and council scoring terminate campaigns
+  ---
+  duration_ms: 0.98641
+  type: 'test'
+  ...
+# Subtest: legal play can win a shortened, content-defined campaign
+ok 12 - legal play can win a shortened, content-defined campaign
+  ---
+  duration_ms: 1.3759
+  type: 'test'
+  ...
+# Subtest: save round-trip and malformed state rejection
+ok 13 - save round-trip and malformed state rejection
+  ---
+  duration_ms: 8.749401
+  type: 'test'
+  ...
+# Subtest: text packs really control names, ships, prices, star topology and music
+ok 14 - text packs really control names, ships, prices, star topology and music
+  ---
+  duration_ms: 0.70804
+  type: 'test'
+  ...
+# Subtest: bad content is rejected: missing files, disconnected maps, prototype keys, bad ships and shapes
+ok 15 - bad content is rejected: missing files, disconnected maps, prototype keys, bad ships and shapes
+  ---
+  duration_ms: 1.767689
+  type: 'test'
+  ...
+# Subtest: small mod sector uses ExactGraph routes with the same shortest-path semantics
+ok 16 - small mod sector uses ExactGraph routes with the same shortest-path semantics
+  ---
+  duration_ms: 7.054661
+  type: 'test'
+  ...
+# Subtest: installed source hooks execute once at their declared turn and never during validation
+ok 17 - installed source hooks execute once at their declared turn and never during validation
+  ---
+  duration_ms: 7.13797
+  type: 'test'
+  ...
+# Subtest: 32 seeds × two campaigns: deterministic AI, bounded resources and complete state validation
+ok 18 - 32 seeds × two campaigns: deterministic AI, bounded resources and complete state validation
+  ---
+  duration_ms: 1158.40337
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1216.180401

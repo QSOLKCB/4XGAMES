@@ -1,0 +1,555 @@
+[
+  {
+    "at": "2026-11-11T22:26:52.398Z",
+    "command": "return await page.evaluate(()=>({pack:__voidward.pack.meta.id,turn:__voidward.state.turn,selected:__voidward.selected,ships:__voidward.state.fleets.filter(f=>f.owner===__voidward.state.player).map(f=>({id:f.id,name:f.name,system:f.system})),buttons:[...document.querySelectorAll('main button')].map(b=>({text:b.textContent.trim(),action:b.dataset.action,id:b.dataset.id})).slice(-15)}));",
+    "result": {
+      "pack": "frontier",
+      "turn": 1,
+      "selected": 12,
+      "ships": [
+        {
+          "id": 1,
+          "name": "TAS Wayfarer",
+          "system": 12
+        },
+        {
+          "id": 2,
+          "name": "TAS New Horizon",
+          "system": 12
+        },
+        {
+          "id": 3,
+          "name": "TAS Resolute",
+          "system": 12
+        }
+      ],
+      "buttons": [
+        {
+          "text": "Territory",
+          "action": "map-mode"
+        },
+        {
+          "text": "Exploration",
+          "action": "map-mode"
+        },
+        {
+          "text": "Fleet orders",
+          "action": "map-mode"
+        },
+        {
+          "text": "Talos",
+          "action": "system",
+          "id": "6"
+        },
+        {
+          "text": "Sol▴ 3",
+          "action": "system",
+          "id": "12"
+        },
+        {
+          "text": "Kepler",
+          "action": "system",
+          "id": "13"
+        },
+        {
+          "text": "Thule",
+          "action": "system",
+          "id": "18"
+        },
+        {
+          "text": "−",
+          "action": "zoom-out"
+        },
+        {
+          "text": "⌖",
+          "action": "zoom-reset"
+        },
+        {
+          "text": "+",
+          "action": "zoom-in"
+        },
+        {
+          "text": "Manage colony",
+          "action": "manage",
+          "id": "24"
+        },
+        {
+          "text": "Colonise",
+          "action": "colonize"
+        },
+        {
+          "text": "TAS WayfarerKestrel · AWAITING ORDERS",
+          "action": "select-fleet",
+          "id": "1"
+        },
+        {
+          "text": "TAS New HorizonPilgrim · AWAITING ORDERS",
+          "action": "select-fleet",
+          "id": "2"
+        },
+        {
+          "text": "TAS ResoluteHalberd · AWAITING ORDERS",
+          "action": "select-fleet",
+          "id": "3"
+        }
+      ]
+    }
+  },
+  {
+    "at": "2026-11-11T22:27:03.524Z",
+    "command": "await page.locator('header [data-action=\"settings\"]').click();await page.locator('#audio-enabled').check();await page.locator('#dialog [data-action=\"close\"]').first().click();await page.locator('[data-action=\"colonize\"]').first().click();await page.locator('[data-action=\"select-fleet\"][data-id=\"1\"]').click();await page.locator('[data-action=\"system\"][data-id=\"13\"]').click();await page.locator('[data-action=\"move\"]').click();await page.locator('[data-action=\"end\"]').click();await page.screenshot({path:out+'/guided-first-survey.png',fullPage:true});return await page.evaluate(()=>({turn:__voidward.state.turn,known:__voidward.state.empires[0].known,planets:__voidward.state.planets.filter(p=>p.system===13),dispatches:__voidward.state.log?.slice(-6),audio:__voidward.audio}));",
+    "result": {
+      "turn": 2,
+      "known": [
+        12,
+        13
+      ],
+      "planets": [
+        {
+          "id": 26,
+          "system": 13,
+          "name": "Kepler Prime",
+          "type": "desert",
+          "owner": -1,
+          "pop": 0,
+          "buildings": {
+            "mine": 0,
+            "reactor": 0,
+            "lab": 0,
+            "yard": 0,
+            "defence": 0
+          },
+          "queue": []
+        },
+        {
+          "id": 27,
+          "system": 13,
+          "name": "Kepler II",
+          "type": "ice",
+          "owner": -1,
+          "pop": 0,
+          "buildings": {
+            "mine": 0,
+            "reactor": 0,
+            "lab": 0,
+            "yard": 0,
+            "defence": 0
+          },
+          "queue": []
+        }
+      ],
+      "dispatches": [
+        {
+          "turn": 2,
+          "text": "Survey complete: Kepler.",
+          "kind": "survey"
+        },
+        {
+          "turn": 1,
+          "text": "Sol II founded. The colony ark becomes the first settlement.",
+          "kind": "colony"
+        },
+        {
+          "turn": 1,
+          "text": "The frontier is yours. Survey a neighbouring star, then send your colony ark to settle a new world.",
+          "kind": "survey"
+        }
+      ],
+      "audio": {
+        "enabled": true,
+        "context": "running",
+        "cachedNotes": 1,
+        "noteBytes": 618240,
+        "levels": {
+          "music": 0.55,
+          "effects": 0.8
+        },
+        "musicVoices": 1
+      }
+    }
+  },
+  {
+    "at": "2026-11-11T22:27:15.464Z",
+    "command": "const audio=await page.evaluate(async()=>{const samples=[];for(let i=0;i<20;i++){for(const a of __audioProbe){const x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);samples.push({rms:Math.sqrt(x.reduce((s,v)=>s+v*v,0)/x.length),peak:Math.max(...x.map(Math.abs))});}await new Promise(r=>setTimeout(r,50));}return{context:__voidward.audio,samples,note:'Measured output-connected WebAudio signal; not a human listening test or speaker verification'};});await fs.writeFile(out+'/audio-signal.json',JSON.stringify(audio,null,2));return {sampleCount:audio.samples.length,maxPeak:Math.max(...audio.samples.map(s=>s.peak)),maxRms:Math.max(...audio.samples.map(s=>s.rms))};",
+    "result": {
+      "sampleCount": 20,
+      "maxPeak": 0.04108452424407005,
+      "maxRms": 0.023486900385356453
+    }
+  },
+  {
+    "error": "locator.click: Timeout 12000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.nav [data-view=\"workshop\"]')\u001b[22m\n\n    at eval (<anonymous>:3:368)\n    at async guided-inspection-harness.mjs:17:183"
+  },
+  {
+    "at": "2026-11-11T22:27:41.865Z",
+    "command": "const source=await fs.readFile('tests/expansion-browser.mjs','utf8');const path=await import('node:path');const trace=eval('('+source.slice(source.indexOf('async function traceMap('),source.indexOf('async function check('))+')');const results=[];for(const id of ['machine-dawn','grand-frontier']){await page.locator('.nav [data-view=\"mods\"]').click();await page.locator('[data-action=\"campaign-prompt\"][data-pack=\"'+id+'\"]').click();await page.waitForFunction(id=>document.querySelector('#new-pack')?.value===id,id);await page.locator('[data-action=\"launch\"]').click();await page.waitForFunction(id=>__voidward.pack.meta.id===id&&!document.querySelector('#dialog').open,id);results.push(await trace(id));}await fs.writeFile(out+'/gpu-trace-summary.json',JSON.stringify(results,null,2));return results;",
+    "result": [
+      {
+        "campaign": "machine-dawn",
+        "categories": [
+          "gpu",
+          "viz",
+          "cc"
+        ],
+        "durationTargetMs": 2000,
+        "status": "CAPTURED",
+        "attribution": "Dedicated browser; explicit repeated game drawMap calls. Trace events require interpretation; no hardware conclusion is inferred.",
+        "workload": {
+          "frames": 121,
+          "elapsedMs": 2002.2999999970198,
+          "canvasWidth": 853,
+          "canvasHeight": 550
+        },
+        "file": "gpu-trace-machine-dawn.json",
+        "bytes": 6979903,
+        "truncated": false
+      },
+      {
+        "campaign": "grand-frontier",
+        "categories": [
+          "gpu",
+          "viz",
+          "cc"
+        ],
+        "durationTargetMs": 2000,
+        "status": "CAPTURED",
+        "attribution": "Dedicated browser; explicit repeated game drawMap calls. Trace events require interpretation; no hardware conclusion is inferred.",
+        "workload": {
+          "frames": 121,
+          "elapsedMs": 2009.5,
+          "canvasWidth": 853,
+          "canvasHeight": 550
+        },
+        "file": "gpu-trace-grand-frontier.json",
+        "bytes": 7082268,
+        "truncated": false
+      }
+    ]
+  },
+  {
+    "at": "2026-11-11T22:27:48.534Z",
+    "command": "const data=await page.evaluate(async()=>{const {drawMap,backdropStats,clearBackdropCache}=await import('./js/render.js'),{createEngine}=await import('./js/core.js'),s=__voidward,e=createEngine(s.pack),results=[];for(const [width,height]of[[600,420],[900,620]]){const a=document.createElement('canvas'),b=document.createElement('canvas');for(const c of[a,b]){c.style.width=width+'px';c.style.height=height+'px';document.body.append(c);}clearBackdropCache();drawMap(a,s.state,e,s.selected,null,1,'political',{cache:false});drawMap(b,s.state,e,s.selected,null);const x=a.getContext('2d').getImageData(0,0,a.width,a.height).data,y=b.getContext('2d').getImageData(0,0,b.width,b.height).data;let channels=0,max=0,sum=0;for(let i=0;i<x.length;i++){const d=Math.abs(x[i]-y[i]);if(d){channels++;sum+=d;max=Math.max(max,d);}}const reference=[],cached=[];for(let i=0;i<20;i++){let t=performance.now();drawMap(a,s.state,e,s.selected,null,1,'political',{cache:false});reference.push(performance.now()-t);t=performance.now();drawMap(b,s.state,e,s.selected,null);cached.push(performance.now()-t);}results.push({width,height,channels,maxDelta:max,sumDelta:sum,referenceMs:reference,cachedMs:cached,cache:backdropStats()});a.remove();b.remove();}return{campaign:s.pack.meta.id,results,heap:performance.memory?.usedJSHeapSize,saveBytes:new TextEncoder().encode(JSON.stringify(s.state)).length};});await fs.writeFile(out+'/render-diagnostic.json',JSON.stringify(data,null,2));return data;",
+    "result": {
+      "campaign": "grand-frontier",
+      "results": [
+        {
+          "width": 600,
+          "height": 420,
+          "channels": 10010,
+          "maxDelta": 11,
+          "sumDelta": 15686,
+          "referenceMs": [
+            0.3999999985098839,
+            0.3999999985098839,
+            0.4000000059604645,
+            0.19999999552965164,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.09999999403953552,
+            0.30000000447034836,
+            0.29999999701976776,
+            0.3999999985098839,
+            0.3999999985098839,
+            0.20000000298023224,
+            0.19999999552965164,
+            0.20000000298023224,
+            0.5,
+            0.19999999552965164,
+            0.20000000298023224,
+            0.09999999403953552,
+            0.20000000298023224,
+            0.19999999552965164
+          ],
+          "cachedMs": [
+            0.10000000149011612,
+            0,
+            0.3999999985098839,
+            0.20000000298023224,
+            0.09999999403953552,
+            0.20000000298023224,
+            0.10000000149011612,
+            0,
+            0,
+            0,
+            0.10000000149011612,
+            0,
+            0.10000000149011612,
+            0.10000000149011612,
+            0,
+            0.10000000149011612,
+            0,
+            0.10000000149011612,
+            0.10000000149011612,
+            0
+          ],
+          "cache": {
+            "entries": 1,
+            "bytes": 1008000
+          }
+        },
+        {
+          "width": 900,
+          "height": 620,
+          "channels": 10285,
+          "maxDelta": 7,
+          "sumDelta": 15326,
+          "referenceMs": [
+            0.3999999985098839,
+            0.19999999552965164,
+            0.30000000447034836,
+            0.19999999552965164,
+            0.20000000298023224,
+            0.29999999701976776,
+            0.20000000298023224,
+            0.30000000447034836,
+            0.19999999552965164,
+            0.3999999985098839,
+            0.20000000298023224,
+            0.29999999701976776,
+            0.20000000298023224,
+            0.3999999985098839,
+            0.29999999701976776,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.19999999552965164,
+            0.30000000447034836,
+            0.29999999701976776
+          ],
+          "cachedMs": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0,
+            0.10000000149011612,
+            0,
+            0,
+            0.09999999403953552,
+            0,
+            0.10000000149011612,
+            0,
+            0.10000000149011612,
+            0.10000000149011612,
+            0,
+            0,
+            0.10000000149011612,
+            0.09999999403953552,
+            0.10000000149011612,
+            0.10000000149011612,
+            0,
+            0
+          ],
+          "cache": {
+            "entries": 1,
+            "bytes": 2232000
+          }
+        }
+      ],
+      "heap": 18618344,
+      "saveBytes": 34849
+    }
+  },
+  {
+    "at": "2026-11-11T22:28:07.789Z",
+    "command": "await page.locator('[data-action=\"colonize\"]').first().click();await page.locator('.nav [data-view=\"colonies\"]').click();await page.locator('[data-action=\"manage\"]').first().click();await page.locator('[data-action=\"build\"][data-kind=\"mine\"]').click();await page.locator('[data-action=\"build\"][data-kind=\"lab\"]').click();await page.locator('#dialog [data-action=\"close\"]').first().click();await page.locator('.nav [data-view=\"research\"]').click();await page.locator('[data-action=\"research\"][data-field=\"propulsion\"]').click();await page.locator('.nav [data-view=\"fleets\"]').click();return await page.evaluate(()=>({ships:__voidward.state.fleets.filter(f=>f.owner===0).map(f=>({id:f.id,name:f.name})),orders:[...document.querySelectorAll('[data-action=\"ship-orders\"]')].map(x=>x.dataset.id),turn:__voidward.state.turn,stock:__voidward.state.empires[0].stock}));",
+    "result": {
+      "ships": [
+        {
+          "id": 1,
+          "name": "MCS Wayfarer"
+        },
+        {
+          "id": 3,
+          "name": "MCS Resolute"
+        }
+      ],
+      "orders": [
+        "3",
+        "1"
+      ],
+      "turn": 1
+    }
+  },
+  {
+    "at": "2026-11-11T22:28:17.119Z",
+    "command": "await page.locator('[data-action=\"ship-orders\"][data-id=\"1\"]').click();return await page.locator('#dialog').innerText();",
+    "result": "MCS Wayfarer\n✕\n\nAster Reach · hold. Refit requires the same hull, an owned shipyard, no hostile ships and no task-force membership. The ship stays vulnerable while work completes.\n\nHold position\nAuto-explore\nReturn to shipyard\nPatrol route\nTURNAROUND SYSTEM\nPatrol between here and target\nRefit quotations\nMCS Wayfarer\n10 attack · 42 hull · 1 lanes\n10 minerals · 1 turns · 20 work\nRefit"
+  },
+  {
+    "at": "2026-11-11T22:28:31.175Z",
+    "command": "await page.locator('[data-action=\"ship-order\"][data-order=\"explore\"]').click();await page.locator('.nav [data-view=\"galaxy\"]').click();const latencies=[];for(let i=0;i<12;i++){await page.evaluate(()=>{window.__latency=null;document.addEventListener('click',()=>{const t=performance.now();requestAnimationFrame(()=>requestAnimationFrame(()=>window.__latency=performance.now()-t));},{capture:true,once:true});});await page.locator('[data-action=\"end\"]').click();await page.waitForFunction(()=>window.__latency!==null);latencies.push(await page.evaluate(()=>window.__latency));}await page.screenshot({path:out+'/guided-grand-turn13.png',fullPage:true});const summary=await page.evaluate(()=>({campaign:__voidward.pack.meta.id,turn:__voidward.state.turn,known:__voidward.state.empires[0].known,tech:__voidward.state.empires[0].tech,colonies:__voidward.state.planets.filter(p=>p.owner===0),log:__voidward.state.log.slice(0,10),audio:__voidward.audio}));await fs.writeFile(out+'/guided-gameplay.json',JSON.stringify({summary,commandToTwoFramesMs:latencies},null,2));return{turn:summary.turn,surveyed:summary.known.length,tech:summary.tech,colonies:summary.colonies.length,log:summary.log,commandToTwoFramesMs:latencies};",
+    "result": {
+      "turn": 13,
+      "surveyed": 13,
+      "tech": {
+        "industry": 1,
+        "propulsion": 2,
+        "weapons": 1,
+        "shields": 1
+      },
+      "colonies": 2,
+      "log": [
+        {
+          "turn": 13,
+          "text": "Survey complete: Sable Reach.",
+          "kind": "survey"
+        },
+        {
+          "turn": 12,
+          "text": "Campaign event: survey-grant.",
+          "kind": "info"
+        },
+        {
+          "turn": 12,
+          "text": "Objective complete: A shared chart.",
+          "kind": "info"
+        },
+        {
+          "turn": 12,
+          "text": "Survey complete: Aven Reach.",
+          "kind": "survey"
+        },
+        {
+          "turn": 11,
+          "text": "Research complete: Warp dynamics 2. New capabilities available.",
+          "kind": "research"
+        },
+        {
+          "turn": 11,
+          "text": "Ancient archive recovered at Tern Reach: +60 research, +60 minerals.",
+          "kind": "relic"
+        },
+        {
+          "turn": 11,
+          "text": "Survey complete: Tern Reach.",
+          "kind": "survey"
+        },
+        {
+          "turn": 10,
+          "text": "Survey complete: Eidra Reach.",
+          "kind": "survey"
+        },
+        {
+          "turn": 9,
+          "text": "Survey complete: Nim Reach.",
+          "kind": "survey"
+        },
+        {
+          "turn": 8,
+          "text": "Survey complete: Cinder Reach.",
+          "kind": "survey"
+        }
+      ],
+      "commandToTwoFramesMs": [
+        34.30000000447035,
+        31.700000002980232,
+        25.799999997019768,
+        31.69999999552965,
+        31.69999999552965,
+        27.5,
+        31.600000001490116,
+        31.899999998509884,
+        29.600000001490116,
+        31.80000000447035,
+        31.600000001490116,
+        28.5
+      ]
+    }
+  },
+  {
+    "at": "2026-11-11T22:28:40.313Z",
+    "command": "await page.locator('header [data-action=\"settings\"]').click();await page.locator('#audio-enabled').uncheck();await page.locator('#dialog [data-action=\"close\"]').first().click();const result=await page.evaluate(async()=>{await new Promise(r=>setTimeout(r,250));const a=__audioProbe[0],x=new Float32Array(a.fftSize);a.getFloatTimeDomainData(x);return{audio:__voidward.audio,peak:Math.max(...x.map(Math.abs)),note:'Mute signal measurement; downstream speaker output not verified'};});await fs.writeFile(out+'/audio-muted.json',JSON.stringify(result,null,2));await page.locator('[data-action=\"objectives\"]').first().click();await page.screenshot({path:out+'/guided-objective-progress.png',fullPage:true});return{mute:result,objectives:await page.locator('#dialog').innerText()};",
+    "result": {
+      "mute": {
+        "audio": {
+          "enabled": false,
+          "context": "suspended",
+          "cachedNotes": 7,
+          "noteBytes": 4327680,
+          "levels": {
+            "music": 0.55,
+            "effects": 0.8
+          },
+          "musicVoices": 0
+        },
+        "peak": 0.01763222925364971,
+        "note": "Mute signal measurement; downstream speaker output not verified"
+      },
+      "objectives": "Campaign operations\n✕\n\nSixty-four stars and three rival visions. Build a lasting commonwealth through trade and science, or bind a wide dominion. Staged goals keep the frontier open for 100–220 turns.\n\nEarliest victory: turn 100. Council deadline: turn 220. Failure to finish a victory route before the deadline ends this expedition.\n\nA shared chart\nCOMPLETE\n\nSurvey twelve stars to establish the frontier survey service.\n\n13 / 12 · survey\n\nSix lights in the dark\nACTIVE\n\nDevelop six colony worlds before choosing your political future.\n\n2 / 6 · colonies · -\n\nRequires A shared chart\nThe concord charter\nLOCKED\n\nChoose a diplomatic future and maintain at least one trade pact.\n\n0 / 1 · trade\n\nRequires Six lights in the dark\nA durable prosperity\nLOCKED\n\nReach Industrial Systems VI to support the new commonwealth.\n\n1 / 6 · research · industry\n\nRequires The concord charter\nThe Long Concord\nLOCKED · VICTORY ROUTE\n\nHold your commonwealth together until turn 100.\n\n13 / 100 · survive · -\n\nRequires A durable prosperity\nThe dominion charter\nLOCKED\n\nChoose territorial ascendancy and hold eighteen colony worlds.\n\n2 / 18 · colonies · -\n\nRequires Six lights in the dark\nAn enduring deterrent\nLOCKED\n\nReach Directed Energy VI to protect the dominion.\n\n1 / 6 · research · weapons\n\nRequires The dominion charter\nA hundred-year mandate\nLOCKED · VICTORY ROUTE\n\nKeep the dominion intact until turn 100.\n\n13 / 100 · survive · -\n\nRequires An enduring deterrent"
+    }
+  },
+  {
+    "at": "2026-11-11T22:29:00.404Z",
+    "command": "await page.locator('#dialog [data-action=\"close\"]').first().click();const data=await page.evaluate(async()=>{const {drawMap,clearBackdropCache}=await import('./js/render.js'),{createEngine}=await import('./js/core.js'),s=__voidward,e=createEngine(s.pack),results=[];for(const software of[false,true]){const original=document.createElement.bind(document);if(software)document.createElement=(...args)=>{const c=original(...args);if(args[0]==='canvas')c.getContext('2d',{willReadFrequently:true});return c;};try{const a=document.createElement('canvas'),b=document.createElement('canvas');for(const c of[a,b]){c.style.width='600px';c.style.height='420px';document.body.append(c);}clearBackdropCache();for(let trial=0;trial<3;trial++){drawMap(a,s.state,e,s.selected,null,1,'political',{cache:false});drawMap(b,s.state,e,s.selected,null);const x=a.getContext('2d').getImageData(0,0,a.width,a.height).data,y=b.getContext('2d').getImageData(0,0,b.width,b.height).data;let diff=0,max=0;for(let i=0;i<x.length;i++){const d=Math.abs(x[i]-y[i]);if(d){diff++;max=Math.max(max,d);}}results.push({software,trial,diff,max});}a.remove();b.remove();}finally{document.createElement=original;}}return results;});await fs.writeFile(out+'/raster-path-diagnostic.json',JSON.stringify(data,null,2));return data;",
+    "result": [
+      {
+        "software": false,
+        "trial": 0,
+        "diff": 10004,
+        "max": 11
+      },
+      {
+        "software": false,
+        "trial": 1,
+        "diff": 10004,
+        "max": 11
+      },
+      {
+        "software": false,
+        "trial": 2,
+        "diff": 398866,
+        "max": 22
+      },
+      {
+        "software": true,
+        "trial": 0,
+        "diff": 0,
+        "max": 0
+      },
+      {
+        "software": true,
+        "trial": 1,
+        "diff": 0,
+        "max": 0
+      },
+      {
+        "software": true,
+        "trial": 2,
+        "diff": 0,
+        "max": 0
+      }
+    ]
+  },
+  {
+    "at": "2026-11-11T22:29:10.866Z",
+    "command": "await page.locator('.nav [data-view=\"mods\"]').click();await page.locator('[data-action=\"campaign-prompt\"][data-pack=\"machine-dawn\"]').click();await page.waitForFunction(()=>document.querySelector('#new-pack')?.value==='machine-dawn');await page.locator('[data-action=\"launch\"]').click();await page.waitForFunction(()=>__voidward.pack.meta.id==='machine-dawn'&&!document.querySelector('#dialog').open);const samples=[];for(let i=0;i<8;i++){await page.evaluate(()=>{window.__latency=null;document.addEventListener('click',()=>{const t=performance.now();requestAnimationFrame(()=>requestAnimationFrame(()=>window.__latency=performance.now()-t));},{capture:true,once:true});});await page.locator('[data-action=\"end\"]').click();await page.waitForFunction(()=>window.__latency!==null);samples.push(await page.evaluate(()=>window.__latency));}const stats=await page.evaluate(()=>({turn:__voidward.state.turn,heap:performance.memory?.usedJSHeapSize,saveBytes:new TextEncoder().encode(JSON.stringify(__voidward.state)).length}));await fs.writeFile(out+'/small-performance.json',JSON.stringify({campaign:'machine-dawn',stats,commandToTwoFramesMs:samples},null,2));return{stats,samples};",
+    "result": {
+      "stats": {
+        "turn": 9,
+        "heap": 10515593,
+        "saveBytes": 17304
+      },
+      "samples": [
+        27.399999998509884,
+        31.899999998509884,
+        31.899999998509884,
+        31.799999997019768,
+        26.600000001490116,
+        31.899999998509884,
+        31.600000001490116,
+        30.400000005960464
+      ]
+    }
+  },
+  {
+    "at": "2026-11-11T22:29:18.456Z",
+    "commandSummary": "Read browser/GPU capability diagnostics; detailed original command retained locally.",
+    "result": {
+      "browser": "156",
+      "gpu": {
+        "rendererPath": "NVIDIA via ANGLE/OpenGL",
+        "canvas2d": "enabled",
+        "gpuCompositing": "enabled",
+        "detailPolicy": "Detailed device, driver, process and launch metadata retained only in local originals. Hardware participation is supported by the separately summarized workload trace; exclusive GPU execution and utilization are not established."
+      }
+    }
+  }
+]

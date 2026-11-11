@@ -1,0 +1,38 @@
+[
+  {
+    "software": false,
+    "trial": 0,
+    "diff": 10004,
+    "max": 11
+  },
+  {
+    "software": false,
+    "trial": 1,
+    "diff": 10004,
+    "max": 11
+  },
+  {
+    "software": false,
+    "trial": 2,
+    "diff": 398866,
+    "max": 22
+  },
+  {
+    "software": true,
+    "trial": 0,
+    "diff": 0,
+    "max": 0
+  },
+  {
+    "software": true,
+    "trial": 1,
+    "diff": 0,
+    "max": 0
+  },
+  {
+    "software": true,
+    "trial": 2,
+    "diff": 0,
+    "max": 0
+  }
+]

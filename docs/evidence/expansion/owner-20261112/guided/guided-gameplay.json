@@ -1,0 +1,142 @@
+{
+  "summary": {
+    "campaign": "grand-frontier",
+    "turn": 13,
+    "known": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "tech": {
+      "industry": 1,
+      "propulsion": 2,
+      "weapons": 1,
+      "shields": 1
+    },
+    "colonies": [
+      {
+        "id": 0,
+        "system": 0,
+        "name": "Aster Reach Prime",
+        "type": "terran",
+        "owner": 0,
+        "pop": 100,
+        "buildings": {
+          "mine": 2,
+          "reactor": 1,
+          "lab": 2,
+          "yard": 1,
+          "defence": 1,
+          "habitat": 0,
+          "observatory": 0
+        },
+        "queue": []
+      },
+      {
+        "id": 1,
+        "system": 0,
+        "name": "Aster Reach Secundus",
+        "type": "desert",
+        "owner": 0,
+        "pop": 32,
+        "buildings": {
+          "mine": 1,
+          "reactor": 0,
+          "lab": 0,
+          "yard": 0,
+          "defence": 0,
+          "habitat": 0,
+          "observatory": 0
+        },
+        "queue": []
+      }
+    ],
+    "log": [
+      {
+        "turn": 13,
+        "text": "Survey complete: Sable Reach.",
+        "kind": "survey"
+      },
+      {
+        "turn": 12,
+        "text": "Campaign event: survey-grant.",
+        "kind": "info"
+      },
+      {
+        "turn": 12,
+        "text": "Objective complete: A shared chart.",
+        "kind": "info"
+      },
+      {
+        "turn": 12,
+        "text": "Survey complete: Aven Reach.",
+        "kind": "survey"
+      },
+      {
+        "turn": 11,
+        "text": "Research complete: Warp dynamics 2. New capabilities available.",
+        "kind": "research"
+      },
+      {
+        "turn": 11,
+        "text": "Ancient archive recovered at Tern Reach: +60 research, +60 minerals.",
+        "kind": "relic"
+      },
+      {
+        "turn": 11,
+        "text": "Survey complete: Tern Reach.",
+        "kind": "survey"
+      },
+      {
+        "turn": 10,
+        "text": "Survey complete: Eidra Reach.",
+        "kind": "survey"
+      },
+      {
+        "turn": 9,
+        "text": "Survey complete: Nim Reach.",
+        "kind": "survey"
+      },
+      {
+        "turn": 8,
+        "text": "Survey complete: Cinder Reach.",
+        "kind": "survey"
+      }
+    ],
+    "audio": {
+      "enabled": true,
+      "context": "running",
+      "cachedNotes": 7,
+      "noteBytes": 4327680,
+      "levels": {
+        "music": 0.55,
+        "effects": 0.8
+      },
+      "musicVoices": 1
+    }
+  },
+  "commandToTwoFramesMs": [
+    34.30000000447035,
+    31.700000002980232,
+    25.799999997019768,
+    31.69999999552965,
+    31.69999999552965,
+    27.5,
+    31.600000001490116,
+    31.899999998509884,
+    29.600000001490116,
+    31.80000000447035,
+    31.600000001490116,
+    28.5
+  ]
+}

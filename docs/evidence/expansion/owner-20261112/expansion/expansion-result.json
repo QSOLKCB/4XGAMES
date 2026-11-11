@@ -1,0 +1,135 @@
+{
+  "status": "FAIL",
+  "ownerMode": true,
+  "headless": false,
+  "checks": {
+    "all-campaign-empires": {
+      "status": "PASS",
+      "elapsedMs": 5684
+    },
+    "player-orders": {
+      "status": "PASS",
+      "elapsedMs": 367
+    },
+    "group-orders": {
+      "status": "PASS",
+      "elapsedMs": 519
+    },
+    "ship-refit-construction": {
+      "status": "PASS",
+      "elapsedMs": 652
+    },
+    "diplomacy-combat": {
+      "status": "PASS",
+      "elapsedMs": 728
+    },
+    "creator-roundtrip": {
+      "status": "PASS",
+      "elapsedMs": 1193
+    },
+    "legacy-save-migration": {
+      "status": "PASS",
+      "elapsedMs": 349
+    },
+    "campaign-progress": {
+      "status": "PASS",
+      "elapsedMs": 274
+    },
+    "large-list-filtering": {
+      "status": "PASS",
+      "elapsedMs": 569
+    },
+    "audio-preferences": {
+      "status": "PASS",
+      "elapsedMs": 474
+    },
+    "keyboard-responsive-touch": {
+      "status": "PASS",
+      "elapsedMs": 1187
+    },
+    "offline": {
+      "status": "PASS",
+      "elapsedMs": 225
+    },
+    "render-parity-performance": {
+      "status": "FAIL",
+      "error": "page.evaluate: Error: Map cached/reference RGBA mismatch\n    at eval (eval at evaluate (:370:30), <anonymous>:4:538)\n    at async <anonymous>:396:30"
+    }
+  },
+  "started": "2026-11-11T22:24:35.677Z",
+  "environment": {
+    "node": "v22",
+    "platform": "linux",
+    "arch": "x64",
+    "browser": "156"
+  },
+  "coverage": {
+    "touch": "emulated",
+    "manualGameplay": "NOT_EXECUTED by this script",
+    "listening": "NOT_EXECUTED by this script",
+    "hardwareAcceleration": "SOFTWARE_RENDERER_DETECTED; game acceleration unverified"
+  },
+  "gpu": {
+    "rendererPath": "NVIDIA via ANGLE/OpenGL",
+    "canvas2d": "enabled",
+    "gpuCompositing": "enabled",
+    "detailPolicy": "Detailed device, driver, process and launch metadata retained only in local originals. Hardware participation is supported by the separately summarized workload trace; exclusive GPU execution and utilization are not established."
+  },
+  "webgl": {
+    "available": true,
+    "renderer": "NVIDIA via ANGLE/OpenGL"
+  },
+  "campaigns": [
+    {
+      "campaign": "frontier",
+      "player": 0,
+      "turn": 2
+    },
+    {
+      "campaign": "machine-dawn",
+      "player": 0,
+      "turn": 2
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "turn": 2
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 1,
+      "turn": 2
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 2,
+      "turn": 2
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "turn": 2
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 1,
+      "turn": 2
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 2,
+      "turn": 2
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "turn": 2
+    }
+  ],
+  "performance": [],
+  "error": "page.evaluate: Error: Map cached/reference RGBA mismatch\n    at eval (eval at evaluate (:370:30), <anonymous>:4:538)\n    at async <anonymous>:396:30\n    at tests/expansion-browser.mjs:170:37\n    at async check (tests/expansion-browser.mjs:71:99)\n    at async tests/expansion-browser.mjs:167:3",
+  "pageErrors": [],
+  "httpFailures": [],
+  "externalRequests": [],
+  "finished": "2026-11-11T22:24:49.463Z"
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "campaign": "machine-dawn",
+    "categories": [
+      "gpu",
+      "viz",
+      "cc"
+    ],
+    "durationTargetMs": 2000,
+    "status": "CAPTURED",
+    "attribution": "Dedicated browser; explicit repeated game drawMap calls. Trace events require interpretation; no hardware conclusion is inferred.",
+    "workload": {
+      "frames": 121,
+      "elapsedMs": 2002.2999999970198,
+      "canvasWidth": 853,
+      "canvasHeight": 550
+    },
+    "file": "gpu-trace-machine-dawn.json",
+    "bytes": 6979903,
+    "truncated": false
+  },
+  {
+    "campaign": "grand-frontier",
+    "categories": [
+      "gpu",
+      "viz",
+      "cc"
+    ],
+    "durationTargetMs": 2000,
+    "status": "CAPTURED",
+    "attribution": "Dedicated browser; explicit repeated game drawMap calls. Trace events require interpretation; no hardware conclusion is inferred.",
+    "workload": {
+      "frames": 121,
+      "elapsedMs": 2009.5,
+      "canvasWidth": 853,
+      "canvasHeight": 550
+    },
+    "file": "gpu-trace-grand-frontier.json",
+    "bytes": 7082268,
+    "truncated": false
+  }
+]

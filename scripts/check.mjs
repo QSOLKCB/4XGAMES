@@ -14,7 +14,7 @@ for (const file of manifest.files) {
   if (digest !== file.sha256) throw new Error(`Vendored source changed: ${file.local}`);
 }
 for (const campaign of campaigns) {
-  const raw = Object.fromEntries(await Promise.all(PACK_FILES.map(async name => [name + '.txt', await fs.readFile(new URL(name + '.txt', campaign.base), 'utf8')])));
+  const raw = Object.fromEntries(await Promise.all([...PACK_FILES, ...(campaign.files || [])].map(async name => [name + '.txt', await fs.readFile(new URL(name + '.txt', campaign.base), 'utf8')])));
   const pack = parsePack(raw); if (pack.meta.id !== campaign.id) throw new Error('Registry/pack identity mismatch');
   const engine = createEngine(pack, campaign.hooks); engine.validateState(engine.createGame());
 }

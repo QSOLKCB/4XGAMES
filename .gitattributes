@@ -1,0 +1,2 @@
+# Preserve upstream bytes, including intentional Markdown breaks and licence text.
+vendor/** -whitespace -text

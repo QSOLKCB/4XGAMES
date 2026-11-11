@@ -1,0 +1,20 @@
+VOIDWARD / 4XGAMES
+Copyright 2026 Trent Slade / QSOL-IMC and contributors.
+Original game code is licensed under Apache-2.0.
+
+Inspired by the genre and play structure of Space Empires IV. This is an
+independent game, not a port, official sequel or affiliated product. No Space
+Empires source, artwork, music, maps or text is included.
+
+Pinned QSOLKCB sources and SHA-256 hashes: vendor/PROVENANCE.json.
+VANILLAJS, ARCADE, OFFLINE-GAMES: Apache-2.0, original notices retained.
+GAMES shared input: MIT with Apache-2.0 VANILLAJS adaptation attribution;
+see vendor/games/LICENSE and vendor/games/shared/NOTICE.md.
+SONIFICATION browser laboratory, GLUBALL core and GALAXY core: MPL-2.0.
+GALAXY's UFF helper/data retain their Apache-2.0 and data notices.
+OPT: source record and repository licence retained under vendor/opt/.
+
+Vendored files are unmodified, file-level licensed, and shipped as source.
+Their licenses do not relicense the other files of this larger work.
+No scientific validation, physical interpretation, or formal proof of VOIDWARD
+is claimed through the use of upstream mathematical and visual modules.

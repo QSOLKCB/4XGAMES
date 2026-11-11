@@ -1,0 +1,243 @@
+{
+  "schema": "voidward-vendor-v1",
+  "files": [
+    {
+      "repository": "QSOLKCB/SONIFICATION",
+      "commit": "2ca65c6540d7051a77ed571b83f5a9df453094ec",
+      "source": "APP/js/namespace.js",
+      "local": "vendor/sonification/APP/js/namespace.js",
+      "sha256": "803dabfe27d3feec1e99dd2eb5972b60d246a580c8c6d626acca9c07ab714ddb"
+    },
+    {
+      "repository": "QSOLKCB/SONIFICATION",
+      "commit": "2ca65c6540d7051a77ed571b83f5a9df453094ec",
+      "source": "APP/js/math64.js",
+      "local": "vendor/sonification/APP/js/math64.js",
+      "sha256": "f99f0b943394f14fc865b327173ed5f448db85cd851f8cd3f1a3da007134dc40"
+    },
+    {
+      "repository": "QSOLKCB/SONIFICATION",
+      "commit": "2ca65c6540d7051a77ed571b83f5a9df453094ec",
+      "source": "APP/js/synthesis.js",
+      "local": "vendor/sonification/APP/js/synthesis.js",
+      "sha256": "5d008ffa3f18717c46cd2317060589a49fc96e9cd19d7a7e8919831178950f13"
+    },
+    {
+      "repository": "QSOLKCB/SONIFICATION",
+      "commit": "2ca65c6540d7051a77ed571b83f5a9df453094ec",
+      "source": "LICENSE",
+      "local": "vendor/sonification/LICENSE",
+      "sha256": "32ee9dbf6196874fc9d406c54a888a6c4cbb9aa4a7f35b46befeaff43a78fe85"
+    },
+    {
+      "repository": "QSOLKCB/SONIFICATION",
+      "commit": "2ca65c6540d7051a77ed571b83f5a9df453094ec",
+      "source": "NOTICE",
+      "local": "vendor/sonification/NOTICE",
+      "sha256": "a0868be95f49e17c4538022a95c3331eb42ef89cf493005b66159d1b182e7bcc"
+    },
+    {
+      "repository": "QSOLKCB/ARCADE",
+      "commit": "f29b780734a50171d55ae2f770930db8a487b31c",
+      "source": "js/audio.js",
+      "local": "vendor/arcade/js/audio.js",
+      "sha256": "2cc4dbf8d8358eff4d64ba2d283c4c3bd3d8e03a1d0738ec69bc1629b82da1d5"
+    },
+    {
+      "repository": "QSOLKCB/ARCADE",
+      "commit": "f29b780734a50171d55ae2f770930db8a487b31c",
+      "source": "LICENSE",
+      "local": "vendor/arcade/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "QSOLKCB/ARCADE",
+      "commit": "f29b780734a50171d55ae2f770930db8a487b31c",
+      "source": "NOTICE",
+      "local": "vendor/arcade/NOTICE",
+      "sha256": "f6c326ee5c1f790099fefbc730f771bf571c7f56f755498aeb67915900027400"
+    },
+    {
+      "repository": "QSOLKCB/GAMES",
+      "commit": "7e0a9019d07b491cffc9b698fa51acdb843c49cc",
+      "source": "shared/qsol-input.js",
+      "local": "vendor/games/shared/qsol-input.js",
+      "sha256": "aafd16b43dec818da8aa5e848a742e08cc94e0a82d0f4829eb42438864129cbb"
+    },
+    {
+      "repository": "QSOLKCB/GAMES",
+      "commit": "7e0a9019d07b491cffc9b698fa51acdb843c49cc",
+      "source": "shared/NOTICE.md",
+      "local": "vendor/games/shared/NOTICE.md",
+      "sha256": "36ceb2c7e605248b2550f4201dcdccd2cf550f88de9bd2f0790331e9d475ba91"
+    },
+    {
+      "repository": "QSOLKCB/GAMES",
+      "commit": "7e0a9019d07b491cffc9b698fa51acdb843c49cc",
+      "source": "LICENSE",
+      "local": "vendor/games/LICENSE",
+      "sha256": "848bce75fc595f347fc64d1c59c25c18e64b15e12743edbddf9dcbd3b5dc077c"
+    },
+    {
+      "repository": "QSOLKCB/OFFLINE-GAMES",
+      "commit": "2ccc87108316327ff19b622d62952114d555aee7",
+      "source": "shared/surface-detail.js",
+      "local": "vendor/offline-games/shared/surface-detail.js",
+      "sha256": "9d35906b7a4b78bae21ccbb5d1d3d52eb18ac5ac81a3e44221ef26d41e8a8a70"
+    },
+    {
+      "repository": "QSOLKCB/OFFLINE-GAMES",
+      "commit": "2ccc87108316327ff19b622d62952114d555aee7",
+      "source": "LICENSE",
+      "local": "vendor/offline-games/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "QSOLKCB/OFFLINE-GAMES",
+      "commit": "2ccc87108316327ff19b622d62952114d555aee7",
+      "source": "NOTICE",
+      "local": "vendor/offline-games/NOTICE",
+      "sha256": "7f250e9ec867345f08c68dd47bf7f997bd1d49e09e1d1701297f9dfbe75b1de8"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "galaxy-core.js",
+      "local": "vendor/galaxy/galaxy-core.js",
+      "sha256": "217739552ff631710481cfa7270df91108c3b41413ca5be66e7e7223d070649e"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "uff-physics.js",
+      "local": "vendor/galaxy/uff-physics.js",
+      "sha256": "ef4490f65fc3a0822ba6f68a720916de2ec13ccabc3e815c5dfe8e6ad7d4565a"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "data/uff-demo.js",
+      "local": "vendor/galaxy/data/uff-demo.js",
+      "sha256": "3635e6574ab5f7f175109220f7f1b04cd77f2518f4bbbb6ad9a9c57b16b63f6d"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "data/uff/NOTICE",
+      "local": "vendor/galaxy/data/uff/NOTICE",
+      "sha256": "7b6d4173f0739742dbb61b4dd274e631491dedc4a8d4bc18acea2b875992a440"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "data/uff/provenance.json",
+      "local": "vendor/galaxy/data/uff/provenance.json",
+      "sha256": "6e0512806d578c655a6665e91494fb3d8903cfd9288ee3e595056df0f40c39bc"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "LICENSE",
+      "local": "vendor/galaxy/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "LICENSES/MPL-2.0.txt",
+      "local": "vendor/galaxy/LICENSES/MPL-2.0.txt",
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "repository": "QSOLKCB/GALAXY",
+      "commit": "f219bb427b3a9b0c93900169d903f48f410ae67a",
+      "source": "NOTICE.md",
+      "local": "vendor/galaxy/NOTICE.md",
+      "sha256": "bbaa05d2856a6e8d1bb8083330aa3b60ece514a1221e947b5e72d97f7191c4c9"
+    },
+    {
+      "repository": "QSOLKCB/GLUBALL",
+      "commit": "d25da2a1ade877e2fe048fd4dabf019728cb25e7",
+      "source": "gluball-core.js",
+      "local": "vendor/gluball/gluball-core.js",
+      "sha256": "74c296f7847da97f88c922a44d3a5ceab403fe0bdfcf05eeb76df77b2a8258a9"
+    },
+    {
+      "repository": "QSOLKCB/GLUBALL",
+      "commit": "d25da2a1ade877e2fe048fd4dabf019728cb25e7",
+      "source": "LICENSE",
+      "local": "vendor/gluball/LICENSE",
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "repository": "QSOLKCB/OPT",
+      "commit": "7556dd36acd53ed3ed538fd03b1db44e5c1ec869",
+      "source": "optimizations/OPT-INV-001-invariant-driven-reuse.md",
+      "local": "vendor/opt/optimizations/OPT-INV-001-invariant-driven-reuse.md",
+      "sha256": "34ca6dc977e0f15e31f534a9183a33597782cde7a4008bf9012a8667e8ec7efc"
+    },
+    {
+      "repository": "QSOLKCB/OPT",
+      "commit": "7556dd36acd53ed3ed538fd03b1db44e5c1ec869",
+      "source": "LICENSE",
+      "local": "vendor/opt/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "modules/integer-math/index.js",
+      "local": "vendor/vanillajs/modules/integer-math/index.js",
+      "sha256": "4c0bb66780bf9e810efb1963c0238d9356814abf79c959dcd1734164de57905f"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "modules/math/index.js",
+      "local": "vendor/vanillajs/modules/math/index.js",
+      "sha256": "4f4ebf0786b97342c11004b8830a535890b16693458a0436edb1fc581a411da7"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "modules/audio2d/index.js",
+      "local": "vendor/vanillajs/modules/audio2d/index.js",
+      "sha256": "07e19391b84034acba56ef840a4d622b70e815f5376de123b6a07a9ccebf3098"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "modules/exact-rational/index.js",
+      "local": "vendor/vanillajs/modules/exact-rational/index.js",
+      "sha256": "dbc7e08ee27e824c874b339074804a0d103906fb91b2f2c3b3ad806cf05e0f48"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "modules/exact-graph/index.js",
+      "local": "vendor/vanillajs/modules/exact-graph/index.js",
+      "sha256": "cdfb0e74a330e62ea1312ff042b570856707bfac2c491e3e3125647b2867aa10"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "docs/4X_GAME_LAB.md",
+      "local": "vendor/vanillajs/docs/4X_GAME_LAB.md",
+      "sha256": "9d1cd7596c4cd129bb515fd44f91acf64f4c9ee22047aa5dad8700947c317044"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "LICENSE",
+      "local": "vendor/vanillajs/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "source": "NOTICE",
+      "local": "vendor/vanillajs/NOTICE",
+      "sha256": "926a5ca59c5a886696f863d500ae64c1dca5babf3fcd15e197def21e70e65a85"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "voidward",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An offline-first, buildless space 4X powered by QSOL projects.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "browser": "node tests/browser.mjs"
+  }
+}

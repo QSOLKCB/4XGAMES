@@ -134,12 +134,19 @@ try {
   await context.setOffline(true); await page.reload(); await page.waitForFunction(() => __voidward?.pack.meta.id === 'machine-dawn');
   await page.getByRole('button', { name: 'End turn', exact: false }).click(); assert.equal((await snapshot()).state.turn, 2);
   await context.setOffline(false);
+  // Keyboard navigation works, while typing and open dialogs suppress turn shortcuts.
+  await page.locator('main').focus(); await page.keyboard.press('4'); assert.equal((await snapshot()).view, 'research');
+  await page.locator('main').focus(); await page.keyboard.press('e'); assert.equal((await snapshot()).state.turn, 3);
+  await nav('Ship designer').click(); await page.locator('#design-name').fill('Keyboard class'); await page.locator('#design-name').press('e');
+  assert.equal((await snapshot()).state.turn, 3);
+  await page.locator('main').focus(); await page.keyboard.press('?'); await page.keyboard.press('e'); assert.equal((await snapshot()).state.turn, 3);
+  await page.getByRole('button', { name: 'Close dialog' }).click();
   // Emulated touch is a distinct input context, without the previous campaign's storage.
   const touch = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   const phone = await touch.newPage(); phone.on('pageerror', e => errors.push(e.message)); await phone.goto(url); await phone.waitForFunction(() => __voidward?.state);
   await phone.getByRole('button', { name: /TAS Wayfarer/ }).tap(); await phone.getByRole('button', { name: 'Kepler · unsurveyed', exact: true }).tap(); await phone.getByRole('button', { name: 'Plot course →', exact: true }).tap(); await phone.getByRole('button', { name: 'End turn', exact: false }).tap(); assert.equal(await phone.evaluate(() => __voidward.state.turn), 2);
   await touch.close(); assert.deepEqual(errors, []); assert.deepEqual(failed, []);
-  await fs.writeFile(path.join(out, 'browser-result.json'), JSON.stringify({ result: 'PASS', browser: browser.version(), desktop: '1440x1000', responsive: [390, 320], touch: 'emulated', externalRequests: 0, pageErrors: errors, httpFailures: failed, checks: ['movement', 'colonisation', 'construction/cancel', 'research', 'ship-design', 'all-views', 'web-audio', 'save-roundtrip', 'rejected-save', 'reload', 'texture-parity', 'directory-mod', 'mod-victory', 'source-campaign', 'responsive', 'offline', 'touch'] }, null, 2));
+  await fs.writeFile(path.join(out, 'browser-result.json'), JSON.stringify({ result: 'PASS', browser: browser.version(), desktop: '1440x1000', responsive: [390, 320], touch: 'emulated', externalRequests: 0, pageErrors: errors, httpFailures: failed, checks: ['movement', 'colonisation', 'construction/cancel', 'research', 'ship-design', 'all-views', 'web-audio', 'save-roundtrip', 'rejected-save', 'reload', 'texture-parity', 'directory-mod', 'mod-victory', 'source-campaign', 'responsive', 'offline', 'keyboard', 'touch'] }, null, 2));
   console.log('PASS: packaged Chromium, gameplay, ship designer, text mods, save isolation, audio, responsive layouts, touch, offline and exact texture parity.');
 } catch (error) {
   if (page) await page.screenshot({ path: path.join(out, 'failure.png'), fullPage: true }).catch(() => {});

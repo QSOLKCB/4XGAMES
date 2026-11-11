@@ -31,12 +31,43 @@ outside the sandbox was rejected because this environment disables sandbox
 approval. The shared Chrome surface could not load the local preview either.
 These attempts did not execute the game UI and are not browser PASS evidence.
 
-`tests/browser.mjs` is the packaged Chromium integration gate in hosted CI. It
-covers the actual controls, module loading, navigation, construction, design,
-research, saves, rejected imports, text-folder imports, legal mod victory,
-source-campaign selection, Web Audio, 320/390px layouts, emulated touch, offline
-reload and pixel parity. It emits screenshots, JSON results and raw texture-reuse
-timings. Those checks must pass on the PR before treating it as browser-verified.
+## Hosted Chromium — passed
+
+GitHub Actions run [43104269976](https://github.com/QSOLKCB/4XGAMES/actions/runs/43104269976)
+passed on source head `4117607e850d15263c836f3a483e085f334b4853`, using
+Playwright 1.62.1 with system Chromium **156.0.8078.0**, Ubuntu 24.04 and Node 24.
+The PR checkout was GitHub's generated merge commit
+`890358f35cd7012178e7cb62711e97f56fcb4d19`.
+
+`tests/browser.mjs` served the staged public package under `/4XGAMES/`, then
+exercised actual controls for movement, colonisation, construction/cancel,
+research, ship design, all command views, Web Audio, save roundtrip and rejected
+save admission, reload, editable directory-mod import, legal mod victory,
+registered-source campaign selection, narrow layouts, offline play and emulated
+touch. Result: **17 checks passed**, zero page errors, zero HTTP failures and
+zero external runtime requests. The 1440×1000 desktop and 390/320px screenshots
+were inspected. A follow-up adds keyboard/form/dialog checks; consult the latest
+PR run for that result.
+
+Artifact `13893860111` (14-day retention) contains the screenshots,
+`browser-result.json`, imported campaign fixture and `texture-reuse.json`.
+ZIP SHA-256: `42a12f516c0ecd7b5b730c169f242cbf1d26f5e993fe69b451106b6b9a9f613a`.
+The two JSON receipts are retained in `docs/evidence/` for durable inspection.
+
+All RGBA bytes matched for ocean/gas/ice textures. Five trials of 12 redraws
+recorded reference regeneration at 150.0–157.8 ms and cached copying at
+0.1–0.3 ms. These are scoped warm-reuse observations at browser timer resolution,
+not a cold-render or whole-game speedup claim; see `OPT_CONTRACT.md`.
+
+### Preserved first failure
+
+Run [43103419241](https://github.com/QSOLKCB/4XGAMES/actions/runs/43103419241)
+reached custom-mod victory and then failed because the test's unscoped
+“Campaign workshop” button locator matched both the navigation and designer
+shortcut. The test now scopes navigation to its nav element. Artifact
+`13891594352` retains the earlier screenshots/timing evidence; ZIP SHA-256:
+`61cdcbb38c30ef43bb67e6d44c11558a91782bb4517fb91fff741ca73db7975f`.
+That run is not a browser PASS.
 
 No physical mobile, GPU, cross-browser audio-byte, universal speedup or formal
 proof claim is made. Performance observations require the renderer/runtime and

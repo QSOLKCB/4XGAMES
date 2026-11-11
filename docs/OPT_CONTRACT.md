@@ -18,7 +18,8 @@ time, derivative-free, cheap bounded evaluation, exact semantics, sequential.
 `paintPlanet` chooses only the three validated palettes and copies cached pixels
 to a fresh target canvas. The cached source never escapes. Reference generation
 remains available in the unmodified donor. Native Canvas parity was executed;
-Chromium parity/timings are part of the browser gate. If the lighting, resolution,
+Chromium parity/timings passed in hosted run 43104269976; raw receipts live in
+`docs/evidence/texture-reuse.json` and execution details in `VALIDATION.md`. If the lighting, resolution,
 palette semantics or donor changes, update the cache identity and rerun parity.
 On parity failure, revert to reference generation before claiming reusable output.
 

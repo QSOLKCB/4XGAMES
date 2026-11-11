@@ -14,7 +14,7 @@ account, paid SDK, binary database or runtime build service.
    saves an individual edited file. **Validate & start** starts the edited pack;
    **Export campaign pack** exports all files in a portable JSON envelope.
    Reopen that envelope with **Edit text files → Open portable pack**.
-5. To ship a pack with the game, add its ID, title, local directory URL and hooks
+5. To ship a pack with the game, add its ID, title, description, local directory URL and hooks
    to `mods/registry.js`. Run the offline inventory command below.
 
 All tables use **one record per line**, with `|` between fields. Blank lines and
@@ -151,6 +151,7 @@ Add a local module to your pack and statically import it in `mods/registry.js`:
 import myHooks from './my-campaign/hooks.js';
 // Add to campaigns:
 { id: 'my-campaign', title: 'My campaign',
+  description: 'Rebuild a lost observatory network.',
   base: new URL('./my-campaign/', import.meta.url), hooks: myHooks }
 ```
 

@@ -1,0 +1,38 @@
+{
+  "result": "PASS",
+  "browser": "156.0.8078.0",
+  "desktop": "1440x1000",
+  "responsive": [
+    390,
+    320
+  ],
+  "touch": "emulated",
+  "externalRequests": 0,
+  "pageErrors": [],
+  "httpFailures": [],
+  "checks": [
+    "movement",
+    "colonisation",
+    "construction/cancel",
+    "research",
+    "ship-design",
+    "all-views",
+    "web-audio",
+    "save-roundtrip",
+    "rejected-save",
+    "reload",
+    "texture-parity",
+    "directory-mod",
+    "mod-victory",
+    "source-campaign",
+    "responsive",
+    "offline",
+    "touch"
+  ],
+  "evidenceSource": {
+    "sourceHead": "4117607e850d15263c836f3a483e085f334b4853",
+    "testedMerge": "890358f35cd7012178e7cb62711e97f56fcb4d19",
+    "run": 43104269976,
+    "artifact": 13893860111
+  }
+}

@@ -6,7 +6,6 @@ import path from 'node:path';
 import http from 'node:http';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
 const require = createRequire(import.meta.url);
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const root = path.resolve(import.meta.dirname, '..'), stage = path.join(root, '_site'), out = path.join(root, 'test-results');
@@ -23,16 +22,17 @@ const server = http.createServer(async (req, res) => {
 });
 await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const url = `http://127.0.0.1:${server.address().port}/4XGAMES/`;
-let browser;
+let browser, page;
 const errors = [], failed = [];
 try {
   const executablePath = process.env.BROWSER_EXECUTABLE || (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined);
   browser = await chromium.launch({ headless: true, executablePath, args: ['--no-sandbox'] });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce', acceptDownloads: true });
-  const page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
+  page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
   page.on('response', r => { if (r.status() >= 400) failed.push(r.url() + ' ' + r.status()); });
   page.on('request', r => { if (!r.url().startsWith(new URL(url).origin) && !r.url().startsWith('blob:')) errors.push('External request: ' + r.url()); });
   const snapshot = () => page.evaluate(() => globalThis.__voidward);
+  const nav = name => page.locator('.nav').getByRole('button', { name, exact: true });
   await page.goto(url); await page.waitForFunction(() => globalThis.__voidward?.state && document.querySelectorAll('.star-node').length > 0);
   assert.equal((await snapshot()).state.turn, 1);
   await page.screenshot({ path: path.join(out, 'galaxy-desktop.png'), fullPage: true });
@@ -54,17 +54,17 @@ try {
   assert.equal((await snapshot()).state.planets[24].queue.length, 0);
   await page.getByRole('button', { name: 'Close dialog' }).click();
   // Research, designer and render all command views.
-  await page.getByRole('button', { name: 'Research', exact: true }).click();
+  await nav('Research').click();
   await page.locator('[data-action="research"][data-field="weapons"]').click();
   assert.equal((await snapshot()).state.empires[0].research, 'weapons');
-  await page.getByRole('button', { name: 'Ship designer', exact: true }).click();
+  await nav('Ship designer').click();
   await page.locator('#design-name').fill('Chromium Test Frigate');
   await page.locator('#design-hull').selectOption('frigate-0');
   await page.getByRole('button', { name: 'Add Lance array 1', exact: true }).click();
   await page.getByRole('button', { name: 'Register ship class' }).click();
   assert.equal((await snapshot()).state.empires[0].designs.at(-1).name, 'Chromium Test Frigate');
   await page.screenshot({ path: path.join(out, 'ship-designer.png'), fullPage: true });
-  for (const name of ['Colonies', 'Fleets', 'Diplomacy', 'Turn reports', 'Campaign workshop']) { await page.getByRole('button', { name, exact: true }).click(); assert.ok((await page.locator('main').innerText()).length > 100); }
+  for (const name of ['Colonies', 'Fleets', 'Diplomacy', 'Turn reports', 'Campaign workshop']) { await nav(name).click(); assert.ok((await page.locator('main').innerText()).length > 100); }
   await page.screenshot({ path: path.join(out, 'campaign-workshop.png'), fullPage: true });
   // Real Web Audio graph, with a user gesture; source rendering must remain cosmetic.
   const beforeSound = JSON.stringify((await snapshot()).state);
@@ -116,18 +116,18 @@ try {
   await page.getByRole('button', { name: 'Colonise', exact: true }).click(); assert.equal((await snapshot()).state.winner, 0);
   assert.match(await page.locator('main').innerText(), /Free Worlds.*prevails/);
   // Real source campaign selection and isolation, then responsive and offline smoke.
-  await page.getByRole('button', { name: 'Campaign workshop', exact: true }).click();
+  await nav('Campaign workshop').click();
   await page.locator('[data-action="campaign-prompt"][data-pack="machine-dawn"]').click();
-  await page.locator('#new-pack').selectOption('machine-dawn'); await page.getByRole('button', { name: 'Launch expedition' }).click();
+  assert.equal(await page.locator('#new-pack').inputValue(), 'machine-dawn'); await page.getByRole('button', { name: 'Launch expedition' }).click();
   await page.waitForFunction(() => __voidward?.pack.meta.id === 'machine-dawn');
   assert.equal((await snapshot()).state.systems.length, 16); assert.match((await snapshot()).state.log[0].text, /Network reboot/);
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 });
     for (const name of ['Galaxy map', 'Colonies', 'Research', 'Ship designer', 'Campaign workshop']) {
-      await page.getByRole('button', { name, exact: true }).click();
+      await nav(name).click();
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `overflow at ${width}px / ${name}`);
     }
-    await page.getByRole('button', { name: 'Galaxy map', exact: true }).click();
+    await nav('Galaxy map').click();
     await page.screenshot({ path: path.join(out, `galaxy-${width}.png`), fullPage: true });
   }
   await page.evaluate(async () => { await navigator.serviceWorker.ready; if (!navigator.serviceWorker.controller) await new Promise(resolve => navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true })); });
@@ -141,4 +141,8 @@ try {
   await touch.close(); assert.deepEqual(errors, []); assert.deepEqual(failed, []);
   await fs.writeFile(path.join(out, 'browser-result.json'), JSON.stringify({ result: 'PASS', browser: browser.version(), desktop: '1440x1000', responsive: [390, 320], touch: 'emulated', externalRequests: 0, pageErrors: errors, httpFailures: failed, checks: ['movement', 'colonisation', 'construction/cancel', 'research', 'ship-design', 'all-views', 'web-audio', 'save-roundtrip', 'rejected-save', 'reload', 'texture-parity', 'directory-mod', 'mod-victory', 'source-campaign', 'responsive', 'offline', 'touch'] }, null, 2));
   console.log('PASS: packaged Chromium, gameplay, ship designer, text mods, save isolation, audio, responsive layouts, touch, offline and exact texture parity.');
+} catch (error) {
+  if (page) await page.screenshot({ path: path.join(out, 'failure.png'), fullPage: true }).catch(() => {});
+  await fs.writeFile(path.join(out, 'browser-failure.json'), JSON.stringify({ error: error.stack, pageErrors: errors, httpFailures: failed, url: page?.url() }, null, 2));
+  throw error;
 } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }

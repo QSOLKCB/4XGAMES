@@ -13,7 +13,7 @@ export async function inventory() {
       else if (entry.isFile() && (/\.(js|txt|json|md)$/.test(name) || /\/(LICENSE|NOTICE)$/.test(name))) files.push(name);
     }
   }
-  for (const dir of ['js', 'mods', 'vendor']) await walk(dir);
+  for (const dir of ['js', 'mods', 'vendor', 'docs']) await walk(dir);
   return files.sort();
 }
 export async function workerSource() {

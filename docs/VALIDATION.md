@@ -32,6 +32,16 @@ wait now checks `globalThis` during initialisation. The [preserved first-run
 summary](evidence/workbench/first-hosted-run.json) identifies the source, merge
 revision and verified artifact digest; it is not an all-pass receipt.
 
+The [second hosted run](https://github.com/QSOLKCB/4XGAMES/actions/runs/43129906668)
+passed the 18 baseline, 14 expansion and 12 Workbench checks at head
+`a35b488fafc70b9f070059e3e85156c9a29e8b53`. Its verified artifact ZIP digest is
+`c7f6d5b3164262ae86516ddc62d8eec4f0014404300e4e7a9df70694fdacffa2`.
+Visual inspection then found desktop viewport overflow after resizing from
+320px back to 1440px. Local CSS now bounds the desktop grid row; an additional
+browser assertion checks that the viewport and side panels stay above the footer.
+That later layout change requires its own hosted result; the earlier 12-check
+PASS does not cover it.
+
 All expansion results below describe
 their recorded historical sources, not this editor update.
 

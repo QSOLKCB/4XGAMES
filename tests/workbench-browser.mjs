@@ -83,6 +83,11 @@ export async function verifyEditor4X(browser,base){
     await context.setOffline(true);await page.reload();await page.waitForFunction(()=>globalThis.__editor4x&&!document.querySelector('#fourx-restore').disabled);
     await control('restore').click();assert.deepEqual(await files(),expected);
     await page.setViewportSize({width:1440,height:1000});
+    await page.waitForFunction(()=>{
+      const footer=document.querySelector('footer').getBoundingClientRect();
+      return ['.center','.viewport','.tree','.inspector'].every(selector=>document.querySelector(selector).getBoundingClientRect().bottom<=footer.top+1);
+    });
+    checks.push('desktop-layout-after-mobile-resize');
     await openSection('Galaxy in the 3D viewport');await control('map-scene').click();
     assert.equal(await page.locator('#count').textContent(),'30');await screenshot('editor-4x-offline.png');
     const offlinePending=context.waitForEvent('page');await control('play').click();const offlineGame=await offlinePending;

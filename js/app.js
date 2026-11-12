@@ -48,7 +48,7 @@ let newCandidate = null, mapPan = { x: 0, y: 0 }, panMode = false, mapDrag = nul
 // Undo keeps references to earlier accepted states. act() never mutates the live
 // state object (every order is applied to a structured clone), so a withdrawn
 // order simply reinstates an already validated state. Ending a turn clears it.
-let history = [], importedLiveries = null, idleColonyCursor = -1;
+let undoStack = [], importedLiveries = null, idleColonyCursor = -1;
 const HISTORY_LIMIT = 24, THEMES = ['frontier', 'obsidian', 'ember', 'nebula'], DETAILS = ['full', 'lean'];
 const ROLE_LABELS = { engine: 'DRIVE', weapon: 'ARMED', shield: 'SHIELDED', survey: 'SURVEY', colony: 'COLONY', assault: 'MARINES' };
 function captureFocus(root = $('#app')) {
@@ -225,7 +225,7 @@ async function activate(candidatePack, hooks, source, saved = null, seed = 2401,
   pack = candidatePack; engine = candidateEngine; state = candidateState; extension = source;
   activeKey = `voidward.save.v1.${pack.meta.id}@${pack.meta.version}.${hash}.${source || 'text'}${state.player ? '.empire-' + state.player : ''}`;
   selected = pack.empires[player()].home; selectedFleet = null; designer = null; selectedShips.clear(); compareDesign = null; view = 'galaxy'; zoom = 1; mapPan = { x: 0, y: 0 }; panMode = false;
-  history = []; idleColonyCursor = -1; audio.setScore(pack.music, { mode: preferences.musicMode, seed: state.seed }); audio.resume(); autoSave(); closeDialog(); render();
+  undoStack = []; idleColonyCursor = -1; audio.setScore(pack.music, { mode: preferences.musicMode, seed: state.seed }); audio.resume(); autoSave(); closeDialog(); render();
 }
 async function importSave(text) {
   const data = decodeSaveEnvelope(text);
@@ -243,7 +243,7 @@ function act(action) {
     const previous = state, candidate = structuredClone(state);
     action.type === 'endTurn' ? engine.endTurn(candidate) : engine.command(candidate, action, player());
     engine.validateState(candidate); state = candidate;
-    if (action.type === 'endTurn') history = []; else { history.push(previous); if (history.length > HISTORY_LIMIT) history.shift(); }
+    if (action.type === 'endTurn') undoStack = []; else { undoStack.push(previous); if (undoStack.length > HISTORY_LIMIT) undoStack.shift(); }
     autoSave();
     if (selectedFleet && !state.fleets.some(f => f.id === selectedFleet)) selectedFleet = null;
     for (const id of selectedShips) if (!state.fleets.some(f=>f.id===id&&f.owner===player())) selectedShips.delete(id);
@@ -253,13 +253,13 @@ function act(action) {
   } catch (error) { toast(error.message, true); return false; }
 }
 function undoOrder() {
-  if (state.winner !== null || !history.length) { toast('Nothing to withdraw this turn.'); return; }
-  const previous = history.pop();
-  try { engine.validateState(previous); } catch (error) { history = []; toast('Undo record rejected: ' + error.message, true); return; }
+  if (state.winner !== null || !undoStack.length) { toast('Nothing to withdraw this turn.'); return; }
+  const previous = undoStack.pop();
+  try { engine.validateState(previous); } catch (error) { undoStack = []; toast('Undo record rejected: ' + error.message, true); return; }
   state = previous;
   if (selectedFleet && !state.fleets.some(f => f.id === selectedFleet)) selectedFleet = null;
   for (const id of selectedShips) if (!state.fleets.some(f=>f.id===id&&f.owner===player())) selectedShips.delete(id);
-  autoSave(); audio.effect('select'); closeDialog(); render(); toast(`Order withdrawn · ${history.length} more this turn.`);
+  autoSave(); audio.effect('select'); closeDialog(); render(); toast(`Order withdrawn · ${undoStack.length} more this turn.`);
 }
 function nextIdleColony() {
   const rows = commandReadiness(state, engine).idleColonies;
@@ -286,7 +286,7 @@ function progress(value, total) { return `<div class="progress" style="--progres
 function pageHead(eyebrow, title, subtitle, actions = '') { return `<div class="page-head"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${subtitle}</p></div><div class="page-actions">${actions}</div></div>`; }
 function readinessStrip() {
   const r = commandReadiness(state, engine);
-  return `<section class="command-readiness" aria-label="Command readiness"><div class="readiness-heading"><span class="status-dot"></span><strong>COMMAND DECK</strong><small>TURN ${String(state.turn).padStart(3,'0')}</small></div><div class="readiness-items">${btn(`<strong>${r.idleFleets.length}</strong> idle ships`, 'next-idle', `${!r.idleFleets.length?'disabled':''} title="Select the next idle ship (N)"`, 'quiet')}${btn(`<strong>${r.idleColonies.length}</strong> idle colonies`, 'idle-colonies', '', 'quiet')}${btn(`<strong>${r.threats.length}</strong> hostile contacts`, 'readiness', '', r.threats.length?'quiet danger':'quiet')}${btn('Undo <kbd>Ctrl Z</kbd>', 'undo', `${history.length?'':'disabled'} title="Withdraw the last accepted order this turn"`, 'quiet undo-link')}${btn('Command menu <kbd>Ctrl K</kbd>', 'command-menu', '', 'quiet command-menu-link')}</div></section>`;
+  return `<section class="command-readiness" aria-label="Command readiness"><div class="readiness-heading"><span class="status-dot"></span><strong>COMMAND DECK</strong><small>TURN ${String(state.turn).padStart(3,'0')}</small></div><div class="readiness-items">${btn(`<strong>${r.idleFleets.length}</strong> idle ships`, 'next-idle', `${!r.idleFleets.length?'disabled':''} title="Select the next idle ship (N)"`, 'quiet')}${btn(`<strong>${r.idleColonies.length}</strong> idle colonies`, 'idle-colonies', '', 'quiet')}${btn(`<strong>${r.threats.length}</strong> hostile contacts`, 'readiness', '', r.threats.length?'quiet danger':'quiet')}${btn('Undo <kbd>Ctrl Z</kbd>', 'undo', `${undoStack.length?'':'disabled'} title="Withdraw the last accepted order this turn"`, 'quiet undo-link')}${btn('Command menu <kbd>Ctrl K</kbd>', 'command-menu', '', 'quiet command-menu-link')}</div></section>`;
 }
 function readinessDialog(confirmTurn = false) {
   const r = commandReadiness(state, engine);
@@ -545,7 +545,7 @@ document.addEventListener('click', async event => {
       case 'undo': undoOrder(); break;
       case 'use-livery': setLivery(player(), d.id); render(); toast('Livery applied to your fleet.'); break;
       case 'livery-import': $('#livery-upload').click(); break;
-      case 'livery-template': download('voidward-liveries.json', exportLiveryPack(liveryCatalogue(importedLiveries))); toast('Livery template exported. Edit it and import it from Settings.'); break;
+      case 'livery-template': download('voidward-liveries.json', importedLiveries ? exportLiveryPack(importedLiveries.liveries, importedLiveries.id, importedLiveries.title, importedLiveries.author) : exportLiveryPack()); toast(importedLiveries ? 'Imported livery pack exported.' : 'Livery template exported. Edit it and import it from Settings.'); break;
       case 'livery-reset': importedLiveries = null; preferences.liveries = {}; try { localStorage.removeItem('voidward.liveries.v1'); } catch {} savePreferences(); settingsDialog(); toast('Liveries reset to automatic.'); break;
       case 'objectives': objectivesDialog(); break;
       case 'choose-objective': if (act({ type: 'chooseObjective', id: d.id })) objectivesDialog(); break;
@@ -776,4 +776,4 @@ boot().then(() => {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) navigator.serviceWorker.register(new URL('../sw.js', import.meta.url)).catch(error => toast('Offline cache unavailable: ' + error.message, true));
 }).catch(error => { $('#app').innerHTML = `<div class="loading"><h1>Unable to open the frontier</h1><p>${esc(error.message)}</p><p>Serve this folder over HTTP. See README.md for local play.</p><button onclick="location.reload()">Retry</button></div>`; });
 // Read-only snapshots for diagnostics: external code cannot mutate the live campaign.
-Object.defineProperty(globalThis, '__voidward', { get: () => state ? { state: structuredClone(state), player: player(), pack: structuredClone(pack), view, selected, selectedFleet, audio: { enabled: audio.enabled, context: audio.effects.ctx?.state, cachedNotes: audio.notes.size, noteBytes: audio.noteBytes, levels: audio.levels, musicVoices: audio.sources.size }, renderer: {...backdropStats(),zoom,pan:{...mapPan},mode:mapMode,detail:preferences.detail}, presentation: { theme: preferences.theme, liveries: {...preferences.liveries}, playerLivery: playerLivery().id, importedLiveries: importedLiveries?.id ?? null, minimap: preferences.minimap, music: audio.mode, undo: history.length }, workshop: editorFiles ? { files: structuredClone(editorFiles), tab: workshopTab, hull: workshopHull } : null, engineVersion: 2 } : null });
+Object.defineProperty(globalThis, '__voidward', { get: () => state ? { state: structuredClone(state), player: player(), pack: structuredClone(pack), view, selected, selectedFleet, audio: { enabled: audio.enabled, context: audio.effects.ctx?.state, cachedNotes: audio.notes.size, noteBytes: audio.noteBytes, levels: audio.levels, musicVoices: audio.sources.size }, renderer: {...backdropStats(),zoom,pan:{...mapPan},mode:mapMode,detail:preferences.detail}, presentation: { theme: preferences.theme, liveries: {...preferences.liveries}, playerLivery: playerLivery().id, importedLiveries: importedLiveries?.id ?? null, minimap: preferences.minimap, music: audio.mode, undo: undoStack.length }, workshop: editorFiles ? { files: structuredClone(editorFiles), tab: workshopTab, hull: workshopHull } : null, engineVersion: 2 } : null });

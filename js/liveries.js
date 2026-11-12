@@ -44,8 +44,11 @@ export function compileLiveryPack(text) {
   const liveries = list(s.liveries, 1, 16).map(raw => { const l = compileLivery(raw); if (seen.has(l.id)) throw new TypeError('duplicate livery ID'); seen.add(l.id); return l; });
   return freeze({ id: s.id, title: s.title, author: s.author, liveries });
 }
+// Exports are re-admitted before download so a template can always be imported again unchanged.
 export function exportLiveryPack(liveries = BUILTIN_LIVERIES, id = 'my-hangar', title = 'My hangar', author = 'Commander') {
-  return JSON.stringify({ kind: LIVERY_PACK_KIND, version: 1, id, title, author, liveries: liveries.map(l => ({ ...l, hull: [...l.hull] })) }, null, 2);
+  const text = JSON.stringify({ kind: LIVERY_PACK_KIND, version: 1, id, title, author, liveries: liveries.map(l => ({ ...l, hull: [...l.hull] })) }, null, 2);
+  compileLiveryPack(text);
+  return text;
 }
 // Imported liveries may replace a built-in of the same ID; the catalogue order is stable.
 export function liveryCatalogue(imported = null) {

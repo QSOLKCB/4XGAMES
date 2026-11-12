@@ -47,6 +47,10 @@ test('livery packs are bounded inert data: template roundtrips, malformed conten
     ['x'.repeat(LIVERY_PACK_BYTES + 1), /exceeds/]
   ];
   for (const [text, pattern] of rejected) assert.throws(() => compileLiveryPack(text), pattern);
+  const nine = Array.from({ length: 9 }, (_, i) => ({ ...sample, id: `custom-${i}` })), imported = compileLiveryPack(packJson(nine));
+  assert.equal(liveryCatalogue(imported).length, BUILTIN_LIVERIES.length + 9);
+  assert.throws(() => exportLiveryPack(liveryCatalogue(imported)), /bounded dense/, 'a merged catalogue beyond 16 liveries is never offered for download');
+  assert.equal(compileLiveryPack(exportLiveryPack(imported.liveries, imported.id, imported.title, imported.author)).liveries.length, 9, 'an imported pack exports and re-imports unchanged');
   const merged = liveryCatalogue(compileLiveryPack(packJson([{ ...sample, id: 'standard', name: 'Replaced standard' }])));
   assert.equal(merged.length, BUILTIN_LIVERIES.length); assert.equal(merged[0].name, 'Replaced standard');
 });
@@ -103,6 +107,13 @@ test('planet painter: eight variants, settlement lights only for owned worlds, i
   assert.ok(settled.calls.length > wild.calls.length && dense.calls.length > settled.calls.length, 'lights scale with population');
   assert.throws(() => paintPlanet(wild.canvas, 'lava'), /Unknown planet palette/);
   } finally { globalThis.document = originalDocument; }
+});
+
+test('the minimap keeps its own size and visibility beside the full-size galaxy canvas', async () => {
+  const css = await fs.readFile(new URL('../style.css', import.meta.url), 'utf8');
+  assert.doesNotMatch(css, /\.chart-viewport>canvas\{/, 'the full-size rule must not apply to every chart canvas');
+  assert.match(css, /\.chart-viewport>#galaxy-canvas\{width:100%;height:100%/);
+  assert.match(css, /\.chart-viewport>\.minimap\[hidden\]\{display:none\}/); assert.match(css, /max-width:760px\)\{\.chart-viewport>\.minimap\{display:none\}/);
 });
 
 test('spectral classes depend only on seed and system id', () => {

@@ -13,6 +13,9 @@ see vendor/games/LICENSE and vendor/games/shared/NOTICE.md.
 SONIFICATION browser laboratory, GLUBALL core and GALAXY core: MPL-2.0.
 GALAXY's UFF helper/data retain their Apache-2.0 and data notices.
 OPT: source record and repository licence retained under vendor/opt/.
+E8_MUSIC core (vendor/e8-music/): MPL-2.0, used for optional seeded music variations.
+DRONE-RACER data validators (vendor/drone-racer/): Apache-2.0, notices retained;
+its DRONE-003 skin-pack contract is adapted for VOIDWARD fleet liveries.
 
 Vendored files are unmodified, file-level licensed, and shipped as source.
 Their licenses do not relicense the other files of this larger work.

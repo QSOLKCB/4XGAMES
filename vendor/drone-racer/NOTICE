@@ -1,0 +1,10 @@
+DRONE-RACER — QSOL-IMC contributors. Apache-2.0. See LICENSE.
+
+Vendored VANILLAJS math, collision, flight and time modules copied under Apache-2.0 from QSOLKCB/VANILLAJS at e2176b0e5f04060ef4bec6acd8a11398e4b86746. Original SPDX notices retained. See engine/VANILLAJS_SOURCE.md.
+
+DRONE-002 adds VANILLAJS ALIEN MATH exact-course, exact-rational, rational-q16 and integer-math source pinned at f91c14628e5700ed4eb69c28cd301a712f3ad967 under Apache-2.0. Original source headers retained.
+
+DRONE-003 additionally vendors unchanged VANILLAJS audio2d and render-optional
+modules from 3c461c0322dbdfcfb758983c74f8943ea8d92153 under Apache-2.0.
+The optional WASM projection retains its upstream OFFLINE-GAMES attribution.
+See engine/VANILLAJS_SOURCE.md for exact file identities and retained pins.

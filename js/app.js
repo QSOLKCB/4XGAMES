@@ -2,7 +2,8 @@
 import { parsePack, loadPack, loadDirectory, PACK_FILES, OPTIONAL_PACK_FILES } from './content.js';
 import { createEngine } from './core.js';
 import { encodeSaveEnvelope, decodeSaveEnvelope, MAX_SAVE_BYTES } from './save-codec.js';
-import { drawMap, mapProjection, paintPlanet, paintShip, paintRelic, backdropStats } from './render.js';
+import { drawMap, drawMinimap, mapProjection, chartTransform, paintPlanet, paintShip, paintRelic, backdropStats, spectralClass, MAP_MODES } from './render.js';
+import { liveryCatalogue, liveryFor, compileLiveryPack, exportLiveryPack, LIVERY_PACK_BYTES } from './liveries.js';
 import { commandReadiness, chartedSystems } from './command-tools.js';
 import * as Workshop from './workshop.js';
 import * as Bridge from './workbench-bridge.js';
@@ -44,6 +45,13 @@ const filters = { colonies: { search: '', sort: 'name', mode: 'all' }, fleets: {
 const selectedShips = new Set();
 let compareDesign = null, returnFocus = null, campaignLoadEpoch = 0;
 let newCandidate = null, mapPan = { x: 0, y: 0 }, panMode = false, mapDrag = null, mapFrame = 0, lastRenderedView = null;
+// Undo keeps references to earlier accepted states. act() never mutates the live
+// state object (every order is applied to a structured clone), so a withdrawn
+// order simply reinstates an already validated state. Ending a turn clears it.
+let undoStack = [], importedLiveries = null, idleColonyCursor = -1;
+const AUTO_LIVERY_OPTION = '__automatic__'; // Outside the admitted livery ID namespace.
+const HISTORY_LIMIT = 24, THEMES = ['frontier', 'obsidian', 'ember', 'nebula'], DETAILS = ['full', 'lean'];
+const ROLE_LABELS = { engine: 'DRIVE', weapon: 'ARMED', shield: 'SHIELDED', survey: 'SURVEY', colony: 'COLONY', assault: 'MARINES' };
 function captureFocus(root = $('#app')) {
   const el = document.activeElement;
   if (!el || !root.contains(el)) return null;
@@ -76,21 +84,39 @@ function objectivesDialog() {
 }
 function settingsDialog() {
   const levels = audio.levels;
-  modal('Sound & display', `<p>Original procedural music and effects. Your preferences stay on this device.</p><div class="stack"><label class="check-row"><input id="audio-enabled" type="checkbox" ${audio.enabled ? 'checked' : ''}>Enable sound</label><label>Music <output id="music-output">${Math.round(levels.music*100)}%</output><input id="music-volume" type="range" min="0" max="100" value="${Math.round(levels.music*100)}"></label><label>Effects <output id="effects-output">${Math.round(levels.effects*100)}%</output><input id="effects-volume" type="range" min="0" max="100" value="${Math.round(levels.effects*100)}"></label><label>Motion<select id="motion-setting"><option value="system">Follow system preference</option><option value="reduce">Reduce motion</option></select></label><label>Star labels<select id="label-setting"><option value="smart">Declutter crowded labels</option><option value="all">Show every charted name</option></select></label><label>Interface contrast<select id="contrast-setting"><option value="standard">Standard</option><option value="high">High contrast</option></select></label><label class="check-row"><input id="review-turn" type="checkbox" ${preferences.reviewTurn?'checked':''}>Review idle units before ending a turn</label><p>Music at zero keeps effects audible. Sound begins only after you enable it.</p>${btn('New game', 'new', '', 'quiet')}${btn('Field manual', 'help', '', 'quiet')}</div>`);
+  modal('Sound & display', `<p>Original procedural music and effects. Your preferences stay on this device.</p><div class="stack"><label class="check-row"><input id="audio-enabled" type="checkbox" ${audio.enabled ? 'checked' : ''}>Enable sound</label><label>Music <output id="music-output">${Math.round(levels.music*100)}%</output><input id="music-volume" type="range" min="0" max="100" value="${Math.round(levels.music*100)}"></label><label>Effects <output id="effects-output">${Math.round(levels.effects*100)}%</output><input id="effects-volume" type="range" min="0" max="100" value="${Math.round(levels.effects*100)}"></label><label>Motion<select id="motion-setting"><option value="system">Follow system preference</option><option value="reduce">Reduce motion</option></select></label><label>Star labels<select id="label-setting"><option value="smart">Declutter crowded labels</option><option value="all">Show every charted name</option></select></label><label>Interface contrast<select id="contrast-setting"><option value="standard">Standard</option><option value="high">High contrast</option></select></label><label class="check-row"><input id="review-turn" type="checkbox" ${preferences.reviewTurn?'checked':''}>Review idle units before ending a turn</label><p>Music at zero keeps effects audible. Sound begins only after you enable it.</p><h3>Command deck appearance</h3><label>Interface theme<select id="theme-setting">${THEMES.map(t=>`<option value="${t}">${t[0].toUpperCase()+t.slice(1)}</option>`).join('')}</select></label><label>Music arrangement<select id="music-mode"><option value="pack">Campaign score</option><option value="e8">E8 lattice variations (seeded)</option></select></label><label>Chart detail<select id="detail-setting"><option value="full">Full · nebula dust and grid</option><option value="lean">Lean · stars only</option></select></label><label class="check-row"><input id="minimap-setting" type="checkbox" ${preferences.minimap?'checked':''}>Show the chart overview minimap</label><h3>Fleet liveries</h3><p>Liveries recolour and pattern ship silhouettes. They never change hull polygons, designs, combat or saves, and each faction keeps its identifying colour.</p>${liverySettings()}<div class="row wrap">${btn('Import livery pack (.json)', 'livery-import', '', 'small')}${btn('Download editable template', 'livery-template', '', 'small quiet')}${btn('Reset liveries', 'livery-reset', '', 'small quiet')}</div><input id="livery-upload" type="file" accept=".json,application/json" hidden><p class="muted">${importedLiveries ? `Imported pack: ${esc(importedLiveries.title)} by ${esc(importedLiveries.author)} (${importedLiveries.liveries.length} liveries).` : 'No imported pack. Built-in hangar liveries are available to every faction.'}</p>${btn('New game', 'new', '', 'quiet')}${btn('Field manual', 'help', '', 'quiet')}</div>`);
   $('#motion-setting').value = preferences.motion;
   $('#label-setting').value = preferences.labels; $('#contrast-setting').value = preferences.contrast;
+  $('#theme-setting').value = preferences.theme; $('#music-mode').value = preferences.musicMode; $('#detail-setting').value = preferences.detail;
+  paintCanvases($('#dialog'));
 }
-const preferences = { music: .55, effects: .8, motion: 'system', labels: 'smart', contrast: 'standard', reviewTurn: false };
-try { const saved = JSON.parse(localStorage.getItem('voidward.preferences.v1') || '{}'); for (const k of ['music','effects']) if (Number.isFinite(saved[k])) preferences[k] = Math.min(1, Math.max(0,saved[k])); if (saved.motion === 'reduce') preferences.motion = 'reduce'; if(saved.labels === 'all') preferences.labels = 'all'; if(saved.contrast === 'high') preferences.contrast = 'high'; if(saved.reviewTurn === true) preferences.reviewTurn = true; } catch {}
+const preferences = { music: .55, effects: .8, motion: 'system', labels: 'smart', contrast: 'standard', reviewTurn: false, theme: 'frontier', liveries: {}, minimap: true, musicMode: 'pack', detail: 'full' };
+try { const saved = JSON.parse(localStorage.getItem('voidward.preferences.v1') || '{}'); for (const k of ['music','effects']) if (Number.isFinite(saved[k])) preferences[k] = Math.min(1, Math.max(0,saved[k])); if (saved.motion === 'reduce') preferences.motion = 'reduce'; if(saved.labels === 'all') preferences.labels = 'all'; if(saved.contrast === 'high') preferences.contrast = 'high'; if(saved.reviewTurn === true) preferences.reviewTurn = true; if (THEMES.includes(saved.theme)) preferences.theme = saved.theme; if (saved.minimap === false) preferences.minimap = false; if (saved.musicMode === 'e8') preferences.musicMode = 'e8'; if (DETAILS.includes(saved.detail)) preferences.detail = saved.detail; if (saved.liveries && typeof saved.liveries === 'object' && !Array.isArray(saved.liveries)) for (const [key, value] of Object.entries(saved.liveries).slice(0, 64)) if (/^[a-z][a-z0-9-]{0,39}\/[0-5]$/.test(key) && typeof value === 'string' && /^[a-z][a-z0-9-]{0,47}$/.test(value)) preferences.liveries[key] = value; } catch {}
+try { const text = localStorage.getItem('voidward.liveries.v1'); if (text) importedLiveries = compileLiveryPack(text); } catch { try { localStorage.removeItem('voidward.liveries.v1'); } catch {} }
 audio.setLevels(preferences.music, preferences.effects);
 document.documentElement.dataset.motion = preferences.motion;
 document.documentElement.dataset.contrast = preferences.contrast;
+document.documentElement.dataset.theme = preferences.theme;
 function savePreferences() { try { localStorage.setItem('voidward.preferences.v1', JSON.stringify(preferences)); } catch {} }
+const liveryKey = (empire, source = pack) => `${source.meta.id}/${empire.id}`;
+function playerLivery(empire = pack.empires[player()], source = pack) { return liveryFor(empire, source, preferences.liveries, importedLiveries); }
+function liveryOptions(empire, source = pack) {
+  const current = preferences.liveries[liveryKey(empire, source)] ?? AUTO_LIVERY_OPTION, auto = liveryFor(empire, source, {}, importedLiveries);
+  return `<option value="${AUTO_LIVERY_OPTION}" ${current===AUTO_LIVERY_OPTION?'selected':''}>Automatic · ${esc(auto.name)}</option>${liveryCatalogue(importedLiveries).map(l => `<option value="${esc(l.id)}" ${l.id===current?'selected':''}>${esc(l.name)}</option>`).join('')}`;
+}
+function liverySettings() {
+  return `<div class="livery-grid">${pack.empires.map(e => `<div class="livery-row"><canvas data-ship="${esc(pack.hulls[pack.ships.find(s=>s.empire===e.id)?.hull]?.id || Object.keys(pack.hulls)[0])}" data-owner="${e.id}" role="img" aria-label="${esc(e.name)} livery preview"></canvas><label><span style="color:${e.color}">${esc(e.short)}</span><select data-livery="${e.id}" aria-label="${esc(e.name)} livery">${liveryOptions(e)}</select></label></div>`).join('')}</div>`;
+}
+function setLivery(empireId, id) {
+  const key = liveryKey(pack.empires[empireId]);
+  if (id === AUTO_LIVERY_OPTION || !liveryCatalogue(importedLiveries).some(l => l.id === id)) delete preferences.liveries[key]; else preferences.liveries[key] = id;
+  savePreferences();
+}
 function coloniesView() {
   const all = engine.colonies(state), f = filters.colonies;
   const cols = all.filter(p => matching(`${p.name} ${state.systems[p.system].name} ${pack.planets[p.type].name}`,f.search) && (f.mode !== 'idle' || !p.queue.length) && (f.mode !== 'yards' || p.buildings.yard));
   cols.sort((a,b) => f.sort === 'production' ? engine.production(state,b)-engine.production(state,a) || a.id-b.id : f.sort === 'population' ? b.pop-a.pop || a.id-b.id : a.name.localeCompare(b.name));
-  return pageHead('COLONIAL ADMINISTRATION', 'Your colony worlds', `${all.length} colonies · ${all.reduce((n,p)=>n+p.pop,0)} million citizens · ${all.filter(p=>!p.queue.length).length} idle queues`,btn('Field manual','help','','quiet')) + searchTools('colonies',[['all','All colonies'],['idle','Idle production'],['yards','Shipyards']],[['name','Name'],['production','Production'],['population','Population']]) + `<div class="table-scroll"><table class="command-table"><thead><tr><th>World / system</th><th>Population</th><th>Production</th><th>Defence</th><th>Queue</th><th>Commands</th></tr></thead><tbody>${cols.map(p=>`<tr><td><div class="world-cell">${planetCanvas(p)}<div><strong>${esc(p.name)}</strong><small>${esc(state.systems[p.system].name)} · ${esc(pack.planets[p.type].name)}</small></div></div></td><td>${p.pop}M / ${pack.planets[p.type].max}M</td><td>${engine.production(state,p)} / turn</td><td>${engine.defence(state,p)}</td><td>${p.queue.length ? `<strong>${esc(p.queue[0].name)}</strong><small>${Math.ceil((p.queue[0].work-p.queue[0].done)/engine.production(state,p))} turns · ${p.queue.length} queued</small>${progress(p.queue[0].done,p.queue[0].work)}` : '<span class="gold">Awaiting orders</span>'}</td><td><div class="row wrap">${btn('Manage production','manage',`data-id="${p.id}"`,'small primary')}${btn('Locate','locate',`data-id="${p.system}"`,'small quiet')}</div></td></tr>`).join('') || '<tr><td colspan="6">No matching colonies.</td></tr>'}</tbody></table></div>`;
+  return pageHead('COLONIAL ADMINISTRATION', 'Your colony worlds', `${all.length} colonies · ${all.reduce((n,p)=>n+p.pop,0)} million citizens · ${all.filter(p=>!p.queue.length).length} idle queues`,btn('Field manual','help','','quiet')) + searchTools('colonies',[['all','All colonies'],['idle','Idle production'],['yards','Shipyards']],[['name','Name'],['production','Production'],['population','Population']]) + `<div class="table-scroll"><table class="command-table"><thead><tr><th>World / system</th><th>Population</th><th>Production</th><th>Defence</th><th>Queue</th><th>Commands</th></tr></thead><tbody>${cols.map(p=>`<tr><td><div class="world-cell">${planetCanvas(p)}<div><strong>${esc(p.name)}</strong><small>${esc(state.systems[p.system].name)} · ${esc(pack.planets[p.type].name)}</small></div></div></td><td>${p.pop}M / ${pack.planets[p.type].max}M${progress(p.pop,pack.planets[p.type].max)}</td><td>${engine.production(state,p)} / turn</td><td>${engine.defence(state,p)}</td><td>${p.queue.length ? `<strong>${esc(p.queue[0].name)}</strong><small>${Math.ceil((p.queue[0].work-p.queue[0].done)/engine.production(state,p))} turns · ${p.queue.length} queued</small>${progress(p.queue[0].done,p.queue[0].work)}` : '<span class="gold">Awaiting orders</span>'}</td><td><div class="row wrap">${btn('Manage production','manage',`data-id="${p.id}"`,'small primary')}${btn('Locate','locate',`data-id="${p.system}"`,'small quiet')}</div></td></tr>`).join('') || '<tr><td colspan="6">No matching colonies.</td></tr>'}</tbody></table></div>`;
 }
 function manageColony(id) {
   const p=state.planets[id]; if(!p || p.owner!==player()) return;
@@ -103,7 +129,7 @@ function fleetsView() {
   const ships=all.filter(x=>matching(`${x.name} ${state.systems[x.system].name} ${engine.designStats(x.design).roles.join(' ')}`,f.search) && (f.mode!=='idle'||(!x.refit && !x.path.length && (!x.order || x.order.type==='hold'))) && (f.mode!=='damaged'||x.hp<engine.designStats(x.design).hp));
   ships.sort((a,b)=>f.sort==='system'?a.system-b.system || a.id-b.id:f.sort==='attack'?engine.designStats(b.design).attack-engine.designStats(a.design).attack || a.id-b.id:a.name.localeCompare(b.name));
   const groups=(state.groups||[]).filter(g=>g.owner===player());
-  return pageHead('NAVAL OPERATIONS','The expeditionary fleet',`${all.length} ships · ${groups.length} task forces · ${engine.income(state).upkeep} energy upkeep / turn`,btn('Design a ship','designer','','primary')) + searchTools('fleets',[['all','All ships'],['idle','Awaiting orders'],['damaged','Damaged']],[['name','Name'],['system','System'],['attack','Attack']]) + `<div class="row wrap list-actions">${btn('Group selected ships','group-prompt',selectedShips.size<2?'disabled':'','small')}<small>${selectedShips.size} selected · ships must share a system. Groups travel at their slowest member's speed.</small></div>${groups.length ? `<div class="group-list">${groups.map(g=>`<section class="card card-pad"><div class="row between"><div><strong>${esc(g.name)}</strong><small>${g.ships.length} ships</small></div><div class="row">${btn('Set destination','group-orders',`data-group="${g.id}"`,'small primary')}${btn('Disband','ungroup',`data-group="${g.id}"`,'small quiet')}</div></div></section>`).join('')}</div>`:''}<div class="table-scroll"><table class="command-table"><thead><tr><th>Select</th><th>Ship / class</th><th>System / orders</th><th>Hull</th><th>Attack / speed</th><th>Commands</th></tr></thead><tbody>${ships.map(x=>{const a=engine.designStats(x.design),g=groups.find(g=>g.ships.includes(x.id));return `<tr><td><input type="checkbox" data-ship-select="${x.id}" aria-label="Select ${esc(x.name)} for grouping" ${selectedShips.has(x.id)?'checked':''}></td><td><div class="world-cell">${shipCanvas(x.design)}<div><strong>${esc(x.name)}</strong><small>${esc(pack.hulls[x.design.hull].name)}${g?' · '+esc(g.name):''}</small></div></div></td><td><strong>${esc(state.systems[x.system].name)}</strong><small>${x.path.length?'→ '+esc(state.systems[x.path.at(-1)].name):esc(x.refit ? 'refit '+x.refit.done+'/'+x.refit.work+' work' : x.order?.type || 'holding position')}</small></td><td>${x.hp}/${a.hp}${progress(x.hp,a.hp)}</td><td>${a.attack} ATK · ${a.speed} lanes</td><td><div class="row wrap">${btn('Issue orders','fleet-on-map',`data-id="${x.id}"`,'small primary')}${btn('Orders / refit','ship-orders',`data-id="${x.id}"`,'small')}${btn('Copy design','copy-design',`data-fleet="${x.id}"`,'small quiet')}</div></td></tr>`;}).join('')||'<tr><td colspan="6">No matching ships.</td></tr>'}</tbody></table></div>`;
+  return pageHead('NAVAL OPERATIONS','The expeditionary fleet',`${all.length} ships · ${groups.length} task forces · ${engine.income(state).upkeep} energy upkeep / turn`,btn('Design a ship','designer','','primary')) + searchTools('fleets',[['all','All ships'],['idle','Awaiting orders'],['damaged','Damaged']],[['name','Name'],['system','System'],['attack','Attack']]) + `<div class="row wrap list-actions">${btn('Group selected ships','group-prompt',selectedShips.size<2?'disabled':'','small')}<small>${selectedShips.size} selected · ships must share a system. Groups travel at their slowest member's speed.</small></div>${groups.length ? `<div class="group-list">${groups.map(g=>`<section class="card card-pad"><div class="row between"><div><strong>${esc(g.name)}</strong><small>${g.ships.length} ships</small></div><div class="row">${btn('Set destination','group-orders',`data-group="${g.id}"`,'small primary')}${btn('Disband','ungroup',`data-group="${g.id}"`,'small quiet')}</div></div></section>`).join('')}</div>`:''}<div class="table-scroll"><table class="command-table"><thead><tr><th>Select</th><th>Ship / class</th><th>System / orders</th><th>Hull</th><th>Attack / speed</th><th>Commands</th></tr></thead><tbody>${ships.map(x=>{const a=engine.designStats(x.design),g=groups.find(g=>g.ships.includes(x.id));return `<tr><td><input type="checkbox" data-ship-select="${x.id}" aria-label="Select ${esc(x.name)} for grouping" ${selectedShips.has(x.id)?'checked':''}></td><td><div class="world-cell">${shipCanvas(x.design)}<div><strong>${esc(x.name)}</strong><small>${esc(pack.hulls[x.design.hull].name)}${g?' · '+esc(g.name):''}</small><span class="role-pills">${a.roles.filter(r=>r!=='engine').map(r=>`<i class="role-pill ${r}">${ROLE_LABELS[r]||esc(r)}</i>`).join('')}</span></div></div></td><td><strong>${esc(state.systems[x.system].name)}</strong><small>${x.path.length?'→ '+esc(state.systems[x.path.at(-1)].name):esc(x.refit ? 'refit '+x.refit.done+'/'+x.refit.work+' work' : x.order?.type || 'holding position')}</small></td><td>${x.hp}/${a.hp}${progress(x.hp,a.hp)}</td><td>${a.attack} ATK · ${a.speed} lanes</td><td><div class="row wrap">${btn('Issue orders','fleet-on-map',`data-id="${x.id}"`,'small primary')}${btn('Orders / refit','ship-orders',`data-id="${x.id}"`,'small')}${btn('Copy design','copy-design',`data-fleet="${x.id}"`,'small quiet')}</div></td></tr>`;}).join('')||'<tr><td colspan="6">No matching ships.</td></tr>'}</tbody></table></div>`;
 }
 function destinationOptions(from, patrol=false) { return [...engine.visibleSystems(state)].filter(id=>(!patrol || id!==from && state.empires[player()].known.includes(id)) && engine.route(state,from,id).length).map(id=>`<option value="${id}" ${id===selected?'selected':''}>${esc(state.systems[id].name)}</option>`).join(''); }
 function courseCommand(target) { const group=state.groups.find(g=>g.owner===player()&&g.ships.includes(selectedFleet));return group?{type:'groupMove',group:group.id,target}:{type:'move',fleet:selectedFleet,target}; }
@@ -168,7 +194,7 @@ function paintHullEditor(p=draftPack()) {
   const ctx=canvas.getContext('2d'),w=canvas.width,h=canvas.height;ctx.clearRect(0,0,w,h);ctx.save();ctx.translate(w/2,h/2);ctx.scale(2,2);
   ctx.strokeStyle='#263c50';ctx.lineWidth=.5;for(let i=-60;i<=60;i+=10){ctx.beginPath();ctx.moveTo(i,-65);ctx.lineTo(i,65);ctx.moveTo(-65,i);ctx.lineTo(65,i);ctx.stroke();}
   if(hullDraft.length){ctx.beginPath();hullDraft.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle='#385d6480';ctx.fill();ctx.strokeStyle='#72dbc4';ctx.lineWidth=1;ctx.stroke();hullDraft.forEach(([x,y],i)=>{ctx.fillStyle='#e6bb7e';ctx.fillRect(x-1.5,y-1.5,3,3);ctx.font='5px monospace';ctx.fillText(String(i+1),x+3,y);});}ctx.restore();
-  const hull={...p.hulls[workshopHull],shape:hullDraft};const empire=p.empires[Math.max(0,hull.faction)];paintShip($('[data-workshop-ship]'),hull,empire);
+  const hull={...p.hulls[workshopHull],shape:hullDraft};const empire=p.empires[Math.max(0,hull.faction)];paintShip($('[data-workshop-ship]'),hull,empire,false,{livery:liveryFor(empire,p,preferences.liveries,importedLiveries)});
 }
 function workshopFailure(error) { const box=$('#workshop-error');if(box){box.className='diagnostics';box.textContent=error.message;}else toast(error.message,true); }
 function createWorkshopDialog() {
@@ -200,7 +226,7 @@ async function activate(candidatePack, hooks, source, saved = null, seed = 2401,
   pack = candidatePack; engine = candidateEngine; state = candidateState; extension = source;
   activeKey = `voidward.save.v1.${pack.meta.id}@${pack.meta.version}.${hash}.${source || 'text'}${state.player ? '.empire-' + state.player : ''}`;
   selected = pack.empires[player()].home; selectedFleet = null; designer = null; selectedShips.clear(); compareDesign = null; view = 'galaxy'; zoom = 1; mapPan = { x: 0, y: 0 }; panMode = false;
-  audio.setScore(pack.music); audio.resume(); autoSave(); closeDialog(); render();
+  undoStack = []; idleColonyCursor = -1; audio.setScore(pack.music, { mode: preferences.musicMode, seed: state.seed }); audio.resume(); autoSave(); closeDialog(); render();
 }
 async function importSave(text) {
   const data = decodeSaveEnvelope(text);
@@ -215,9 +241,11 @@ async function importSave(text) {
 }
 function act(action) {
   try {
-    const candidate = structuredClone(state);
+    const previous = state, candidate = structuredClone(state);
     action.type === 'endTurn' ? engine.endTurn(candidate) : engine.command(candidate, action, player());
-    engine.validateState(candidate); state = candidate; autoSave();
+    engine.validateState(candidate); state = candidate;
+    if (action.type === 'endTurn') undoStack = []; else { undoStack.push(previous); if (undoStack.length > HISTORY_LIMIT) undoStack.shift(); }
+    autoSave();
     if (selectedFleet && !state.fleets.some(f => f.id === selectedFleet)) selectedFleet = null;
     for (const id of selectedShips) if (!state.fleets.some(f=>f.id===id&&f.owner===player())) selectedShips.delete(id);
     if (action.type === 'endTurn') toast(`Turn ${state.turn}: ${state.log.filter(l=>l.turn===state.turn).length} dispatches. Review Turn reports for details.`);
@@ -225,15 +253,41 @@ function act(action) {
     render(); return true;
   } catch (error) { toast(error.message, true); return false; }
 }
+function undoOrder() {
+  if (state.winner !== null || !undoStack.length) { toast('Nothing to withdraw this turn.'); return; }
+  const previous = undoStack.pop();
+  try { engine.validateState(previous); } catch (error) { undoStack = []; toast('Undo record rejected: ' + error.message, true); return; }
+  state = previous;
+  if (selectedFleet && !state.fleets.some(f => f.id === selectedFleet)) selectedFleet = null;
+  for (const id of selectedShips) if (!state.fleets.some(f=>f.id===id&&f.owner===player())) selectedShips.delete(id);
+  autoSave(); audio.effect('select'); closeDialog(); render(); toast(`Order withdrawn · ${undoStack.length} more this turn.`);
+}
+function nextIdleColony() {
+  const rows = commandReadiness(state, engine).idleColonies;
+  if (!rows.length) { toast('Every colony has production queued.'); return; }
+  idleColonyCursor = (idleColonyCursor + 1) % rows.length; const planet = rows[idleColonyCursor];
+  manageColony(planet.id); toast(`${planet.name} · awaiting production orders`);
+}
+function zoomAt(factor, clientX = null, clientY = null) {
+  const canvas = $('#galaxy-canvas'); if (!canvas || !canvas.clientWidth) return;
+  const rect = canvas.getBoundingClientRect(), w = canvas.clientWidth, h = canvas.clientHeight;
+  const cx = clientX === null ? w / 2 : clientX - rect.left, cy = clientY === null ? h / 2 : clientY - rect.top;
+  const next = Math.max(.6, Math.min(2.4, Math.round(zoom * factor * 100) / 100));
+  if (next === zoom) return;
+  // Keep the chart point under the pointer fixed: p = C + d·scale·zoom + pan.
+  mapPan = { x: cx - w / 2 - (cx - w / 2 - mapPan.x) * next / zoom, y: cy - h / 2 - (cy - h / 2 - mapPan.y) * next / zoom };
+  zoom = next; scheduleMapDraw();
+}
 function download(name, text, type = 'application/json') { const url = URL.createObjectURL(new Blob([text], { type })); const a = document.createElement('a'); a.href = url; a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
 function ownerName(owner) { return owner < 0 ? 'Unclaimed world' : pack.empires[owner].name; }
-function shipCanvas(design, owner = player(), large = false) { return `<canvas data-ship="${esc(design.hull)}" data-owner="${owner}" ${large ? 'data-large="true"' : ''} role="img" aria-label="${esc(pack.hulls[design.hull].name)} ship silhouette"></canvas>`; }
-function planetCanvas(p) { return `<canvas data-planet="${esc(pack.planets[p.type].palette)}" data-variant="${p.id % 4}" role="img" aria-label="${esc(pack.planets[p.type].name)} planet"></canvas>`; }
+function shipCanvas(design, owner = player(), large = false, livery = null) { const roles = Array.isArray(design.parts) ? engine.designStats(design).roles : []; return `<canvas data-ship="${esc(design.hull)}" data-owner="${owner}" ${roles.length ? `data-roles="${roles.join(',')}"` : ''} ${livery ? `data-livery="${esc(livery)}"` : ''} ${large ? 'data-large="true"' : ''} role="img" aria-label="${esc(pack.hulls[design.hull].name)} ship silhouette"></canvas>`; }
+// Foreign worlds show a fixed settlement density: their current population is not the player's information.
+function planetCanvas(p) { const max = pack.planets[p.type].max, owner = p.owner >= 0 ? pack.empires[p.owner] : null; return `<canvas data-planet="${esc(pack.planets[p.type].palette)}" data-variant="${p.id % 8}" ${owner ? `data-owner="${owner.color}" data-pop="${p.owner === player() ? p.pop : Math.ceil(max / 2)}" data-max="${max}"` : ''} role="img" aria-label="${esc(pack.planets[p.type].name)} planet"></canvas>`; }
 function progress(value, total) { return `<div class="progress" style="--progress:${Math.min(100, Math.max(0, value / total * 100))}%"><span></span></div>`; }
 function pageHead(eyebrow, title, subtitle, actions = '') { return `<div class="page-head"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${subtitle}</p></div><div class="page-actions">${actions}</div></div>`; }
 function readinessStrip() {
   const r = commandReadiness(state, engine);
-  return `<section class="command-readiness" aria-label="Command readiness"><div class="readiness-heading"><span class="status-dot"></span><strong>COMMAND DECK</strong><small>TURN ${String(state.turn).padStart(3,'0')}</small></div><div class="readiness-items">${btn(`<strong>${r.idleFleets.length}</strong> idle ships`, 'next-idle', `${!r.idleFleets.length?'disabled':''} title="Select the next idle ship (N)"`, 'quiet')}${btn(`<strong>${r.idleColonies.length}</strong> idle colonies`, 'idle-colonies', '', 'quiet')}${btn(`<strong>${r.threats.length}</strong> hostile contacts`, 'readiness', '', r.threats.length?'quiet danger':'quiet')}${btn('Command menu <kbd>Ctrl K</kbd>', 'command-menu', '', 'quiet command-menu-link')}</div></section>`;
+  return `<section class="command-readiness" aria-label="Command readiness"><div class="readiness-heading"><span class="status-dot"></span><strong>COMMAND DECK</strong><small>TURN ${String(state.turn).padStart(3,'0')}</small></div><div class="readiness-items">${btn(`<strong>${r.idleFleets.length}</strong> idle ships`, 'next-idle', `${!r.idleFleets.length?'disabled':''} title="Select the next idle ship (N)"`, 'quiet')}${btn(`<strong>${r.idleColonies.length}</strong> idle colonies`, 'idle-colonies', '', 'quiet')}${btn(`<strong>${r.threats.length}</strong> hostile contacts`, 'readiness', '', r.threats.length?'quiet danger':'quiet')}${btn('Undo <kbd>Ctrl Z</kbd>', 'undo', `${undoStack.length?'':'disabled'} title="Withdraw the last accepted order this turn"`, 'quiet undo-link')}${btn('Command menu <kbd>Ctrl K</kbd>', 'command-menu', '', 'quiet command-menu-link')}</div></section>`;
 }
 function readinessDialog(confirmTurn = false) {
   const r = commandReadiness(state, engine);
@@ -292,18 +346,20 @@ function render() {
   restoreFocus(focus);
 }
 function paintCanvases(root = document) {
-  root.querySelectorAll('canvas[data-planet]').forEach(c => paintPlanet(c, c.dataset.planet, Number(c.dataset.variant || 0)));
-  root.querySelectorAll('canvas[data-ship]').forEach(c => paintShip(c, pack.hulls[c.dataset.ship], pack.empires[Number(c.dataset.owner)], c.dataset.large === 'true'));
+  root.querySelectorAll('canvas[data-planet]').forEach(c => paintPlanet(c, c.dataset.planet, Number(c.dataset.variant || 0), c.dataset.owner ? { owner: c.dataset.owner, pop: Number(c.dataset.pop || 0), max: Number(c.dataset.max || 1) } : {}));
+  root.querySelectorAll('canvas[data-ship]').forEach(c => { const empire = pack.empires[Number(c.dataset.owner)], explicit = c.dataset.livery ? liveryCatalogue(importedLiveries).find(l => l.id === c.dataset.livery) : null; paintShip(c, pack.hulls[c.dataset.ship], empire, c.dataset.large === 'true', { livery: explicit || playerLivery(empire), roles: c.dataset.roles ? c.dataset.roles.split(',') : [] }); });
 }
 function galaxyView() {
   return pageHead('STELLAR CARTOGRAPHY', 'The known frontier', `${state.empires[player()].known.length} systems surveyed · ${state.systems.length} stars in the sector`, `${btn(icon('help'), 'help', 'aria-label="Open field manual"', 'quiet')}${btn('Save / load', 'saves', '', 'quiet')}`) +
-  `<div class="chart-layout"><div><section class="card chart-card" aria-label="Interactive galaxy map"><div class="chart-toolbar"><div class="segmented" aria-label="Map display">${[['political', 'Territory'], ['survey', 'Exploration'], ['routes', 'Fleet orders']].map(([id, label]) => btn(label, 'map-mode', `data-mode="${id}" aria-pressed="${mapMode === id}"`, mapMode === id ? 'active' : '')).join('')}</div><span class="mono muted" style="font-size:9px">SECTOR ${String(state.seed % 999).padStart(3, '0')} / ${pack.rules.columns} : ${pack.rules.rows}</span></div><div class="chart-viewport ${panMode?'pan-enabled':''}"><canvas id="galaxy-canvas" aria-hidden="true"></canvas><div id="stars" class="star-layer" role="group" aria-label="Select a star system"></div><div class="map-coordinates">DEEP SPACE NETWORK<br><span class="mint">●</span> TELEMETRY ONLINE</div><div class="map-void">THE UNCHARTED REACH</div><div class="map-controls">${btn('↔', 'pan-mode', `aria-label="Pan galaxy" aria-pressed="${panMode}" title="Toggle drag to pan (touch or mouse)"`, panMode?'active':'')}${btn('−', 'zoom-out', 'aria-label="Zoom out"')}${btn('⌖', 'zoom-reset', 'aria-label="Fit galaxy"')}${btn('+', 'zoom-in', 'aria-label="Zoom in"')}</div></div><div class="map-legend"><span><i class="legend-dot" style="--dot:var(--empire)"></i>YOUR EMPIRE</span><span><i class="legend-dot" style="--dot:var(--gold)"></i>UNCLAIMED</span><span><i class="legend-dot" style="--dot:#647589"></i>UNSURVEYED</span><span class="gold">⌘ ANCIENT ARCHIVE</span></div></section>
+  `<div class="chart-layout"><div><section class="card chart-card" aria-label="Interactive galaxy map"><div class="chart-toolbar"><div class="segmented" aria-label="Map display">${[['political', 'Territory'], ['survey', 'Exploration'], ['routes', 'Fleet orders'], ['intel', 'Intel age']].map(([id, label]) => btn(label, 'map-mode', `data-mode="${id}" aria-pressed="${mapMode === id}"`, mapMode === id ? 'active' : '')).join('')}</div><span class="mono muted" style="font-size:9px">SECTOR ${String(state.seed % 999).padStart(3, '0')} / ${pack.rules.columns} : ${pack.rules.rows}</span></div><div class="chart-viewport ${panMode?'pan-enabled':''}"><canvas id="galaxy-canvas" aria-hidden="true"></canvas><div id="stars" class="star-layer" role="group" aria-label="Select a star system"></div><div class="map-coordinates">DEEP SPACE NETWORK<br><span class="mint">●</span> TELEMETRY ONLINE</div><div class="map-void">THE UNCHARTED REACH</div><div id="map-tip" class="map-tip" role="tooltip" hidden></div><canvas id="minimap" class="minimap" aria-label="Chart overview. Select a point to centre the chart there." ${preferences.minimap ? '' : 'hidden'}></canvas><div class="map-controls">${btn('↔', 'pan-mode', `aria-label="Pan galaxy" aria-pressed="${panMode}" title="Toggle drag to pan (touch or mouse)"`, panMode?'active':'')}${btn('−', 'zoom-out', 'aria-label="Zoom out"')}${btn('⌖', 'zoom-reset', 'aria-label="Fit galaxy"')}${btn('+', 'zoom-in', 'aria-label="Zoom in"')}</div></div><div class="map-legend"><span><i class="legend-dot" style="--dot:var(--empire)"></i>YOUR EMPIRE</span><span><i class="legend-dot" style="--dot:var(--gold)"></i>UNCLAIMED</span><span><i class="legend-dot" style="--dot:#647589"></i>UNSURVEYED</span><span><i class="legend-dot" style="--dot:#f28b71"></i>HOSTILE CONTACT</span><span class="gold">⌘ ANCIENT ARCHIVE</span><span class="muted">STAR TINT · SPECTRAL CLASS</span>${mapMode === 'intel' ? '<span class="mint">RINGS FADE WITH REPORT AGE</span>' : ''}</div></section>
   <label class="system-picker">Find a charted system<select id="system-jump">${[...engine.visibleSystems(state)].map(id=>`<option value="${id}" ${id===selected?'selected':''}>${esc(state.systems[id].name)}${state.empires[player()].known.includes(id)?'':' · unsurveyed'}</option>`).join('')}</select></label><div class="card dispatch-strip">${icon('fleets')}<div><strong>${selectedFleet ? 'Fleet selected · choose a destination' : 'Your next command'}</strong><p>${selectedFleet ? 'Select a connected star, then confirm Plot course. Orders resolve when you end the turn.' : 'Select a ship in the system panel, then a neighbouring star to chart its course.'}</p></div></div></div><aside class="inspector" aria-label="Selected system">${inspector()}</aside></div>`;
 }
 function drawGalaxy() {
   const canvas = $('#galaxy-canvas'), stars = $('#stars'); if (!canvas || !stars) return;
-  const points = drawMap(canvas, state, engine, selected, selectedFleet, zoom, mapMode, { pan: mapPan });
+  const points = drawMap(canvas, state, engine, selected, selectedFleet, zoom, mapMode, { pan: mapPan, detail: preferences.detail });
   if (!points.length) return;
+  const minimap = $('#minimap'); if (minimap && !minimap.hidden) drawMinimap(minimap, state, engine, { w: canvas.clientWidth, h: canvas.clientHeight, zoom, pan: mapPan });
+  hideMapTip();
   // A resize, zoom or pan only moves the existing controls. Keeping node identity
   // preserves keyboard focus, pointer capture and assistive-technology context.
   if (!stars.childElementCount) {
@@ -311,10 +367,10 @@ function drawGalaxy() {
     for (const ship of engine.fleets(state)) counts.set(ship.system, (counts.get(ship.system) || 0) + 1);
     stars.innerHTML = state.systems.filter(s => visible.has(s.id)).map(s => {
       const intel = engine.systemIntel(state, s.id), colony = intel?.planets.find(p => p.owner >= 0);
-      const color = known.has(s.id) && colony ? pack.empires[colony.owner].color : '#c9b18a';
+      const spectral = spectralClass(s.id, state.seed), color = known.has(s.id) && colony ? pack.empires[colony.owner].color : spectral.color;
       const count = counts.get(s.id) || 0, danger = intel?.fleets.some(f => state.relations[player()][f.owner] === 'war' && f.attack > 0);
       const label = known.has(s.id) ? s.name : `${s.name} · unsurveyed`;
-      return `<button class="star-node ${danger?'danger':''} ${known.has(s.id)?'':'frontier'} ${selected===s.id?'selected':''}" style="--star:${color}" data-action="system" data-id="${s.id}" aria-label="${esc(label)}" aria-pressed="${selected===s.id}" title="${esc(label)}"><i></i><span>${esc(s.name)}</span>${count?`<b class="fleet-count">▴ ${count}</b>`:''}${danger?'<b class="danger-mark" aria-label="Hostile fleet last reported">!</b>':''}</button>`;
+      return `<button class="star-node ${danger?'danger':''} ${known.has(s.id)?'':'frontier'} ${selected===s.id?'selected':''} ${colony&&colony.owner===player()?'owned':''} ${s.id===pack.empires[player()].home?'home':''}" style="--star:${color};--spectral:${spectral.color}" data-action="system" data-id="${s.id}" data-spectral="${spectral.name}" aria-label="${esc(label)}" aria-pressed="${selected===s.id}" title="${esc(label)}"><i></i><span>${esc(s.name)}</span>${count?`<b class="fleet-count">▴ ${count}</b>`:''}${danger?'<b class="danger-mark" aria-label="Hostile fleet last reported">!</b>':''}</button>`;
     }).join('');
   }
   const nodes = [...stars.querySelectorAll('.star-node')];
@@ -335,6 +391,28 @@ function drawGalaxy() {
   }
 }
 
+function systemBrief(id) {
+  const s = state.systems[id], known = state.empires[player()].known.includes(id), report = known ? engine.systemIntel(state, id) : null, spectral = spectralClass(id, state.seed);
+  const mine = engine.fleets(state).filter(f => f.system === id).length, rows = [];
+  if (!report) rows.push('Unsurveyed frontier signal');
+  else {
+    const owners = new Map(); for (const p of report.planets) if (p.owner >= 0) owners.set(p.owner, (owners.get(p.owner) || 0) + 1);
+    rows.push(`${report.planets.length} worlds${owners.size ? ' · ' + [...owners].map(([o, n]) => `${esc(pack.empires[o].short)} ${n}`).join(', ') : ' · unclaimed'}`);
+    const hostile = report.fleets.filter(f => f.owner !== player() && state.relations[player()][f.owner] === 'war').reduce((n, f) => n + f.ships, 0);
+    if (hostile) rows.push(`${hostile} hostile ship${hostile === 1 ? '' : 's'} reported`);
+    if (report.archive) rows.push('Ancient archive detected');
+    rows.push(report.current ? 'Live sensor coverage' : `Last seen turn ${report.turn}`);
+  }
+  if (mine) rows.push(`${mine} of your ship${mine === 1 ? '' : 's'} in orbit`);
+  return `<strong>${esc(s.name)}</strong><small>CLASS ${spectral.name} STAR · ${s.links.length} WARP LANES</small>${rows.map(r => `<span>${r}</span>`).join('')}`;
+}
+function showMapTip(node) {
+  const tip = $('#map-tip'), canvas = $('#galaxy-canvas'); if (!tip || !canvas || !node?.dataset.id || view !== 'galaxy') return;
+  tip.innerHTML = systemBrief(Number(node.dataset.id)); tip.hidden = false;
+  const y = parseFloat(node.style.top) || 0; tip.classList.toggle('above', y > canvas.clientHeight * .68);
+  tip.style.left = node.style.left; tip.style.top = node.style.top;
+}
+function hideMapTip() { const tip = $('#map-tip'); if (tip) tip.hidden = true; }
 function inspector() {
   const sys = state.systems[selected], known = state.empires[player()].known.includes(selected), local = engine.fleets(state).filter(f => f.system === selected), ship = state.fleets.find(f => f.id === selectedFleet);
   const intel=engine.systemIntel(state,selected);
@@ -355,7 +433,7 @@ function baseDesignerView() {
   try { engine.checkDesign(designer, e.tech, player()); } catch (error) { valid = false; reason = error.message; }
   const availableHulls = Object.values(pack.hulls).filter(h => (h.faction === -1 || h.faction === player()) && h.level <= e.tech[h.tech]);
   return pageHead('NAVAL ARCHITECTURE', 'Design your advantage', 'Choose a hull. Fit components. Save a class. Build it at any orbital shipyard.', btn('Campaign workshop', 'mods', '', 'quiet')) +
-  `<div class="split-view"><div class="card"><div class="blueprint">${shipCanvas(designer, player(), true)}<span class="bp-tag">${esc(hull.name.toUpperCase())} / SCHEMATIC 01</span></div><div class="designer-fields"><label>CLASS NAME<input id="design-name" maxlength="32" value="${esc(designer.name)}"></label><label>HULL FRAME<select id="design-hull">${availableHulls.map(h => `<option value="${h.id}" ${h.id === designer.hull ? 'selected' : ''}>${esc(h.name)} · ${h.slots} slots · ${h.hp} base hull</option>`).join('')}</select></label><div class="metric-grid"><div><strong>${stats.attack}</strong><small>ATTACK</small></div><div><strong>${stats.hp}</strong><small>HULL</small></div><div><strong>${stats.cost}</strong><small>MINERALS</small></div></div><div class="row between"><span class="mono ${stats.slots > hull.slots ? 'gold' : 'mint'}">${stats.slots} / ${hull.slots} SLOTS</span><small>${stats.speed} lane(s) per turn</small></div>${progress(stats.slots, hull.slots)}<div>${designer.parts.map((id, index) => `<div class="part-row"><span>${esc(pack.components[id].name)} <small> · ${pack.components[id].slots} slot(s)</small></span>${btn('−', 'remove-part', `data-index="${index}" aria-label="Remove ${esc(pack.components[id].name)}"`, 'quiet small')}</div>`).join('') || '<p class="muted">An empty frame. Install an engine to begin.</p>'}</div><small>${esc(reason)}</small>${btn('Register ship class', 'save-design', valid ? '' : 'disabled', 'primary')}</div></div><section class="card"><div class="card-head"><h3>COMPONENT CATALOGUE</h3><small>${Object.keys(pack.components).length} MODULES</small></div><div class="card-pad component-list">${Object.values(pack.components).map(c => { const locked = c.level > e.tech[c.tech]; return `<div class="production-item"><div><p>${esc(c.name)} ${locked ? '<span class="gold">⌑</span>' : ''}</p><small>${c.slots} slot(s) · ${c.cost} ◇ ${c.attack ? ' · +' + c.attack + ' ATK' : ''}${c.hp ? ' · +' + c.hp + ' HULL' : ''}</small><small style="display:block;margin-top:5px">${locked ? 'Requires ' + esc(pack.tech[c.tech].name) + ' ' + roman(c.level) : esc(c.description)}</small></div>${btn('+', 'add-part', `data-part="${c.id}" aria-label="Add ${esc(c.name)}" ${locked || stats.slots + c.slots > hull.slots ? 'disabled' : ''}`, 'small')}</div>`; }).join('')}</div></section></div><section class="card" style="margin-top:20px"><div class="card-head"><h3>REGISTERED CLASSES</h3><small>Click to copy and modify</small></div><div class="design-library">${e.designs.map(d => btn(`${shipCanvas(d)}${esc(d.name)}`, 'copy-design', `data-design="${d.id}"`, 'quiet')).join('')}</div></section>`;
+  `<div class="split-view"><div class="card"><div class="blueprint">${shipCanvas(designer, player(), true)}<span class="bp-tag">${esc(hull.name.toUpperCase())} / SCHEMATIC 01</span></div><div class="designer-fields"><label>CLASS NAME<input id="design-name" maxlength="32" value="${esc(designer.name)}"></label><label>HULL FRAME<select id="design-hull">${availableHulls.map(h => `<option value="${h.id}" ${h.id === designer.hull ? 'selected' : ''}>${esc(h.name)} · ${h.slots} slots · ${h.hp} base hull</option>`).join('')}</select></label><label>FLEET LIVERY · COSMETIC<select id="design-livery">${liveryOptions(pack.empires[player()])}</select></label><div class="metric-grid"><div><strong>${stats.attack}</strong><small>ATTACK</small></div><div><strong>${stats.hp}</strong><small>HULL</small></div><div><strong>${stats.cost}</strong><small>MINERALS</small></div></div><div class="row between"><span class="mono ${stats.slots > hull.slots ? 'gold' : 'mint'}">${stats.slots} / ${hull.slots} SLOTS</span><small>${stats.speed} lane(s) per turn</small></div><div class="role-pills">${stats.roles.map(r => `<i class="role-pill ${r}">${ROLE_LABELS[r] || esc(r)}</i>`).join('') || '<small>No modules fitted</small>'}</div>${progress(stats.slots, hull.slots)}<div>${designer.parts.map((id, index) => `<div class="part-row"><span>${esc(pack.components[id].name)} <small> · ${pack.components[id].slots} slot(s)</small></span>${btn('−', 'remove-part', `data-index="${index}" aria-label="Remove ${esc(pack.components[id].name)}"`, 'quiet small')}</div>`).join('') || '<p class="muted">An empty frame. Install an engine to begin.</p>'}</div><small>${esc(reason)}</small>${btn('Register ship class', 'save-design', valid ? '' : 'disabled', 'primary')}</div></div><section class="card"><div class="card-head"><h3>COMPONENT CATALOGUE</h3><small>${Object.keys(pack.components).length} MODULES</small></div><div class="card-pad component-list">${Object.values(pack.components).map(c => { const locked = c.level > e.tech[c.tech]; return `<div class="production-item"><div><p>${esc(c.name)} ${locked ? '<span class="gold">⌑</span>' : ''}</p><small>${c.slots} slot(s) · ${c.cost} ◇ ${c.attack ? ' · +' + c.attack + ' ATK' : ''}${c.hp ? ' · +' + c.hp + ' HULL' : ''}</small><small style="display:block;margin-top:5px">${locked ? 'Requires ' + esc(pack.tech[c.tech].name) + ' ' + roman(c.level) : esc(c.description)}</small></div>${btn('+', 'add-part', `data-part="${c.id}" aria-label="Add ${esc(c.name)}" ${locked || stats.slots + c.slots > hull.slots ? 'disabled' : ''}`, 'small')}</div>`; }).join('')}</div></section></div><section class="card" style="margin-top:20px"><div class="card-head"><h3>REGISTERED CLASSES</h3><small>Click to copy and modify</small></div><div class="design-library">${e.designs.map(d => btn(`${shipCanvas(d)}${esc(d.name)}`, 'copy-design', `data-design="${d.id}"`, 'quiet')).join('')}</div></section>`;
 }
 function baseDiplomacyView() {
   const e = state.empires[player()];
@@ -368,10 +446,11 @@ function modsView() {
   return pageHead('CAMPAIGN WORKSHOP', 'Make the universe yours', 'Editable text. Original worlds. No account, server, or build step.', btn('Import .txt folder', 'import-mod', '', 'primary')) +
   `<div class="cards">${campaigns.map((c, i) => `<section class="card mod-card"><div class="mod-swatch">CAMPAIGN / ${String(i + 1).padStart(2, '0')}</div><div class="eyebrow">INSTALLED CAMPAIGN</div><h2>${esc(c.title)}</h2><p>${esc(c.description || 'A locally installed campaign. Start an expedition to explore its universe.')}</p><div class="row">${btn('Start campaign', 'campaign-prompt', `data-pack="${c.id}"`, 'primary small')}${btn('Resume', 'resume-pack', `data-pack="${c.id}"`, 'quiet small')}</div></section>`).join('')}</div>
   <section class="card card-pad" style="margin-top:20px"><div class="eyebrow">ACTIVE PACK / ${esc(pack.meta.id)} @ ${esc(pack.meta.version)}</div><h2>Every empire starts in a text file.</h2><p class="muted" style="font-size:12px;margin:12px 0 20px">Edit names, faction colours, ship silhouettes, component stats, starting ships, world types, starlanes, research, buildings and campaign rules. Text imports are data only. For new behaviours, register local source hooks using the included example.</p><div class="row wrap">${btn('Export campaign pack', 'export-pack', '', 'small')}${btn('Visual workshop', 'visual-workshop', '', 'primary small')}<a class="button small quiet" href="editor/index.html">3D Workbench</a>${btn('Edit text files', 'edit-pack', '', 'small quiet')}<a href="MOD_GUIDE.md" target="_blank" rel="noopener">Modding guide ↗</a></div></section>
+  <section class="card card-pad" style="margin-top:20px"><div class="eyebrow">HANGAR LIVERIES · ${esc(pack.empires[player()].short)}</div><p class="muted" style="font-size:12px;margin:10px 0 16px">Cosmetic hull finishes for your fleet. Rival fleets receive a stable automatic livery; override any faction in Settings. Import a validated livery pack to add your own.</p><div class="livery-cards">${liveryCatalogue(importedLiveries).map(l => { const sample = pack.ships.find(s => s.empire === player() && engine.role(s, 'assault')) || pack.ships.find(s => s.empire === player()) || { hull: Object.keys(pack.hulls)[0], parts: [] }; const active = playerLivery().id === l.id; return `<div class="livery-card ${active ? 'active' : ''}">${shipCanvas(sample, player(), false, l.id)}<strong>${esc(l.name)}</strong><small>${esc(l.description)}</small>${btn(active ? 'In service' : 'Use for my fleet', 'use-livery', `data-id="${esc(l.id)}" ${active ? 'disabled' : ''}`, 'small ' + (active ? 'quiet' : 'primary'))}</div>`; }).join('')}</div></section>
   <section class="card card-pad" style="margin-top:20px"><div class="eyebrow">FACTION SHIP ATLAS</div><div class="cards">${pack.empires.map(f => `<div><h3 style="color:${f.color}">${esc(f.name)}</h3><div class="design-library" style="padding:10px 0">${Object.values(pack.hulls).filter(h => h.faction === f.id || h.faction === -1).map(h => `<div style="text-align:center;min-width:100px">${shipCanvas({ hull: h.id }, f.id)}<small>${esc(h.name)}</small></div>`).join('')}</div></div>`).join('')}</div></section>`;
 }
 function help() {
-  modal('Your field manual', `<p>A classic turn-based space 4X, inspired by Space Empires IV. Nothing advances until you end a turn.</p><div class="help-grid"><div><h3>01 · Explore</h3><p>In the galaxy view, select a ship, then a neighbouring star and <b>Plot course</b>. End your turn to travel. The route can cross surveyed systems and end at an unsurveyed frontier star. Survey arrays recover golden ancient archives.</p><h3>02 · Expand</h3><p>Bring a colony ark to an unclaimed world, then choose <b>Colonise</b>. This consumes the ark and costs ${pack.rules.colonizeMinerals} minerals + ${pack.rules.colonizeEnergy} energy. You can also colonise another planet in your starting system.</p></div><div><h3>03 · Develop</h3><p>Manage a colony to queue facilities or ships. A shipyard enables shipbuilding and repairs. Research unlocks components; create a new design to use them. Existing ships retain their installed parts.</p><h3>04 · Prevail</h3><p>Sign treaties or declare war after first contact. Combat resolves each turn. Marine ships can capture planets once defenders are gone and their combined attack meets planetary defence. At zero energy, fleet attack is halved.</p></div></div><h3>Campaign objectives and command tools</h3><p>Scenario packs list their goals in <b>Objectives &amp; choices</b>. Choosing a route closes alternative branches; progress is stored in your save. Fleets can form task forces, auto-explore, patrol, return to a shipyard or refit. Production queues can be reordered without losing work. Search and sort colony and fleet manifests as your empire grows.</p><h3>Victory conditions</h3><p>${pack.scenario.victory==='objectives' ? 'This expedition uses scenario objectives. Complete a victory route after turn '+pack.scenario.minVictoryTurn+'. '+(pack.scenario.defeatAtLimit?'The deadline is a defeat condition. ':'')+'Legacy expansion and science victories are disabled. The following describes legacy campaigns: ' : ''}Found ${pack.rules.colonyTarget} colonies, research every field to level ${roman(pack.rules.maxTech)}, or eliminate the other empires. At turn ${pack.rules.turnLimit}, the highest score wins: 100 per colony, 25 per research level and 5 per surviving ship. Loss of all colonies and colony arks ends your campaign.</p><h3>Controls & saves</h3><p>Mouse and touch: select, then confirm an order. Keyboard: Tab through controls; Enter/Space activates a focused button. <b>E</b> ends a turn; <b>1–8</b> change command views; <b>?</b> opens this guide. <b>N</b> selects the next idle ship; <b>H</b> returns home; <b>Ctrl/Cmd K</b> or <b>/</b> opens the searchable command menu. Arrow keys move between focused star targets. Drag empty chart space with a mouse, or enable <b>Pan galaxy</b> for touch; Fit galaxy resets the view. Settings offers full labels, high contrast and an optional idle-unit turn review. Gameplay shortcuts are disabled in forms and dialogs. Standard gamepad: D-pad cycles visible stars, A selects, B clears the fleet selection. Held controls must return to neutral after focus loss.</p><p>Accepted orders autosave in this browser. Export a save before clearing site data. Each campaign content version has a separate save slot. Save files include their complete text pack. You can play offline after the first complete cache installation, or serve a downloaded checkout locally.</p><div class="row">${btn('Back to the frontier', 'close', '', 'primary')}${btn('Sound ' + (audio.enabled ? 'on' : 'off'), 'sound', '', 'quiet')}</div>`);
+  modal('Your field manual', `<p>A classic turn-based space 4X, inspired by Space Empires IV. Nothing advances until you end a turn.</p><div class="help-grid"><div><h3>01 · Explore</h3><p>In the galaxy view, select a ship, then a neighbouring star and <b>Plot course</b>. End your turn to travel. The route can cross surveyed systems and end at an unsurveyed frontier star. Survey arrays recover golden ancient archives.</p><h3>02 · Expand</h3><p>Bring a colony ark to an unclaimed world, then choose <b>Colonise</b>. This consumes the ark and costs ${pack.rules.colonizeMinerals} minerals + ${pack.rules.colonizeEnergy} energy. You can also colonise another planet in your starting system.</p></div><div><h3>03 · Develop</h3><p>Manage a colony to queue facilities or ships. A shipyard enables shipbuilding and repairs. Research unlocks components; create a new design to use them. Existing ships retain their installed parts.</p><h3>04 · Prevail</h3><p>Sign treaties or declare war after first contact. Combat resolves each turn. Marine ships can capture planets once defenders are gone and their combined attack meets planetary defence. At zero energy, fleet attack is halved.</p></div></div><h3>Campaign objectives and command tools</h3><p>Scenario packs list their goals in <b>Objectives &amp; choices</b>. Choosing a route closes alternative branches; progress is stored in your save. Fleets can form task forces, auto-explore, patrol, return to a shipyard or refit. Production queues can be reordered without losing work. Search and sort colony and fleet manifests as your empire grows.</p><h3>Victory conditions</h3><p>${pack.scenario.victory==='objectives' ? 'This expedition uses scenario objectives. Complete a victory route after turn '+pack.scenario.minVictoryTurn+'. '+(pack.scenario.defeatAtLimit?'The deadline is a defeat condition. ':'')+'Legacy expansion and science victories are disabled. The following describes legacy campaigns: ' : ''}Found ${pack.rules.colonyTarget} colonies, research every field to level ${roman(pack.rules.maxTech)}, or eliminate the other empires. At turn ${pack.rules.turnLimit}, the highest score wins: 100 per colony, 25 per research level and 5 per surviving ship. Loss of all colonies and colony arks ends your campaign.</p><h3>Controls & saves</h3><p>Mouse and touch: select, then confirm an order. Keyboard: Tab through controls; Enter/Space activates a focused button. <b>E</b> ends a turn; <b>1–8</b> change command views; <b>?</b> opens this guide. <b>N</b> selects the next idle ship; <b>C</b> opens the next idle colony; <b>H</b> returns home; <b>Ctrl/Cmd K</b> or <b>/</b> opens the searchable command menu. <b>Ctrl/Cmd Z</b> withdraws the last accepted order this turn (ending a turn is final). Mouse wheel or <b>+</b>/<b>−</b> zoom around the pointer, <b>0</b> fits the galaxy, and hovering or focusing a star shows its brief. The minimap recentres the chart. Settings offer themes, fleet liveries, the Intel age chart overlay and seeded E8 music variations. Arrow keys move between focused star targets. Drag empty chart space with a mouse, or enable <b>Pan galaxy</b> for touch; Fit galaxy resets the view. Settings offers full labels, high contrast and an optional idle-unit turn review. Gameplay shortcuts are disabled in forms and dialogs. Standard gamepad: D-pad cycles visible stars, A selects, B clears the fleet selection. Held controls must return to neutral after focus loss.</p><p>Accepted orders autosave in this browser. Export a save before clearing site data. Each campaign content version has a separate save slot. Save files include their complete text pack. You can play offline after the first complete cache installation, or serve a downloaded checkout locally.</p><div class="row">${btn('Back to the frontier', 'close', '', 'primary')}${btn('Sound ' + (audio.enabled ? 'on' : 'off'), 'sound', '', 'quiet')}</div>`);
 }
 function campaignBriefing(candidate, empireId) {
   const faction = candidate.empires[empireId], start = candidate.starts.find(x => x.empire === empireId);
@@ -388,7 +467,7 @@ function refreshBriefing(candidate) {
   const holder=$('#new-briefing'),empireId=Number($('#new-player')?.value);
   if(!holder || !candidate.empires[empireId])return;
   holder.innerHTML=campaignBriefing(candidate,empireId);
-  holder.querySelectorAll('[data-briefing-hull]').forEach(c=>paintShip(c,candidate.hulls[c.dataset.briefingHull],candidate.empires[empireId]));
+  holder.querySelectorAll('[data-briefing-hull]').forEach(c=>paintShip(c,candidate.hulls[c.dataset.briefingHull],candidate.empires[empireId],false,{livery:liveryFor(candidate.empires[empireId],candidate,preferences.liveries,importedLiveries),roles:[...new Set((candidate.ships.find(s=>s.empire===empireId&&s.hull===c.dataset.briefingHull)?.parts||[]).map(id=>candidate.components[id]?.kind).filter(Boolean))]}));
 }
 async function newGameDialog(id = null) {
   const epoch=++campaignLoadEpoch, wanted=id||extension||'custom';
@@ -464,6 +543,11 @@ document.addEventListener('click', async event => {
       case 'workbench-hull-export': download(`${workshopHull}-workbench.json`,await Bridge.exportWorkbenchHull(editorFiles,workshopHull));break;
       case 'workbench-map-export': download(`${draftPack().meta.id}-layout-workbench.json`,Bridge.exportWorkbenchLayout(editorFiles));break;
       case 'settings': settingsDialog(); break;
+      case 'undo': undoOrder(); break;
+      case 'use-livery': setLivery(player(), d.id); render(); toast('Livery applied to your fleet.'); break;
+      case 'livery-import': $('#livery-upload').click(); break;
+      case 'livery-template': download('voidward-liveries.json', importedLiveries ? exportLiveryPack(importedLiveries.liveries, importedLiveries.id, importedLiveries.title, importedLiveries.author) : exportLiveryPack()); toast(importedLiveries ? 'Imported livery pack exported.' : 'Livery template exported. Edit it and import it from Settings.'); break;
+      case 'livery-reset': importedLiveries = null; preferences.liveries = {}; try { localStorage.removeItem('voidward.liveries.v1'); } catch {} savePreferences(); settingsDialog(); toast('Liveries reset to automatic.'); break;
       case 'objectives': objectivesDialog(); break;
       case 'choose-objective': if (act({ type: 'chooseObjective', id: d.id })) objectivesDialog(); break;
       case 'reorder': act({ type: 'reorder', planet: Number(d.planet), from: Number(d.from), to: Number(d.to) }); manageColony(Number(d.planet)); break;
@@ -506,8 +590,8 @@ document.addEventListener('click', async event => {
       case 'diplomacy': act({ type: 'diplomacy', target: Number(d.target), offer: d.offer }); closeDialog(); break;
       case 'war-prompt': modal('Declare war?', `<p>This breaks any trade pact with ${esc(pack.empires[Number(d.target)].name)}. Fleets and planets become hostile when turns resolve.</p><div class="row">${btn('Declare war', 'diplomacy', `data-target="${d.target}" data-offer="war"`, 'danger')}${btn('Keep the peace', 'close', '', 'quiet')}</div>`); break;
       case 'map-mode': mapMode = d.mode; render(); break;
-      case 'zoom-in': zoom = Math.min(2.4, zoom + .2); drawGalaxy(); break;
-      case 'zoom-out': zoom = Math.max(.6, zoom - .2); drawGalaxy(); break;
+      case 'zoom-in': zoomAt(1.2); break;
+      case 'zoom-out': zoomAt(1 / 1.2); break;
       case 'zoom-reset': zoom = 1;mapPan={x:0,y:0};drawGalaxy();break;
       case 'pan-mode': panMode=!panMode;$('.chart-viewport')?.classList.toggle('pan-enabled',panMode);button.setAttribute('aria-pressed',String(panMode));button.classList.toggle('active',panMode);break;
       case 'help': help(); break;
@@ -570,6 +654,13 @@ document.addEventListener('change', async event => {
     if(t.id==='label-setting') { preferences.labels=t.value;savePreferences();drawGalaxy(); }
     if(t.id==='contrast-setting') { preferences.contrast=t.value;document.documentElement.dataset.contrast=t.value;savePreferences(); }
     if(t.id==='review-turn') { preferences.reviewTurn=t.checked;savePreferences(); }
+    if(t.id==='theme-setting' && THEMES.includes(t.value)) { preferences.theme=t.value;document.documentElement.dataset.theme=t.value;savePreferences(); }
+    if(t.id==='minimap-setting') { preferences.minimap=t.checked;savePreferences();const m=$('#minimap');if(m){m.hidden=!t.checked;drawGalaxy();} }
+    if(t.id==='music-mode') { preferences.musicMode=t.value==='e8'?'e8':'pack';savePreferences();audio.setMode(preferences.musicMode); }
+    if(t.id==='detail-setting' && DETAILS.includes(t.value)) { preferences.detail=t.value;savePreferences();drawGalaxy(); }
+    if(t.dataset.livery!==undefined) { setLivery(Number(t.dataset.livery),t.value);paintCanvases($('#dialog')); }
+    if(t.id==='design-livery') { setLivery(player(),t.value);render(); }
+    if(t.id==='livery-upload') { const file=t.files[0];if(!file)return;if(file.size>LIVERY_PACK_BYTES)throw new Error(`Livery pack exceeds ${LIVERY_PACK_BYTES} bytes.`);const text=await file.text();importedLiveries=compileLiveryPack(text);try{localStorage.setItem('voidward.liveries.v1',text);}catch{}savePreferences();settingsDialog();toast(`Livery pack loaded: ${importedLiveries.title}.`);t.value='';return; }
     if(t.id==='system-jump') { selected=Number(t.value);render();revealSelection(); }
     if (event.target.id === 'design-hull') { designer.hull = event.target.value; render(); }
     if(t.id==='new-pack') { await changeNewCampaign(t.value);return; }
@@ -581,6 +672,13 @@ document.addEventListener('change', async event => {
   } catch (error) { event.target.value = ''; toast(error.message, true); }
 });
 document.addEventListener('pointerdown', event => {
+  if(event.target.id==='minimap' && state) {
+    const mini=event.target,canvas=$('#galaxy-canvas'),rect=mini.getBoundingClientRect();if(!canvas)return;
+    const miniT=chartTransform(state.systems,mini.clientWidth,mini.clientHeight,1,{}),mainT=chartTransform(state.systems,canvas.clientWidth,canvas.clientHeight,zoom,mapPan);
+    if(!miniT||!mainT)return;
+    const dx=(event.clientX-rect.left-mini.clientWidth/2)/miniT.scale,dy=(event.clientY-rect.top-mini.clientHeight/2)/miniT.scale;
+    mapPan={x:-dx*mainT.scale,y:-dy*mainT.scale};scheduleMapDraw();event.preventDefault();return;
+  }
   const area=event.target.closest('.chart-viewport');
   if(!area || event.button!==0 || event.target.closest('button') || (event.pointerType==='touch' && !panMode))return;
   mapDrag={id:event.pointerId,area,x:event.clientX,y:event.clientY,pan:{...mapPan}};
@@ -602,11 +700,19 @@ document.addEventListener('pointercancel',stopMapDrag);
 document.addEventListener('lostpointercapture',stopMapDrag);
 document.addEventListener('focusin',event=>{
   const star=event.target.closest('.star-node');
-  if(star && view==='galaxy')revealSelection(Number(star.dataset.id));
+  if(star && view==='galaxy'){revealSelection(Number(star.dataset.id));showMapTip(star);}
 });
+document.addEventListener('focusout',event=>{ if(event.target.closest?.('.star-node'))hideMapTip(); });
+document.addEventListener('mouseover',event=>{ const star=event.target.closest?.('.star-node'); if(star)showMapTip(star); });
+document.addEventListener('mouseout',event=>{ const star=event.target.closest?.('.star-node'); if(star && !star.contains(event.relatedTarget))hideMapTip(); });
+document.addEventListener('wheel',event=>{
+  if(!state || !event.target.closest?.('.chart-viewport') || $('#dialog').open)return;
+  event.preventDefault();zoomAt(event.deltaY<0?1.15:1/1.15,event.clientX,event.clientY);
+},{passive:false});
 document.addEventListener('keydown', event => {
   if(event.repeat || !state || event.isComposing || $('#dialog').open)return;
   if((event.ctrlKey||event.metaKey) && event.key.toLowerCase()==='k') { event.preventDefault();commandMenu();return; }
+  if((event.ctrlKey||event.metaKey) && !event.shiftKey && event.key.toLowerCase()==='z' && !event.target.isContentEditable && !['INPUT','TEXTAREA','SELECT'].includes(event.target.tagName)) { event.preventDefault();undoOrder();return; }
   if(event.ctrlKey||event.metaKey||event.altKey||event.target.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(event.target.tagName))return;
   const star=event.target.closest('.star-node'),vectors={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
   if(star && vectors[event.key]) {
@@ -619,6 +725,10 @@ document.addEventListener('keydown', event => {
   const key=event.key.toLowerCase();
   if(key==='e'){event.preventDefault();requestEndTurn();}
   else if(key==='n'){event.preventDefault();nextIdleFleet();}
+  else if(key==='c'){event.preventDefault();nextIdleColony();}
+  else if(key==='+'||key==='='){event.preventDefault();zoomAt(1.2);}
+  else if(key==='-'||key==='_'){event.preventDefault();zoomAt(1/1.2);}
+  else if(key==='0'){event.preventDefault();zoom=1;mapPan={x:0,y:0};scheduleMapDraw();}
   else if(key==='h'){event.preventDefault();selected=pack.empires[player()].home;view='galaxy';render();revealSelection();}
   else if(key==='/'){event.preventDefault();commandMenu();}
   else if(key==='escape' && selectedFleet!==null){selectedFleet=null;render();}
@@ -631,6 +741,7 @@ function pollGamepad() {
   gamepad.poll(); const B = globalThis.QsolInput.BUTTON;
   if (gamepad.pressed(B.EAST)) { selectedFleet = null; render(); }
   if (view !== 'galaxy') return;
+  if (gamepad.pressed(B.RB)) zoomAt(1.2); if (gamepad.pressed(B.LB)) zoomAt(1 / 1.2);
   const ids = [...engine.visibleSystems(state)].sort((a, b) => a - b), current = ids.indexOf(selected);
   if (gamepad.pressed(B.RIGHT) || gamepad.pressed(B.DOWN)) { selected = ids[(current + 1) % ids.length]; render();revealSelection(); }
   if (gamepad.pressed(B.LEFT) || gamepad.pressed(B.UP)) { selected = ids[(current - 1 + ids.length) % ids.length]; render();revealSelection(); }
@@ -666,4 +777,4 @@ boot().then(() => {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) navigator.serviceWorker.register(new URL('../sw.js', import.meta.url)).catch(error => toast('Offline cache unavailable: ' + error.message, true));
 }).catch(error => { $('#app').innerHTML = `<div class="loading"><h1>Unable to open the frontier</h1><p>${esc(error.message)}</p><p>Serve this folder over HTTP. See README.md for local play.</p><button onclick="location.reload()">Retry</button></div>`; });
 // Read-only snapshots for diagnostics: external code cannot mutate the live campaign.
-Object.defineProperty(globalThis, '__voidward', { get: () => state ? { state: structuredClone(state), player: player(), pack: structuredClone(pack), view, selected, selectedFleet, audio: { enabled: audio.enabled, context: audio.effects.ctx?.state, cachedNotes: audio.notes.size, noteBytes: audio.noteBytes, levels: audio.levels, musicVoices: audio.sources.size }, renderer: {...backdropStats(),zoom,pan:{...mapPan}}, workshop: editorFiles ? { files: structuredClone(editorFiles), tab: workshopTab, hull: workshopHull } : null, engineVersion: 2 } : null });
+Object.defineProperty(globalThis, '__voidward', { get: () => state ? { state: structuredClone(state), player: player(), pack: structuredClone(pack), view, selected, selectedFleet, audio: { enabled: audio.enabled, context: audio.effects.ctx?.state, cachedNotes: audio.notes.size, noteBytes: audio.noteBytes, levels: audio.levels, musicVoices: audio.sources.size }, renderer: {...backdropStats(),zoom,pan:{...mapPan},mode:mapMode,detail:preferences.detail}, presentation: { theme: preferences.theme, liveries: {...preferences.liveries}, playerLivery: playerLivery().id, importedLiveries: importedLiveries?.id ?? null, minimap: preferences.minimap, music: audio.mode, undo: undoStack.length }, workshop: editorFiles ? { files: structuredClone(editorFiles), tab: workshopTab, hull: workshopHull } : null, engineVersion: 2 } : null });

@@ -10,7 +10,7 @@ It does not depend on the DOM, Canvas, Web Audio, wall time or network requests.
 | Authoring | `js/workshop.js` | Detached text transactions; validate before replacing a draft; native/SDK envelopes |
 | Workbench adapter | `js/workbench-bridge.js` | Real donor project validation; documented map scale and lossy convex hull projection; retained licence/source metadata |
 | Interface | `js/app.js`, `style.css` | Candidate-state commands, save isolation, accessible controls, scalable manifests and visual authoring |
-| Presentation | `js/render.js`, `js/audio.js` | Read-only rendering/audio; bounded cosmetic caches and independent audio buses |
+| Presentation | `js/render.js`, `js/liveries.js`, `js/audio.js` | Read-only rendering/audio; seeded cosmetic noise; inert livery packs; bounded cosmetic caches and independent audio buses |
 | Installed content | `mods/registry.js`, `mods/*` | Text packs plus explicitly trusted source hooks |
 | Packaging | `scripts/site.mjs`, `sw.js` | Public-file inventory, generated content digest, Pages subpath support and scope-isolated offline cache |
 

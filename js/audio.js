@@ -4,8 +4,41 @@ import { createSound2D } from '../vendor/vanillajs/modules/audio2d/index.js';
 import '../vendor/sonification/APP/js/namespace.js';
 import '../vendor/sonification/APP/js/math64.js';
 import '../vendor/sonification/APP/js/synthesis.js';
+import '../vendor/e8-music/js/e8-core.js';
 globalThis.Arcade = { rng: seededRandom, clamp, V2D: { createSound2D } };
 await import('../vendor/arcade/js/audio.js');
+
+export const MUSIC_MODES = ['pack', 'e8'];
+export const E8_VARIATION_LENGTH = 32;
+// E8_MUSIC adapter: the 240 E8 roots are projected onto the golden direction and
+// walked in a seeded order. Each visited root picks a pitch from the pack's own
+// score range, snapped to the pack's pitch classes, and takes a duration from the
+// score's rhythm. The campaign seed is only read; the result is a bounded,
+// reproducible 32-note variation that stays inside content.js music bounds.
+export function e8Variation(score, seed = 0, length = E8_VARIATION_LENGTH) {
+  const E = globalThis.E8Core;
+  if (!E || !Array.isArray(score) || !score.length) return Array.isArray(score) ? score.slice() : [];
+  const roots = E.generateE8Roots(), projection = E.projectRoots(roots, 'golden');
+  const order = E.traversal(roots, projection, 'seeded', `voidward:${Number(seed) >>> 0}`);
+  const notes = score.map(n => n.note), low = Math.min(...notes), high = Math.max(...notes);
+  const classes = [...new Set(notes.map(n => ((n % 12) + 12) % 12))].sort((a, b) => a - b);
+  const snap = midi => {
+    let best = midi, distance = Infinity;
+    for (let candidate = midi - 6; candidate <= midi + 6; candidate++) {
+      const d = Math.abs(candidate - midi);
+      if (classes.includes(((candidate % 12) + 12) % 12) && candidate >= 24 && candidate <= 96 && (d < distance || d === distance && candidate < best)) { best = candidate; distance = d; }
+    }
+    return Math.max(24, Math.min(96, best));
+  };
+  const out = [];
+  for (let i = 0; i < length; i++) {
+    const index = order[i % order.length], value = projection.normalized[index];
+    const midi = snap(Math.round(low + value * (high - low + 5)));
+    const duration = score[i % score.length].duration;
+    out.push({ note: midi, duration: Math.max(1, Math.min(8, E.rootFamily(roots[index]) === 'integer' ? duration : Math.max(1, Math.round(duration / 2)))) });
+  }
+  return out;
+}
 
 // Small adapter over ARCADE's bounded voices and independent audio buses.
 // Presentation preferences never enter the authoritative campaign state.
@@ -13,12 +46,17 @@ export class Soundscape {
   constructor() {
     this.effects = new globalThis.Arcade.Audio(); this.enabled = false;
     this.notes = new Map(); this.noteBytes = 0; this.timer = null;
-    this.part = 0; this.score = []; this.sources = new Set();
+    this.part = 0; this.score = []; this.baseScore = []; this.mode = 'pack'; this.seed = 0; this.sources = new Set();
     this.setLevels(.55, .8);
   }
   setLevels(music, effects) { this.effects.setLevels(music, effects); }
   get levels() { return { music: this.effects.musicLevel, effects: this.effects.fxLevel }; }
-  setScore(score) { this.score = score; this.part = 0; this.stopMusic(); }
+  setScore(score, { mode = 'pack', seed = 0 } = {}) {
+    this.baseScore = score; this.mode = MUSIC_MODES.includes(mode) ? mode : 'pack'; this.seed = seed;
+    this.score = this.mode === 'e8' ? e8Variation(score, seed) : score; this.part = 0; this.stopMusic();
+    if (this.enabled) this.play();
+  }
+  setMode(mode) { this.setScore(this.baseScore || this.score, { mode, seed: this.seed }); }
   async toggle() { return this.setEnabled(!this.enabled); }
   async setEnabled(enabled) {
     this.enabled = Boolean(enabled); this.effects.setEnabled(this.enabled);

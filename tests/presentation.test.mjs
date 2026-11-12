@@ -12,6 +12,8 @@ import {campaigns} from '../mods/registry.js';
 import {commandReadiness,chartedSystems} from '../js/command-tools.js';
 import * as Workshop from '../js/workshop.js';
 import * as Bridge from '../js/workbench-bridge.js';
+import {liveryCatalogue,liveryFor,compileLiveryPack,exportLiveryPack,LIVERY_PACK_BYTES} from '../js/liveries.js';
+import {spectralClass,chartTransform} from '../js/render.js';
 
 const root=new URL('../',import.meta.url);
 async function templateHarness(overrides={}) {
@@ -19,10 +21,10 @@ async function templateHarness(overrides={}) {
   // Exercise production template functions with real engine/content. Only the
   // unavailable DOM/bootstrap boundary is replaced; no authoritative mutations.
   source=source.replace(/^import .*;\n/gm,'');source=source.slice(0,source.indexOf('boot().then('));
-  source+=`\nglobalThis.probe={set(p,e,s){pack=p;engine=e;state=s;selected=p.empires[s.player].home;designer=null;},select(id,fleet=null){selected=id;selectedFleet=fleet;},inspector,courseCommand,fingerprint,activate,newGameDialog,help,dialog(){return $('#dialog').innerHTML;},key(){return activeKey;},stored(){return localStorage.getItem(activeKey);},views(){return [galaxyView(),coloniesView(),fleetsView(),researchView(),designerView(),diplomacyView(),reportsView(),modsView(),objectiveStrip(),readinessStrip(),campaignBriefing(pack,state.player)];},workshop(p){editorFiles=p.raw;workshopHull=Object.keys(p.hulls)[0];hullDraft=null;return [workshopMapMarkup(p),workshopHullMarkup(p),workshopRecordsMarkup(p)];}};`;
+  source+=`\nglobalThis.probe={set(p,e,s){pack=p;engine=e;state=s;selected=p.empires[s.player].home;designer=null;},select(id,fleet=null){selected=id;selectedFleet=fleet;},inspector,courseCommand,fingerprint,activate,newGameDialog,help,dialog(){return $('#dialog').innerHTML;},act,undoOrder,undoDepth(){return undoStack.length;},current(){return state;},setLivery,playerLivery,liveryOptions,loadLiveries(text){importedLiveries=compileLiveryPack(text);},selection(){return selected;},nextIdleColony,systemBrief,key(){return activeKey;},stored(){return localStorage.getItem(activeKey);},views(){return [galaxyView(),coloniesView(),fleetsView(),researchView(),designerView(),diplomacyView(),reportsView(),modsView(),objectiveStrip(),readinessStrip(),campaignBriefing(pack,state.player)];},workshop(p){editorFiles=p.raw;workshopHull=Object.keys(p.hulls)[0];hullDraft=null;return [workshopMapMarkup(p),workshopHullMarkup(p),workshopRecordsMarkup(p)];}};`;
   const storage=new Map();
-  const node={addEventListener(){},querySelectorAll(){return[]},contains(){return false},innerHTML:'',close(){},showModal(){},style:{setProperty(){}},dataset:{}};
-  const context=vm.createContext({structuredClone,parsePack,PACK_FILES,OPTIONAL_PACK_FILES,createEngine,encodeSaveEnvelope,decodeSaveEnvelope,MAX_SAVE_BYTES,campaigns,commandReadiness,chartedSystems,Workshop,Bridge,TextEncoder,crypto,Soundscape:class{constructor(){this.effects={};this.levels={music:.5,effects:.8};}setLevels(){}setScore(){}resume(){}},document:{querySelector(selector){return selector==='#galaxy-canvas'?null:node;},querySelectorAll(){return[];},activeElement:null,documentElement:node,addEventListener(){}},window:{addEventListener(){},scrollY:0},localStorage:{getItem(key){return storage.get(key)||null;},setItem(key,value){storage.set(key,value);}},setTimeout,clearTimeout,requestAnimationFrame(){return 1;},cancelAnimationFrame(){},URL,...overrides});
+  const node={addEventListener(){},querySelectorAll(){return[]},contains(){return false},innerHTML:'',close(){},showModal(){},style:{setProperty(){}},dataset:{},classList:{add(){},remove(){},toggle(){},contains(){return false;}}};
+  const context=vm.createContext({structuredClone,parsePack,PACK_FILES,OPTIONAL_PACK_FILES,createEngine,liveryCatalogue,liveryFor,compileLiveryPack,exportLiveryPack,LIVERY_PACK_BYTES,spectralClass,chartTransform,encodeSaveEnvelope,decodeSaveEnvelope,MAX_SAVE_BYTES,campaigns,commandReadiness,chartedSystems,Workshop,Bridge,TextEncoder,crypto,Soundscape:class{constructor(){this.effects={};this.levels={music:.5,effects:.8};this.mode='pack';}setLevels(){}setScore(score,{mode='pack'}={}){this.mode=mode;}setMode(mode){this.mode=mode;}resume(){}effect(){}},document:{querySelector(selector){return selector==='#galaxy-canvas'?null:node;},querySelectorAll(){return[];},activeElement:null,documentElement:node,addEventListener(){}},window:{addEventListener(){},scrollY:0},localStorage:{getItem(key){return storage.get(key)||null;},setItem(key,value){storage.set(key,value);}},setTimeout,clearTimeout,requestAnimationFrame(){return 1;},cancelAnimationFrame(){},URL,...overrides});
   context.QsolInput={GamepadReader:class{},BUTTON:{}};vm.runInContext(source,context);return context.probe;
 }
 test('every shipped playable empire renders command and workshop templates without changing state',async()=>{
@@ -123,4 +125,65 @@ test('Soundscape uses ARCADE music bus, independent levels, and releases muted s
     sound.setLevels(0,.4);assert.equal(sound.effects.music.gain.value,0);assert.equal(sound.effects.fx.gain.value,.4);
     await sound.setEnabled(false);assert.equal(sound.sources.size,0);assert.equal(sound.timer,null);assert.equal(sound.effects.ctx.state,'suspended');
   } finally {sound?.stopMusic();globalThis.document=originalDocument;globalThis.window=originalWindow;}
+});
+
+test('undo reinstates the previously accepted state and is cleared by ending a turn',async()=>{
+  const probe=await templateHarness(),fixture=JSON.parse(await fs.readFile(new URL('tests/fixtures/v1-frontier.json',root),'utf8'));
+  const p=parsePack(fixture.pack),e=createEngine(p),s=e.createGame();probe.set(p,e,s);
+  const original=JSON.stringify(s);
+  assert.equal(probe.act({type:'research',field:'weapons'}),true);assert.equal(probe.current().empires[0].research,'weapons');assert.equal(probe.undoDepth(),1);
+  assert.equal(probe.act({type:'research',field:'shields'}),true);assert.equal(probe.undoDepth(),2);
+  probe.undoOrder();assert.equal(probe.current().empires[0].research,'weapons');assert.equal(probe.undoDepth(),1);
+  probe.undoOrder();assert.equal(JSON.stringify(probe.current()),original,'undo returns the exact earlier state');assert.equal(probe.undoDepth(),0);
+  probe.undoOrder();assert.equal(JSON.stringify(probe.current()),original,'an empty history is a no-op');
+  assert.equal(probe.act({type:'research',field:'weapons'}),true);assert.equal(probe.act({type:'endTurn'}),true);
+  assert.equal(probe.undoDepth(),0,'ending a turn is final');const afterTurn=JSON.stringify(probe.current());probe.undoOrder();assert.equal(JSON.stringify(probe.current()),afterTurn);
+  assert.equal(probe.act({type:'research',field:'bogus'}),false);assert.equal(probe.undoDepth(),0,'rejected commands leave no undo record');
+});
+
+test('livery selections and system briefs stay cosmetic and respect last-seen intelligence',async()=>{
+  const probe=await templateHarness(),fixture=JSON.parse(await fs.readFile(new URL('tests/fixtures/v1-frontier.json',root),'utf8'));
+  const p=parsePack(fixture.pack),e=createEngine(p),s=e.createGame(),enemyHome=p.empires[1].home;probe.set(p,e,s);
+  const before=JSON.stringify(s),auto=probe.playerLivery().id;
+  probe.setLivery(0,'obsidian');assert.equal(probe.playerLivery().id,'obsidian');assert.match(probe.liveryOptions(p.empires[0]),/value="obsidian" selected/);
+  probe.setLivery(0,'not-a-livery');assert.equal(probe.playerLivery().id,auto);probe.setLivery(0,'__automatic__');assert.equal(probe.playerLivery().id,auto);
+  assert.equal(JSON.stringify(s),before,'liveries never touch the campaign state');
+  assert.match(probe.systemBrief(p.empires[0].home),/CLASS [OBAFGKM] STAR/);
+  e.reveal(s,0,enemyHome);const brief=probe.systemBrief(enemyHome);assert.match(brief,/Last seen turn/);
+  const changed=structuredClone(s);changed.planets.find(x=>x.system===enemyHome&&x.owner===1).owner=2;e.validateState(changed);probe.set(p,e,changed);
+  assert.equal(probe.systemBrief(enemyHome),brief,'briefs show last-seen ownership only');
+});
+
+test('the undo stack never shadows the browser History API used by the editor handoff',async()=>{
+  const source=await fs.readFile(new URL('js/app.js',root),'utf8');
+  assert.doesNotMatch(source,/\b(let|const|var)\s+history\b/);assert.doesNotMatch(source,/,\s*history\s*=/);
+  assert.match(source,/history\.replaceState\(/,'the draft handoff still clears its query parameter');
+});
+
+test('an admitted livery named auto is selectable separately from automatic assignment',async()=>{
+  const probe=await templateHarness(),fixture=JSON.parse(await fs.readFile(new URL('tests/fixtures/v1-frontier.json',root),'utf8'));
+  const p=parsePack(fixture.pack),e=createEngine(p),s=e.createGame();probe.set(p,e,s);
+  const custom={...liveryCatalogue()[0],id:'auto',name:'User imported auto'};
+  probe.loadLiveries(JSON.stringify({kind:'voidward.liveries.v1',version:1,id:'auto-test',title:'Auto test',author:'Tester',liveries:[custom]}));
+  const options=probe.liveryOptions(p.empires[0]);
+  assert.match(options,/value="__automatic__" selected/);
+  assert.equal((options.match(/value="auto"/g)||[]).length,1,'custom auto occurs once; automatic has a disjoint sentinel');
+  probe.setLivery(0,'auto');
+  assert.equal(probe.playerLivery().id,'auto');
+  assert.match(probe.liveryOptions(p.empires[0]),/value="auto" selected/);
+  probe.setLivery(0,'__automatic__');
+  assert.match(probe.liveryOptions(p.empires[0]),/value="__automatic__" selected/);
+});
+
+test('idle-colony shortcut opens production without changing the chart command target',async()=>{
+  const probe=await templateHarness(),fixture=JSON.parse(await fs.readFile(new URL('tests/fixtures/v1-frontier.json',root),'utf8'));
+  const p=parsePack(fixture.pack),e=createEngine(p),s=e.createGame();probe.set(p,e,s);
+  const destination=[...e.visibleSystems(s)].find(id=>id!==p.empires[s.player].home);
+  assert.notEqual(destination,undefined,'fixture needs a distinct chart destination');
+  probe.select(destination);
+  const previousInspector=probe.inspector();
+  probe.nextIdleColony();
+  assert.equal(probe.selection(),destination,'C cannot silently retarget a fleet command');
+  assert.equal(probe.inspector(),previousInspector,'the displayed inspector remains consistent with the selected target');
+  assert.match(probe.dialog(),/Construction queue/,'shortcut still opens the idle colony production dialog');
 });

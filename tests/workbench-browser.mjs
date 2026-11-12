@@ -14,7 +14,7 @@ export async function verifyEditor4X(browser,base){
     p.on('request',r=>{if(!r.url().startsWith(new URL(base).origin)&&!r.url().startsWith('blob:')&&!r.url().startsWith('data:'))errors.push('External request '+r.url());});
   };
   context.on('page',observe);observe(page);
-  const files=()=>page.evaluate(()=>__editor4x.files),control=id=>page.locator('#fourx-'+id);
+  const files=()=>page.evaluate(()=>globalThis.__editor4x.files),control=id=>page.locator('#fourx-'+id);
   async function download(button){const pending=page.waitForEvent('download');await button.click();const item=await pending;assert.equal(await item.failure(),null);return readFile(await item.path(),'utf8');}
   async function openSection(label){const summary=page.locator('#fourx-workshop summary').filter({hasText:label});if(!await summary.evaluate(el=>el.parentElement.open))await summary.click();}
   async function imported(text){await control('import').setInputFiles({name:'campaign.json',mimeType:'application/json',buffer:Buffer.from(text)});await page.waitForFunction(()=>document.querySelector('#fourx-status').textContent.includes('Campaign imported and validated')&&!document.querySelector('#fourx-export').disabled);}
@@ -23,11 +23,11 @@ export async function verifyEditor4X(browser,base){
     // Seed an existing expedition; returning from the editor must not restart it.
     const oldGame=await context.newPage();await oldGame.goto(base+'index.html');
     await oldGame.waitForFunction(()=>globalThis.__voidward?.state);
-    await oldGame.locator('[data-action="end"]').click();await oldGame.waitForFunction(()=>__voidward.state.turn===2);
+    await oldGame.locator('[data-action="end"]').click();await oldGame.waitForFunction(()=>globalThis.__voidward.state.turn===2);
     const originalSave=await oldGame.evaluate(()=>localStorage.getItem(localStorage.getItem('voidward.active.v1')));
     await oldGame.evaluate(()=>localStorage.setItem('vanillajs.editor.4x-recovery.v1','other-app-recovery'));
     await oldGame.close();
-    await page.goto(base+'editor/index.html#fourx');await page.waitForFunction(()=>__editor4x&&!document.querySelector('#fourx-export').disabled&&document.documentElement.dataset.editorReady==='ready');
+    await page.goto(base+'editor/index.html#fourx');await page.waitForFunction(()=>globalThis.__editor4x&&!document.querySelector('#fourx-export').disabled&&document.documentElement.dataset.editorReady==='ready');
     assert.equal(await page.locator('#fourx-workshop>details').evaluate(el=>el.open),true);
     await control('starter').click();await page.waitForFunction(()=>document.querySelector('#fourx-status').textContent.includes('Frontier template loaded'));
     const original=await files(),nativeTemplate=await download(control('export'));await imported(nativeTemplate);assert.deepEqual(await files(),original);checks.push('native-template-import');
@@ -59,17 +59,17 @@ export async function verifyEditor4X(browser,base){
     await writeFile('test-results/workbench/editor-4x-campaign.json',portable);await writeFile('test-results/workbench/editor-4x-hull.json',JSON.stringify(hull,null,2));
     await imported(portable);assert.deepEqual(await files(),expected);await imported(sdk);assert.deepEqual(await files(),expected);
     await control('import').setInputFiles({name:'invalid.json',mimeType:'application/json',buffer:Buffer.from('{"kind":"voidward.text-pack.v1","files":{}}')});await page.waitForFunction(()=>document.querySelector('#fourx-status').dataset.error==='true');assert.deepEqual(await files(),expected);checks.push('native-sdk-roundtrip-invalid-admission');
-    await page.reload();await page.waitForFunction(()=>__editor4x&&!document.querySelector('#fourx-restore').disabled);await control('restore').click();assert.deepEqual(await files(),expected);checks.push('separate-campaign-recovery');
+    await page.reload();await page.waitForFunction(()=>globalThis.__editor4x&&!document.querySelector('#fourx-restore').disabled);await control('restore').click();assert.deepEqual(await files(),expected);checks.push('separate-campaign-recovery');
 
     const pending=context.waitForEvent('page');await control('play').click();const game=await pending;await game.waitForFunction(()=>globalThis.__voidward?.workshop?.files['campaign.txt'].includes('editor-browser-universe'));
-    assert.equal(await game.evaluate(()=>__voidward.state.turn),2);
+    assert.equal(await game.evaluate(()=>globalThis.__voidward.state.turn),2);
     assert.equal(await game.evaluate(()=>localStorage.getItem(localStorage.getItem('voidward.active.v1'))),originalSave,'handoff must not replace the active save');
     await game.locator('[data-action="workshop-launch"]').click();await game.locator('[data-action="workshop-start"]').click();
-    await game.waitForFunction(()=>__voidward?.pack.meta.id==='editor-browser-universe'&&!document.querySelector('#dialog').open);
-    assert.deepEqual(await game.evaluate(()=>__voidward.pack.raw),expected);
-    assert.equal(await game.evaluate(()=>localStorage.getItem('voidward.editor.to-game.v1')),null);await game.locator('[data-action="end"]').click();assert.equal(await game.evaluate(()=>__voidward.state.turn),2);
-    await game.locator('.nav').getByRole('button',{name:'Campaign workshop',exact:true}).click();await game.locator('[data-action="visual-workshop"]').click();await game.locator('[data-action="visual-editor-draft"]').click();await game.waitForURL('**/editor/index.html?draft=voidward');await game.waitForFunction(()=>__editor4x?.files['campaign.txt'].includes('editor-browser-universe'));
-    assert.deepEqual(await game.evaluate(()=>__editor4x.files),expected);assert.equal(await game.evaluate(()=>localStorage.getItem('voidward.editor.to-workbench.v1')),null);await game.close();checks.push('play-exported-draft-and-return-to-editor');
+    await game.waitForFunction(()=>globalThis.__voidward?.pack.meta.id==='editor-browser-universe'&&!document.querySelector('#dialog').open);
+    assert.deepEqual(await game.evaluate(()=>globalThis.__voidward.pack.raw),expected);
+    assert.equal(await game.evaluate(()=>localStorage.getItem('voidward.editor.to-game.v1')),null);await game.locator('[data-action="end"]').click();assert.equal(await game.evaluate(()=>globalThis.__voidward.state.turn),2);
+    await game.locator('.nav').getByRole('button',{name:'Campaign workshop',exact:true}).click();await game.locator('[data-action="visual-workshop"]').click();await game.locator('[data-action="visual-editor-draft"]').click();await game.waitForURL('**/editor/index.html?draft=voidward');await game.waitForFunction(()=>globalThis.__editor4x?.files['campaign.txt'].includes('editor-browser-universe'));
+    assert.deepEqual(await game.evaluate(()=>globalThis.__editor4x.files),expected);assert.equal(await game.evaluate(()=>localStorage.getItem('voidward.editor.to-workbench.v1')),null);await game.close();checks.push('play-exported-draft-and-return-to-editor');
 
     const recovery=await page.evaluate(()=>localStorage.getItem('voidward.editor.campaign-recovery.v1'));
     await page.evaluate(()=>localStorage.setItem('voidward.editor.to-workbench.v1','{"kind":"wrong"}'));await page.goto(base+'editor/index.html?draft=voidward');await page.waitForFunction(()=>document.querySelector('#fourx-status')?.textContent.includes('handoff rejected'));
@@ -80,17 +80,17 @@ export async function verifyEditor4X(browser,base){
     assert.equal(await page.evaluate(()=>localStorage.getItem('vanillajs.editor.4x-recovery.v1')),'other-app-recovery');
     await page.evaluate(async()=>{await navigator.serviceWorker.ready;});
     await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
-    await context.setOffline(true);await page.reload();await page.waitForFunction(()=>__editor4x&&!document.querySelector('#fourx-restore').disabled);
+    await context.setOffline(true);await page.reload();await page.waitForFunction(()=>globalThis.__editor4x&&!document.querySelector('#fourx-restore').disabled);
     await control('restore').click();assert.deepEqual(await files(),expected);
     await page.setViewportSize({width:1440,height:1000});
     await openSection('Galaxy in the 3D viewport');await control('map-scene').click();
     assert.equal(await page.locator('#count').textContent(),'30');await screenshot('editor-4x-offline.png');
     const offlinePending=context.waitForEvent('page');await control('play').click();const offlineGame=await offlinePending;
-    await offlineGame.waitForFunction(()=>__voidward?.workshop?.files['campaign.txt'].includes('editor-browser-universe'));
-    assert.deepEqual(await offlineGame.evaluate(()=>__voidward.workshop.files),expected);await offlineGame.close();
+    await offlineGame.waitForFunction(()=>globalThis.__voidward?.workshop?.files['campaign.txt'].includes('editor-browser-universe'));
+    assert.deepEqual(await offlineGame.evaluate(()=>globalThis.__voidward.workshop.files),expected);await offlineGame.close();
     await context.setOffline(false);checks.push('offline-editor-reload-map-and-game-handoff','separate-app-storage-and-active-save-preservation');
     assert.deepEqual(errors,[]);return{status:'PASS',checks,screenshots,artifacts:['editor-4x-campaign.json','editor-4x-hull.json'],limits:'Native project and Mod SDK budgets unchanged; campaign history separately bounded'};
-  }catch(error){await page.screenshot({path:'test-results/workbench/editor-4x-failure.png',fullPage:true}).catch(()=>{});throw error;}
+  }catch(error){await page.screenshot({path:'test-results/workbench/editor-4x-failure.png',fullPage:true}).catch(()=>{});error.completedChecks=[...checks];error.browserErrors=[...errors];throw error;}
   finally{await context.close();}
 }
 
@@ -116,7 +116,7 @@ if (process.argv[1] === (await import('node:url')).fileURLToPath(import.meta.url
     browser=await chromium.launch({headless:true,executablePath:process.env.BROWSER_EXECUTABLE||undefined,args:['--no-sandbox']});
     Object.assign(receipt,await verifyEditor4X(browser,`http://127.0.0.1:${server.address().port}/4XGAMES/`));
     console.log(JSON.stringify(receipt,null,2));
-  }catch(error){receipt.status='FAIL';receipt.error=error.stack;console.error(error);process.exitCode=1;}
+  }catch(error){receipt.status='FAIL';receipt.error=error.stack;receipt.completedChecks=error.completedChecks||[];receipt.browserErrors=error.browserErrors||[];console.error(error);process.exitCode=1;}
   finally{
     await browser?.close();await new Promise(resolve=>server.close(resolve));
     await mkdir('test-results/workbench',{recursive:true});await writeFile('test-results/workbench/result.json',JSON.stringify(receipt,null,2)+'\n');

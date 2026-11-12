@@ -25,7 +25,14 @@ Cloud Chromium launch was attempted and failed before opening a page:
 `process_singleton_posix.cc:297: socket() failed: Operation not permitted`.
 No UI pass or hardware result is claimed for that attempt. Hosted browser
 results for this upgrade are reported separately in its PR/workflow artifacts.
-The owner's workstation was not used. All expansion results below describe
+The owner's workstation was not used. The [first hosted run](https://github.com/QSOLKCB/4XGAMES/actions/runs/43129136165)
+passed all 18 baseline and 14 expansion checks, then the new Workbench test
+failed at its offline game-tab wait with an undefined diagnostic global. The
+wait now checks `globalThis` during initialisation. The [preserved first-run
+summary](evidence/workbench/first-hosted-run.json) identifies the source, merge
+revision and verified artifact digest; it is not an all-pass receipt.
+
+All expansion results below describe
 their recorded historical sources, not this editor update.
 
 Latest expansion browser verification: **PASS — 14/14 expansion checks and

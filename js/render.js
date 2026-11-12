@@ -337,7 +337,10 @@ export function drawMap(canvas, state, engine, selected, selectedFleet, zoom = 1
 // The minimap is a second, pan-free projection of the same chart. Its viewport
 // rectangle is the main chart's visible area mapped back through chartTransform.
 export function drawMinimap(canvas, state, engine, main) {
-  const w = canvas.clientWidth || canvas.width, h = canvas.clientHeight || canvas.height;
+  // CSS-hidden canvases have zero layout dimensions. Never reinterpret backing
+  // pixels as CSS pixels: multiplying them by DPR on redraw grows exponentially.
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.hidden || !w || !h) return [];
   const points = mapProjection(state.systems, w, h, 1, {});
   if (!points.length) return [];
   const dpr = canvas.ownerDocument?.defaultView?.devicePixelRatio ?? globalThis.devicePixelRatio;

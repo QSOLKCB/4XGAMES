@@ -49,6 +49,7 @@ let newCandidate = null, mapPan = { x: 0, y: 0 }, panMode = false, mapDrag = nul
 // state object (every order is applied to a structured clone), so a withdrawn
 // order simply reinstates an already validated state. Ending a turn clears it.
 let undoStack = [], importedLiveries = null, idleColonyCursor = -1;
+const AUTO_LIVERY_OPTION = '__automatic__'; // Outside the admitted livery ID namespace.
 const HISTORY_LIMIT = 24, THEMES = ['frontier', 'obsidian', 'ember', 'nebula'], DETAILS = ['full', 'lean'];
 const ROLE_LABELS = { engine: 'DRIVE', weapon: 'ARMED', shield: 'SHIELDED', survey: 'SURVEY', colony: 'COLONY', assault: 'MARINES' };
 function captureFocus(root = $('#app')) {
@@ -100,15 +101,15 @@ function savePreferences() { try { localStorage.setItem('voidward.preferences.v1
 const liveryKey = (empire, source = pack) => `${source.meta.id}/${empire.id}`;
 function playerLivery(empire = pack.empires[player()], source = pack) { return liveryFor(empire, source, preferences.liveries, importedLiveries); }
 function liveryOptions(empire, source = pack) {
-  const current = preferences.liveries[liveryKey(empire, source)] || 'auto', auto = liveryFor(empire, source, {}, importedLiveries);
-  return `<option value="auto" ${current==='auto'?'selected':''}>Automatic · ${esc(auto.name)}</option>${liveryCatalogue(importedLiveries).map(l => `<option value="${esc(l.id)}" ${l.id===current?'selected':''}>${esc(l.name)}</option>`).join('')}`;
+  const current = preferences.liveries[liveryKey(empire, source)] ?? AUTO_LIVERY_OPTION, auto = liveryFor(empire, source, {}, importedLiveries);
+  return `<option value="${AUTO_LIVERY_OPTION}" ${current===AUTO_LIVERY_OPTION?'selected':''}>Automatic · ${esc(auto.name)}</option>${liveryCatalogue(importedLiveries).map(l => `<option value="${esc(l.id)}" ${l.id===current?'selected':''}>${esc(l.name)}</option>`).join('')}`;
 }
 function liverySettings() {
   return `<div class="livery-grid">${pack.empires.map(e => `<div class="livery-row"><canvas data-ship="${esc(pack.hulls[pack.ships.find(s=>s.empire===e.id)?.hull]?.id || Object.keys(pack.hulls)[0])}" data-owner="${e.id}" role="img" aria-label="${esc(e.name)} livery preview"></canvas><label><span style="color:${e.color}">${esc(e.short)}</span><select data-livery="${e.id}" aria-label="${esc(e.name)} livery">${liveryOptions(e)}</select></label></div>`).join('')}</div>`;
 }
 function setLivery(empireId, id) {
   const key = liveryKey(pack.empires[empireId]);
-  if (id === 'auto' || !liveryCatalogue(importedLiveries).some(l => l.id === id)) delete preferences.liveries[key]; else preferences.liveries[key] = id;
+  if (id === AUTO_LIVERY_OPTION || !liveryCatalogue(importedLiveries).some(l => l.id === id)) delete preferences.liveries[key]; else preferences.liveries[key] = id;
   savePreferences();
 }
 function coloniesView() {
@@ -265,7 +266,7 @@ function nextIdleColony() {
   const rows = commandReadiness(state, engine).idleColonies;
   if (!rows.length) { toast('Every colony has production queued.'); return; }
   idleColonyCursor = (idleColonyCursor + 1) % rows.length; const planet = rows[idleColonyCursor];
-  selected = planet.system; manageColony(planet.id); toast(`${planet.name} · awaiting production orders`);
+  manageColony(planet.id); toast(`${planet.name} · awaiting production orders`);
 }
 function zoomAt(factor, clientX = null, clientY = null) {
   const canvas = $('#galaxy-canvas'); if (!canvas || !canvas.clientWidth) return;

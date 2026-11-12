@@ -118,6 +118,21 @@ test('the minimap keeps its own size and visibility beside the full-size galaxy 
   assert.match(css, /\.chart-viewport>\.minimap\[hidden\]\{display:none\}/); assert.match(css, /max-width:760px\)\{\.chart-viewport>\.minimap\{display:none\}/);
 });
 
+test('CSS-hidden high-DPI minimap never expands backing dimensions across redraws', () => {
+  const engine = createEngine(pack), state = engine.createGame();
+  const main = { w: 601, h: 421, zoom: 1.6, pan: { x: 0, y: 0 } };
+  for (const [w, h] of [[0, 0], [168, 0], [0, 112]]) {
+    const mini = recordingCanvas(w, h, 2), original = [mini.canvas.width, mini.canvas.height];
+    for (let i = 0; i < 12; i++) assert.deepEqual(drawMinimap(mini.canvas, state, engine, main), []);
+    assert.deepEqual([mini.canvas.width, mini.canvas.height], original, 'CSS-hidden minimap must not resize its backing store');
+    assert.equal(mini.calls.length, 0, 'CSS-hidden minimap must not draw');
+  }
+  const hidden = recordingCanvas(168, 112, 2);
+  hidden.canvas.hidden = true;
+  assert.deepEqual(drawMinimap(hidden.canvas, state, engine, main), []);
+  assert.deepEqual([hidden.canvas.width, hidden.canvas.height], [300, 150]);
+});
+
 test('spectral classes depend only on seed and system id', () => {
   const classes = new Set();
   for (let id = 0; id < 64; id++) { const a = spectralClass(id, 2401); assert.deepEqual(a, spectralClass(id, 2401)); assert.match(a.name, /^[OBAFGKM]$/); assert.match(a.color, /^#[0-9a-f]{6}$/); classes.add(a.name); }

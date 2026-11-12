@@ -37,7 +37,7 @@ export function mount4XPanel(host,{getScene,getLibrary,getSelection,isPlaying,re
     options($('home-empire'),p.empires.map(e=>[String(e.id),`${e.name} · home ${e.home}`]));
     options($('hull'),Object.values(p.hulls).map(h=>[h.id,`${h.name} · ${h.id}`]));sync();
   }
-  function accept(next,message){history=next;projection=null;projectionSource=null;paintProjection();renderDraft();status(message);saveRecovery();}
+  function accept(next,message){history=next;for(const [name,text] of dirtyText)if(text===(history.present[name]??''))dirtyText.delete(name);projection=null;projectionSource=null;paintProjection();renderDraft();status(message);saveRecovery();}
   function run(fn){if(isPlaying()||busy)return;try{fn();}catch(error){status(error.message,true);}sync();}
   async function asynchronous(fn){if(isPlaying()||busy)return;const token=++generation;busy=true;sync();try{await fn(token);}catch(error){if(token===generation)status(error.message,true);}finally{if(token===generation){busy=false;sync();}}}
   function sync(){
@@ -59,8 +59,8 @@ export function mount4XPanel(host,{getScene,getLibrary,getSelection,isPlaying,re
   $('restore').onclick=()=>run(()=>{const text=localStorage.getItem(Flow.RECOVERY_KEY);if(!text)throw new Error('No saved campaign draft');const raw=Flow.importCampaign(text);dirtyText.clear();accept(history?Flow.commitCampaignDraft(history,raw):Flow.makeCampaignDraft(raw),'Campaign recovery restored; scene unchanged.');});
   $('identity').onclick=()=>run(()=>{const next=Flow.editCampaignIdentity(history,{id:$('id').value,title:$('title').value,version:$('version').value});dirtyText.delete('campaign.txt');accept(next,'Campaign identity applied.');});
   for(const direction of ['undo','redo'])$(direction).onclick=()=>run(()=>{dirtyText.clear();accept(Flow.travelCampaignDraft(history,direction),'Campaign '+direction+' applied; scene history unchanged.');});
-  $('file').onchange=()=>{dirtyText.set(file,$('text').value);file=$('file').value;$('text').value=dirtyText.get(file)??history.present[file]??'';};
-  $('text').oninput=()=>dirtyText.set(file,$('text').value);
+  $('file').onchange=()=>{file=$('file').value;$('text').value=dirtyText.get(file)??history.present[file]??'';};
+  $('text').oninput=()=>{const text=$('text').value;if(text===(history.present[file]??''))dirtyText.delete(file);else dirtyText.set(file,text);};
   $('text-apply').onclick=()=>run(()=>{const next=Flow.editCampaignFile(history,file,$('text').value);dirtyText.delete(file);accept(next,`${file} validated and applied.`);});
   $('map-scene').onclick=()=>run(()=>{replaceScene(Flow.campaignMapScene(history.present));status('Map loaded into the viewport. Scene Undo restores the previous scene; move stars, then Apply viewport positions.');});
   $('map-apply').onclick=()=>run(()=>accept(Flow.applyCampaignMap(history,getScene()),'Viewport X/Z positions applied at 2:1 chart scale.'));

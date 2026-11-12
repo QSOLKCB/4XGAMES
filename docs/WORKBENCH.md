@@ -39,11 +39,18 @@ Expand **Galaxy in the 3D viewport**, then choose **Map draft → viewport**. Ea
 `star-N` object represents one system; empire homes use their empire colours.
 This replaces the scene as one scene-history step. Save a ship project before
 replacing it, or use scene **Undo** to return to it.
+The asset library stays available, but the new map starts with no mesh or material
+attachments. Undo restores the outgoing attachments; Redo restores the clean map.
 
 Select a star in the hierarchy or viewport. Move it with the transform gizmo,
 Shift-drag, or the Inspector's position fields. **F** frames the selection;
 **Shift+F** frames the scene. Right-drag/Alt-drag orbits and the wheel zooms.
 Choose **Apply viewport positions** to validate and commit the new layout.
+Transform handles keep a usable screen size as you zoom and draw above scene
+geometry. Their visible axes also define the pointer hit targets and drag scale.
+Imported OBJ parts can be selected on their rendered triangles, including parts
+whose geometry is offset from the entity origin. Invalid composed parent/child
+transforms are rejected before changing scene history or recovery.
 
 One scene unit equals two chart units. Scene **X/Z** becomes chart **X/Y**;
 height is not part of the galaxy map. Keep exactly one object named `star-N` for
@@ -95,6 +102,9 @@ before exporting. Errors leave the last accepted draft intact. Unapplied text
 survives switching files in this open editor tab, but is not exported or saved
 to recovery. Campaign history retains up to 16 undo/redo snapshots within a
 4 MiB encoded budget; older entries are discarded first.
+Simply viewing a text file does not mark it as edited. Clean text displays the
+latest accepted map, lane, home or hull changes; genuine unapplied edits remain
+available until you apply, replace or discard them.
 
 Accepted edits save a campaign recovery copy locally. **Restore campaign draft**
 recovers that copy after a reload. Opening the editor alone does not overwrite it.

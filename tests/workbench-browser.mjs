@@ -4,6 +4,7 @@
 import assert from 'node:assert/strict';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
 import {parsePack} from '../js/content.js';
+import {verifyEditorRegressions} from './editor-regressions.mjs';
 
 export async function verifyEditor4X(browser,base){
   await mkdir('test-results/workbench',{recursive:true});
@@ -20,6 +21,7 @@ export async function verifyEditor4X(browser,base){
   async function imported(text){await control('import').setInputFiles({name:'campaign.json',mimeType:'application/json',buffer:Buffer.from(text)});await page.waitForFunction(()=>document.querySelector('#fourx-status').textContent.includes('Campaign imported and validated')&&!document.querySelector('#fourx-export').disabled);}
   async function screenshot(name){await page.screenshot({path:'test-results/workbench/'+name,fullPage:true});screenshots.push(name);}
   try{
+    checks.push(...await verifyEditorRegressions(browser,base));
     // Seed an existing expedition; returning from the editor must not restart it.
     const oldGame=await context.newPage();await oldGame.goto(base+'index.html');
     await oldGame.waitForFunction(()=>globalThis.__voidward?.state);
@@ -95,7 +97,7 @@ export async function verifyEditor4X(browser,base){
     assert.deepEqual(await offlineGame.evaluate(()=>globalThis.__voidward.workshop.files),expected);await offlineGame.close();
     await context.setOffline(false);checks.push('offline-editor-reload-map-and-game-handoff','separate-app-storage-and-active-save-preservation');
     assert.deepEqual(errors,[]);return{status:'PASS',checks,screenshots,artifacts:['editor-4x-campaign.json','editor-4x-hull.json'],limits:'Native project and Mod SDK budgets unchanged; campaign history separately bounded'};
-  }catch(error){await page.screenshot({path:'test-results/workbench/editor-4x-failure.png',fullPage:true}).catch(()=>{});error.completedChecks=[...checks];error.browserErrors=[...errors];throw error;}
+  }catch(error){await page.screenshot({path:'test-results/workbench/editor-4x-failure.png',fullPage:true}).catch(()=>{});error.completedChecks=[...checks,...(error.completedChecks||[])];error.browserErrors=[...errors,...(error.browserErrors||[])];throw error;}
   finally{await context.close();}
 }
 

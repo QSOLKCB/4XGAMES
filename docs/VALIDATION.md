@@ -4,6 +4,15 @@ Implementation work: 12 November 2026.
 
 ## VANILLAJS #81 integration — 12 November 2026
 
+PR #4 review follow-up addresses five editor defects: map attachment carryover,
+unusable fixed-size/depth-tested gizmos, stale clean text buffers, unit-cube
+picking for imported meshes, and admission of render-unsafe composed transforms.
+Seven additional Node regressions and five browser scenarios cover the actual
+transactions and pointer interactions. Donor files remain unchanged; fixes live
+in local editor adapters. The new Node suite contains 83 tests; the PR records
+the exact revision and hosted results for this follow-up independently of the
+earlier runs below.
+
 Base: `e2e2b2352428438d3ce377e5daff7b542a6dce10` (4XGAMES #3).
 Donor: `b12f24f789da81325491f96b5c2dd786d31e96f0` (VANILLAJS #81).
 

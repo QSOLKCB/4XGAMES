@@ -15,7 +15,7 @@ await fs.mkdir(out,{recursive:true});
 const server=http.createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');if(!url.pathname.startsWith('/4XGAMES/'))throw new Error('scope');const file=path.resolve(stage,decodeURIComponent(url.pathname.slice(9))||'index.html');if(!file.startsWith(stage+path.sep))throw new Error('path');const data=await fs.readFile(file);res.setHeader('Content-Type',types[path.extname(file)]||'application/octet-stream');res.end(data);}catch{res.writeHead(404);res.end('Not found');}});
 const receipt={status:'RUNNING',environment:'isolated headless browser',checks:[],errors:[],httpFailures:[],externalRequests:[],limits:'Emulated touch/DPR; no physical-device, human-listening or GPU-speed claim.'};
 let browser,context,page,current;
-const action=name=>page.locator(`[data-action="${name}"]`);
+const action=name=>page.locator(`[data-action="${name}"]:visible`);
 const nav=name=>page.locator('.nav').getByRole('button',{name,exact:true});
 const snapshot=()=>page.evaluate(()=>globalThis.__voidward);
 const close=async()=>{if(await page.locator('#dialog').evaluate(d=>d.open))await page.locator('#dialog [data-action="close"]').click();};

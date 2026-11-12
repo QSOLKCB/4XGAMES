@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 const root = path.resolve(import.meta.dirname, '..');
 export async function inventory() {
-  const files = ['index.html', 'style.css', 'icon.svg', 'manifest.webmanifest', 'LICENSE', 'NOTICE', 'README.md', 'MOD_GUIDE.md'];
+  const files = ['index.html', 'style.css', 'icon.svg', 'manifest.webmanifest', 'LICENSE', 'NOTICE', 'README.md', 'MOD_GUIDE.md', 'AGENTS.md', 'docs/assets/voidward-banner.svg'];
   async function walk(dir) {
     for (const entry of (await fs.readdir(path.join(root, dir), { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
       if (entry.name.startsWith('.')) continue;

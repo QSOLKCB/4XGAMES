@@ -1,0 +1,84 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400" role="img" aria-labelledby="title desc">
+  <title id="title">VOIDWARD — Your empire. Your rules. Your universe.</title>
+  <desc id="desc">A dark stellar chart in mint, gold and violet. Three original VOIDWARD ship silhouettes cross an orbital grid beside the title. Explore, expand, exploit and exterminate. Five campaigns, plain-text mods and offline play by QSOL-IMC.</desc>
+  <defs>
+    <linearGradient id="space" x2="1" y2="1"><stop stop-color="#0d1b29"/><stop offset=".5" stop-color="#09131f"/><stop offset="1" stop-color="#111527"/></linearGradient>
+    <radialGradient id="nebula"><stop stop-color="#417b78" stop-opacity=".22"/><stop offset="1" stop-color="#417b78" stop-opacity="0"/></radialGradient>
+    <radialGradient id="violet"><stop stop-color="#8766c4" stop-opacity=".17"/><stop offset="1" stop-color="#8766c4" stop-opacity="0"/></radialGradient>
+    <radialGradient id="planet" cx=".3" cy=".25" r=".85"><stop stop-color="#24495a"/><stop offset=".5" stop-color="#102b3c"/><stop offset="1" stop-color="#080f1b"/></radialGradient>
+    <linearGradient id="rim"><stop stop-color="#72dbc4"/><stop offset=".55" stop-color="#366675"/><stop offset="1" stop-color="#162a3c"/></linearGradient>
+    <linearGradient id="hull" x2="1" y2="1"><stop stop-color="#354b59"/><stop offset=".5" stop-color="#152935"/><stop offset="1" stop-color="#0a1623"/></linearGradient>
+    <linearGradient id="plume" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#72dbc4" stop-opacity=".5"/><stop offset="1" stop-color="#72dbc4" stop-opacity="0"/></linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#7aa2b1" stroke-opacity=".045"/></pattern>
+    <clipPath id="frame"><rect width="1280" height="400" rx="16"/></clipPath>
+    <clipPath id="orb"><circle cx="1030" cy="184" r="106"/></clipPath>
+    <clipPath id="halberd"><polygon points="0,-50 12,-32 14,0 38,22 38,40 12,30 0,44 -12,30 -38,40 -38,22 -14,0 -12,-32"/></clipPath>
+    <clipPath id="thorn"><polygon points="0,-52 18,-24 45,-8 36,32 18,12 0,46 -18,12 -36,32 -45,-8 -18,-24"/></clipPath>
+    <clipPath id="anvil"><polygon points="-12,-50 12,-50 12,-24 34,-24 40,38 16,38 16,48 -16,48 -16,38 -40,38 -34,-24 -12,-24"/></clipPath>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="1280" height="400" fill="url(#space)"/>
+    <ellipse cx="860" cy="325" rx="550" ry="250" fill="url(#nebula)"/>
+    <ellipse cx="1160" cy="60" rx="400" ry="260" fill="url(#violet)"/>
+    <rect width="1280" height="400" fill="url(#grid)"/>
+    <g fill="#b6d6df" opacity=".48">
+      <circle cx="29" cy="127" r=".8"/><circle cx="99" cy="24" r=".7"/><circle cx="217" cy="87" r=".6"/><circle cx="284" cy="37" r=".8"/><circle cx="343" cy="305" r=".6"/><circle cx="411" cy="23" r="1"/><circle cx="497" cy="71" r=".6"/><circle cx="536" cy="289" r=".9"/><circle cx="601" cy="43" r=".6"/><circle cx="666" cy="87" r=".7"/><circle cx="700" cy="301" r=".8"/><circle cx="737" cy="20" r="1"/><circle cx="762" cy="103" r=".8"/><circle cx="783" cy="348" r=".7"/><circle cx="819" cy="43" r=".8"/><circle cx="839" cy="163" r=".8"/><circle cx="872" cy="373" r=".8"/><circle cx="904" cy="31" r=".7"/><circle cx="940" cy="331" r="1"/><circle cx="971" cy="50" r=".9"/><circle cx="1013" cy="367" r="1.1"/><circle cx="1113" cy="24" r=".7"/><circle cx="1149" cy="363" r=".8"/><circle cx="1204" cy="41" r="1.2"/><circle cx="1233" cy="252" r=".8"/><circle cx="1253" cy="330" r="1"/><circle cx="53" cy="379" r="1"/><circle cx="195" cy="369" r=".8"/>
+    </g>
+    <g fill="none" stroke="#71b7b1" stroke-opacity=".19" stroke-width="1">
+      <path d="M746 53 877 96 898 272 1004 339 1208 272 1236 112 1127 58"/>
+      <path d="m877 96 129-42 202 218M898 272l338-160M746 53l152 219" stroke-dasharray="3 7"/>
+    </g>
+    <g fill="#72dbc4"><circle cx="746" cy="53" r="2.5"/><circle cx="877" cy="96" r="3"/><circle cx="898" cy="272" r="3"/><circle cx="1004" cy="339" r="2"/><circle cx="1208" cy="272" r="2.5"/></g>
+    <g fill="none" stroke="#d4ae73"><circle cx="1236" cy="112" r="4"/><circle cx="1236" cy="112" r="10" opacity=".3"/><path d="M1236 95v7m0 20v7m-17-17h7m20 0h7" opacity=".45"/></g>
+    <g fill="none" stroke="#6a9fa7" stroke-opacity=".23">
+      <circle cx="1030" cy="184" r="137" stroke-dasharray="2 10"/>
+      <path d="M896 118a149 149 0 0 1 267 0M917 281a149 149 0 0 0 224-2"/>
+      <path d="M1030 29v19m0 272v19m-155-155h19m272 0h19"/>
+    </g>
+    <ellipse cx="1030" cy="184" rx="188" ry="48" transform="rotate(-27 1030 184)" fill="none" stroke="#d4ae73" stroke-opacity=".24" stroke-width="1.5"/>
+    <circle cx="1030" cy="184" r="106" fill="url(#planet)" stroke="url(#rim)" stroke-width="1.6"/>
+    <g clip-path="url(#orb)" fill="none" stroke="#6ab9bb" stroke-opacity=".2">
+      <ellipse cx="1030" cy="184" rx="38" ry="106"/><ellipse cx="1030" cy="184" rx="77" ry="106"/>
+      <ellipse cx="1030" cy="184" rx="106" ry="32"/><ellipse cx="1030" cy="184" rx="106" ry="69"/>
+      <path d="M924 184h212m-106-106v212"/>
+      <path d="m963 106 35 17 9 24-23 16 8 27-20 30-8-20-24-9m112-77 19 21 26-2 15 25-27 13-8 37 19 16-6 23-29-3-15-33 8-25-16-24" stroke="#8ad8c5" stroke-opacity=".46" stroke-width="2"/>
+    </g>
+    <path d="M863 270c46 23 202-20 315-128" fill="none" stroke="#d4ae73" stroke-opacity=".6" stroke-width="1.5"/>
+    <!-- Original frigate polygons from mods/frontier/hulls.txt. -->
+    <g transform="translate(826 216) rotate(36) scale(1.35)">
+      <path d="M-8 34-16 104 0 88 16 104 8 34Z" fill="url(#plume)"/>
+      <polygon points="0,-50 12,-32 14,0 38,22 38,40 12,30 0,44 -12,30 -38,40 -38,22 -14,0 -12,-32" fill="url(#hull)" stroke="#72dbc4" stroke-width="1.2"/>
+      <g clip-path="url(#halberd)">
+        <path d="M0-51v97M-40 21h80M-20-22h40M-30 4h60" stroke="#82d7c6" stroke-opacity=".45" stroke-width="2"/>
+        <path d="M-9-34v31l-19 27v9l23-18V42M9-34v31l19 27v9L5 15V42" fill="#557280" fill-opacity=".65"/>
+        <path d="m-5-12 5-11 5 11v14H-5Z" fill="#b1eee1"/>
+        <path d="M-27 26v9m54-9v9" stroke="#d4ae73" stroke-width="3"/>
+      </g>
+    </g>
+    <g transform="translate(1094 89) rotate(36) scale(.62)">
+      <polygon points="0,-52 18,-24 45,-8 36,32 18,12 0,46 -18,12 -36,32 -45,-8 -18,-24" fill="url(#hull)" stroke="#ba9fea" stroke-width="1.6"/>
+      <g clip-path="url(#thorn)"><path d="M0-52v100m-45-56 90 40m-90 0 90-40" stroke="#ba9fea" stroke-opacity=".55" stroke-width="3"/><path d="m0-25 7 18-7 20-7-20Z" fill="#d7c7f3"/></g>
+    </g>
+    <g transform="translate(1142 292) rotate(36) scale(.78)">
+      <polygon points="-12,-50 12,-50 12,-24 34,-24 40,38 16,38 16,48 -16,48 -16,38 -40,38 -34,-24 -12,-24" fill="url(#hull)" stroke="#e7a47a" stroke-width="1.4"/>
+      <g clip-path="url(#anvil)"><path d="M0-52v102M-40-15h80M-40 20h80M-25-28v65m50-65v65" stroke="#c68c67" stroke-opacity=".65" stroke-width="3"/><path d="M-5-12H5V6H-5Z" fill="#f5d3a3"/></g>
+    </g>
+    <path d="M40 30H72M40 30V62M1240 338v32h-32" stroke="#d4ae73" stroke-opacity=".7" fill="none"/>
+    <path d="M72 76h34" stroke="#72dbc4" stroke-width="2"/>
+    <g font-family="Arial, Helvetica, sans-serif">
+      <text x="72" y="58" fill="#91b7be" font-size="13" letter-spacing="3">QSOL-IMC / INDEPENDENT WORLDS</text>
+      <text x="67" y="184" fill="#edf3f5" font-size="90" font-weight="700" letter-spacing="11">VOIDWARD</text>
+      <text x="72" y="224" fill="#d4ae73" font-size="14" letter-spacing="2.4">EXPLORE. EXPAND. EXPLOIT. EXTERMINATE.</text>
+      <text x="72" y="278" fill="#c4d4de" font-size="22" letter-spacing=".5">Your empire. Your rules. Your universe.</text>
+    </g>
+    <path d="M72 310h579" stroke="#334956"/>
+    <g font-family="Arial, Helvetica, sans-serif" fill="#8da8ba" font-size="11" letter-spacing="1.8">
+      <text x="72" y="340">FIVE CAMPAIGNS</text><text x="254" y="340">PLAIN-TEXT MODS</text><text x="457" y="340">OFFLINE BY DESIGN</text>
+      <text x="1002" y="370" fill="#7c95a9" font-size="10">CHART YOUR OWN FRONTIER</text>
+    </g>
+    <g fill="#72dbc4"><circle cx="232" cy="336" r="2"/><circle cx="435" cy="336" r="2"/></g>
+    <rect x=".5" y=".5" width="1279" height="399" rx="15.5" fill="none" stroke="#2c4353"/>
+    <path d="M64 1h145" stroke="#72dbc4" stroke-width="2"/>
+  </g>
+</svg>

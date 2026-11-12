@@ -24,7 +24,7 @@ without repeatedly asking permission.
 | `js/app.js` | Player controls, views, command transactions and saves |
 | `js/workshop.js`, `js/workbench-bridge.js` | Authoring operations and validated donor-format exchange |
 | `editor/`, `js/editor-workflow.js` | Bundled 3D Workbench adapters, separate campaign history and local handoffs |
-| `js/render.js`, `js/audio.js` | Presentation, procedural assets and audio |
+| `js/render.js`, `js/liveries.js`, `js/audio.js` | Presentation, procedural assets, cosmetic liveries and audio |
 | `mods/` | Editable campaign data and explicitly registered source hooks |
 | `vendor/PROVENANCE.json` | Exact donor revisions, file hashes and contributions |
 | `scripts/site.mjs`, `sw.js` | Public package inventory and generated offline cache |

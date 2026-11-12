@@ -2,6 +2,14 @@
 
 Implementation work: 12 November 2026.
 
+## Visual upgrade: liveries, themes, chart — 12 November 2026
+
+See [VISUAL_UPGRADE.md](VISUAL_UPGRADE.md#verification). Built on merged 4XGAMES #5
+at `382f458998cf3c28e82047f64709722761559034`. Executed: the complete Node suite
+(115 tests), `site.mjs sync`, `check.mjs` (66 pinned donor files, 8 campaigns)
+and `site.mjs build _site`. Hosted browser checks run in the pull-request
+workflow; no owner-workstation browser window was used.
+
 ## Horizons / command deck — 12 November 2026
 
 See [the current upgrade record](HORIZONS_UPGRADE.md#verification) and its

@@ -427,6 +427,41 @@
       "source": "modules/time/index.js",
       "local": "vendor/vanillajs/modules/time/index.js",
       "sha256": "de94c0bc04e6a269504c5742455ce114f824c2c0d9d59a2fd94555df5d9bb4a2"
+    },
+    {
+      "repository": "QSOLKCB/E8_MUSIC",
+      "commit": "d8e5983d84af03f03a969abe3356dcf80c0e0e97",
+      "source": "js/e8-core.js",
+      "local": "vendor/e8-music/js/e8-core.js",
+      "sha256": "6bee327e078f4a829c4938b5225fcfb49e8a077d4a90922d861c86bc1e81ac03"
+    },
+    {
+      "repository": "QSOLKCB/E8_MUSIC",
+      "commit": "d8e5983d84af03f03a969abe3356dcf80c0e0e97",
+      "source": "LICENSE",
+      "local": "vendor/e8-music/LICENSE",
+      "sha256": "3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04"
+    },
+    {
+      "repository": "QSOLKCB/DRONE-RACER",
+      "commit": "9fea5ce9bdcd1799e075afcc329972792e15b688",
+      "source": "src/data.js",
+      "local": "vendor/drone-racer/src/data.js",
+      "sha256": "e9676e6fc468b09e04e55fc63aa68ffde1e1fe29a1167a813ee3b9146865026d"
+    },
+    {
+      "repository": "QSOLKCB/DRONE-RACER",
+      "commit": "9fea5ce9bdcd1799e075afcc329972792e15b688",
+      "source": "LICENSE",
+      "local": "vendor/drone-racer/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "repository": "QSOLKCB/DRONE-RACER",
+      "commit": "9fea5ce9bdcd1799e075afcc329972792e15b688",
+      "source": "NOTICE",
+      "local": "vendor/drone-racer/NOTICE",
+      "sha256": "cec3cc628cbebcf85fd4ccaf5c87f0b20016cd26892232d78c246b8010b7d161"
     }
   ],
   "integrations": [
@@ -515,6 +550,25 @@
       ],
       "adapter": "js/render.js",
       "contribution": "Bounded centerline projection for archive/gate motifs; original donor geometry unchanged, cosmetic only."
+    },
+    {
+      "repository": "QSOLKCB/E8_MUSIC",
+      "commit": "d8e5983d84af03f03a969abe3356dcf80c0e0e97",
+      "sources": [
+        "js/e8-core.js"
+      ],
+      "adapter": "js/audio.js",
+      "contribution": "Optional E8 lattice music variations: the 240 E8 roots, golden projection and seeded traversal order a bounded 32-note variation of each pack score, quantised to the pack’s own pitch classes. Presentation only; the campaign seed is read, never written."
+    },
+    {
+      "repository": "QSOLKCB/DRONE-RACER",
+      "commit": "9fea5ce9bdcd1799e075afcc329972792e15b688",
+      "sources": [
+        "src/data.js",
+        "src/skins.js"
+      ],
+      "adapter": "js/liveries.js; js/render.js; js/app.js",
+      "contribution": "Capability-rejecting plain-data validators admit bounded, inert fleet livery packs. The cosmetic skin-pack contract (built-in catalogue, validated JSON import, no executable content) is adapted from the DRONE-003 skin system; VOIDWARD liveries never enter authoritative state or saves."
     }
   ]
 }

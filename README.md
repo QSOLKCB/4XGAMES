@@ -44,6 +44,22 @@ faction, starting fleet, resources, geography and victory timing before launch.
 
 [Upgrade details, compatibility and evidence](docs/HORIZONS_UPGRADE.md).
 
+## Liveries, themes and the living chart
+
+Eight **hangar liveries** reskin every hull: alloy, ceramic, obsidian, gilded,
+hazard, verdant, crimson and nebula finishes with faction trim, engine bloom and
+role decals for survey, colony, marine, weapon and shield fittings. Rivals get a
+stable automatic livery; override any faction in **Settings**, or import a
+validated 16 KiB JSON livery pack. Four **themes** (Frontier, Obsidian, Ember,
+Nebula) restyle the command deck. The chart gains spectral star tints, territory
+rings, friendly orbits, hostile markers, an **Intel age** overlay, hover briefs, a
+clickable **minimap**, pointer-anchored wheel zoom and settled worlds with city
+lights, rings and moons. **Ctrl/Cmd Z** withdraws the last order this turn, **C**
+opens the next idle colony, and Settings can switch the score to seeded **E8
+lattice variations**. None of it touches the deterministic simulation or saves.
+
+[Visual upgrade details, determinism contract and evidence](docs/VISUAL_UPGRADE.md).
+
 ## Command your empire
 
 - **Explore a living frontier.** Seeded worlds, connected starlanes, ancient
@@ -105,7 +121,8 @@ for routes, starting conditions and defeat rules.
 Mouse and touch use select-then-confirm orders. **Tab** navigates controls;
 **Enter/Space** activates them. **E** ends a turn, **1–8** change command views and
 **?** opens help. **N** selects the next idle ship, **H** returns home and
-**Ctrl/Cmd K** opens the searchable command menu. Arrow keys navigate focused
+**Ctrl/Cmd K** opens the searchable command menu. **Ctrl/Cmd Z** withdraws the
+last order this turn and **C** opens the next idle colony. Arrow keys navigate focused
 star targets. Turn shortcuts are suppressed in forms and dialogs. A standard
 gamepad can navigate the chart and select fleet orders.
 
@@ -183,6 +200,8 @@ checkouts also run through a local HTTP server without internet access.
 | [GAMES](https://github.com/QSOLKCB/GAMES) | Standard-gamepad reader with neutral rearming |
 | [GLUBALL](https://github.com/QSOLKCB/GLUBALL) | Knot geometry for ancient archive markers |
 | [GALAXY](https://github.com/QSOLKCB/GALAXY) | Seeded, bounded galaxy backdrop sampler |
+| [E8_MUSIC](https://github.com/QSOLKCB/E8_MUSIC) | E8 root lattice, golden projection and seeded traversal for optional music variations |
+| [DRONE-RACER](https://github.com/QSOLKCB/DRONE-RACER) | Capability-rejecting data validators and the cosmetic skin-pack contract behind fleet liveries |
 
 Donor files remain local, unmodified and SHA-256 checked. Exact revisions and
 contributions are recorded in [source provenance](vendor/PROVENANCE.json).

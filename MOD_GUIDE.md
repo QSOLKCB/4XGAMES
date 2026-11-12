@@ -234,7 +234,8 @@ screens and offline reload before distribution.
 | `js/content.js` | Text schemas, bounds, pack references and new catalog fields |
 | `js/core.js` | Turn order, AI, resource rules, routing, combat, save admission |
 | `js/app.js` | Screens, controls, workshop, saves, command dispatch |
-| `js/render.js` | Ship/planet artwork, map layers, texture cache |
+| `js/render.js` | Ship/planet artwork, liveries and decals, map layers, minimap, texture cache |
+| `js/liveries.js` | Built-in livery catalogue, automatic assignment and livery-pack admission |
 | `js/audio.js` | Original ambience arrangement and event sounds |
 | `mods/registry.js` | Installed packs and trusted source hooks |
 | `scripts/site.mjs` | Deployment inventory and scope-isolated offline cache |
@@ -358,6 +359,40 @@ formats. Validate a detached draft before starting it in a separate save slot.
 
 `scenario.txt`'s `minVictoryTurn` gates objective victories only; last-empire
 conquest can win earlier.
+
+## Fleet livery packs
+
+Liveries are cosmetic and live outside campaign packs: they are never exported,
+hashed or saved with an expedition. Download the editable template from
+**Settings → Fleet liveries → Download editable template**, edit it and import it.
+
+```json
+{
+  "kind": "voidward.liveries.v1", "version": 1,
+  "id": "my-hangar", "title": "My hangar", "author": "Commander",
+  "liveries": [
+    { "id": "signal", "name": "Signal white", "description": "Pale hull, racing trim.",
+      "hull": ["#f4f7f9", "#c9d4dc", "#8c9fab", "#3a4a56"],
+      "pattern": "smooth", "trim": "racing", "flame": "ion", "glow": 0.3, "wear": 0 }
+  ]
+}
+```
+
+| Field | Rule |
+| --- | --- |
+| `id` | `^[a-z][a-z0-9-]{0,47}$`; an imported ID may replace a built-in livery |
+| `name`, `description` | Plain text, at most 48 and 120 characters, no control characters |
+| `hull` | Exactly four `#rrggbb` colours: highlight, mid-tone, shadow, deep shadow |
+| `pattern` | `plates`, `ribs`, `lattice`, `smooth`, `hex` or `stripes` |
+| `trim` | `none`, `racing`, `chevron`, `bands` or `wedge` (faction colour) |
+| `flame` | `plasma` (faction colour), `ion` or `ember` |
+| `glow`, `wear` | Numbers within 0..1 |
+
+Packs hold 1..16 liveries within 16 KiB. Exact field sets are required; unknown
+keys, accessors, sparse arrays, URLs or any other value shape are rejected and the
+previous pack stays active. Validation uses the pinned DRONE-RACER data readers in
+`vendor/drone-racer/src/data.js`; the catalogue and painters are in
+`js/liveries.js` and `js/render.js`.
 
 ## Save migration and source boundaries
 

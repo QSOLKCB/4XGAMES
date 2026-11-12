@@ -110,6 +110,24 @@ high contrast and a choice between decluttered or complete star labels. Enable
 colonies or threats need attention. It is off by default; holding position is
 always a valid decision. Confirm **Advance turn** or return to planning.
 
+**Ctrl/Cmd Z** or the command deck's **Undo** withdraws the last accepted order
+of the current turn (up to 24 steps). Ending a turn is final and clears the
+history. **C** opens the next colony with an empty production queue. Hover or
+focus a star for its brief: spectral class, lanes, charted worlds and owners,
+reported hostiles, archive status, report age and your ships in orbit. The
+**Intel age** chart mode rings each charted system, fading with the age of its
+last report. Scroll the mouse wheel, press **+**/**−** or use gamepad shoulder
+buttons to zoom around the pointer; **0** fits the galaxy. Select a point on the
+minimap to centre the chart there.
+
+**Fleet liveries** are cosmetic finishes for ship silhouettes. Every faction has a
+stable automatic livery; change your own under **Ship designer → Fleet livery**
+or **Campaign workshop → Hangar liveries**, or override any faction in Settings.
+Role decals show a design's installed survey, colony, marine, weapon and shield
+parts. Settings also offer four interface themes, a lean chart detail level, the
+minimap toggle, a livery-pack import and seeded E8 lattice music variations.
+Liveries, themes and music never change hulls, combat, saves or exported packs.
+
 Before launch, the expedition briefing displays the selected faction's home,
 starting resources, ship silhouettes, campaign map and objective timing. Switch
 factions to compare their starts. Previewing a briefing does not replace your

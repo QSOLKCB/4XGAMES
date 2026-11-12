@@ -18,7 +18,11 @@ for (const campaign of campaigns) {
   const pack = parsePack(raw); if (pack.meta.id !== campaign.id) throw new Error('Registry/pack identity mismatch');
   const engine = createEngine(pack, campaign.hooks); engine.validateState(engine.createGame());
 }
-if (await fs.readFile('sw.js', 'utf8') !== await workerSource()) throw new Error('Offline cache is stale. Run node scripts/site.mjs sync.');
+const expectedWorker = await workerSource();
+if (await fs.readFile('sw.js', 'utf8') !== expectedWorker) {
+  const revision = expectedWorker.match(/const CACHE = PREFIX \\+ '([a-f0-9]+)'/)?.[1] || 'unknown';
+  throw new Error(`Offline cache is stale (expected ${revision}). Run node scripts/site.mjs sync.`);
+}
 for (const file of await inventory()) {
   if (/\.(js|html|css)$/.test(file) && !file.startsWith('vendor/')) {
     const source = await fs.readFile(file, 'utf8');

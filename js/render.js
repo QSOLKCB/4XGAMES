@@ -24,10 +24,15 @@ export function paintPlanet(canvas, palette = 'ocean', variant = 0, options = {}
   canvas.width = canvas.height = 256;
   ctx.clearRect(0, 0, 256, 256);
   const ring = palette === 'gas' && variant % 2 === 1, moon = variant >= 4, atmosphere = ATMOSPHERE[palette];
-  const radius = ring ? 96 : 126;
-  const halo = ctx.createRadialGradient(128, 128, radius * .82, 128, 128, radius + 2);
-  halo.addColorStop(0, 'transparent'); halo.addColorStop(.85, atmosphere + '2c'); halo.addColorStop(1, atmosphere + '55');
-  ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(128, 128, radius + 2, 0, Math.PI * 2); ctx.fill();
+  const settled = Boolean(options.owner) && options.pop > 0, radius = ring ? 96 : 126;
+  // Variant 0 of an unsettled world is the donor bake, pixel for pixel (OPT-INV-001
+  // parity check in tests/browser.mjs). Atmosphere, rings, moons and lights are
+  // additional layers for the other variants and for settled worlds only.
+  if (variant % 8 || settled) {
+    const halo = ctx.createRadialGradient(128, 128, radius * .82, 128, 128, radius + 2);
+    halo.addColorStop(0, 'transparent'); halo.addColorStop(.85, atmosphere + '2c'); halo.addColorStop(1, atmosphere + '55');
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(128, 128, radius + 2, 0, Math.PI * 2); ctx.fill();
+  }
   if (ring) {
     ctx.save(); ctx.translate(128, 128); ctx.rotate(-.35); ctx.strokeStyle = '#d4ae7360'; ctx.lineWidth = 12; ctx.beginPath(); ctx.ellipse(0, 0, 123, 42, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
     ctx.drawImage(planetTextures.get(palette), 32, 32, 192, 192);
@@ -37,7 +42,7 @@ export function paintPlanet(canvas, palette = 'ocean', variant = 0, options = {}
   if (variant % 4 && !ring) {
     ctx.save(); ctx.globalCompositeOperation = 'source-atop'; const g = ctx.createRadialGradient(128, 128, 95, 128, 128, 127); g.addColorStop(0, 'transparent'); g.addColorStop(1, variant % 2 ? '#79cee44a' : '#e6b77b38'); ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256); ctx.restore();
   }
-  if (options.owner && options.pop > 0) {
+  if (settled) {
     // Settled worlds show city lights on the night side (the donor bakes light from
     // the upper left), scaled by population and tinted by the owning empire.
     const rng = seededRandom(variant * 31 + 7), fraction = Math.min(1, options.pop / Math.max(1, options.max || options.pop));

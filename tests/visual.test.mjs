@@ -102,6 +102,8 @@ test('planet painter: eight variants, settlement lights only for owned worlds, i
     paintPlanet(b.canvas, palette, variant, { owner: '#72dbc4', pop: 40, max: 100 });
     assert.deepEqual(a.calls, b.calls);
   }
+  // OPT-INV-001 parity: the default paint is the donor bake and nothing else.
+  for (const palette of ['ocean', 'gas', 'ice']) { const plain = recordingCanvas(); paintPlanet(plain.canvas, palette); assert.deepEqual(plain.calls.map(c => c[0]), ['clearRect', 'drawImage'], `${palette}: default variant must stay pixel-identical to bakePlanet`); }
   const wild = recordingCanvas(), settled = recordingCanvas(), dense = recordingCanvas();
   paintPlanet(wild.canvas, 'ocean', 1); paintPlanet(settled.canvas, 'ocean', 1, { owner: '#72dbc4', pop: 10, max: 100 }); paintPlanet(dense.canvas, 'ocean', 1, { owner: '#72dbc4', pop: 100, max: 100 });
   assert.ok(settled.calls.length > wild.calls.length && dense.calls.length > settled.calls.length, 'lights scale with population');

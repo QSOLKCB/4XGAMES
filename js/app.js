@@ -2,7 +2,8 @@
 import { parsePack, loadPack, loadDirectory, PACK_FILES, OPTIONAL_PACK_FILES } from './content.js';
 import { createEngine } from './core.js';
 import { encodeSaveEnvelope, decodeSaveEnvelope, MAX_SAVE_BYTES } from './save-codec.js';
-import { drawMap, paintPlanet, paintShip, paintRelic, backdropStats } from './render.js';
+import { drawMap, mapProjection, paintPlanet, paintShip, paintRelic, backdropStats } from './render.js';
+import { commandReadiness, chartedSystems } from './command-tools.js';
 import * as Workshop from './workshop.js';
 import * as Bridge from './workbench-bridge.js';
 import {HANDOFF_KEY,INCOMING_KEY} from './editor-workflow.js';
@@ -42,6 +43,7 @@ const packCache = new Map();
 const filters = { colonies: { search: '', sort: 'name', mode: 'all' }, fleets: { search: '', sort: 'name', mode: 'all' }, reports: { search: '', sort: 'newest', mode: 'all' } };
 const selectedShips = new Set();
 let compareDesign = null, returnFocus = null, campaignLoadEpoch = 0;
+let newCandidate = null, mapPan = { x: 0, y: 0 }, panMode = false, mapDrag = null, mapFrame = 0, lastRenderedView = null;
 function captureFocus(root = $('#app')) {
   const el = document.activeElement;
   if (!el || !root.contains(el)) return null;
@@ -74,13 +76,15 @@ function objectivesDialog() {
 }
 function settingsDialog() {
   const levels = audio.levels;
-  modal('Sound & display', `<p>Original procedural music and effects. Your preferences stay on this device.</p><div class="stack"><label class="check-row"><input id="audio-enabled" type="checkbox" ${audio.enabled ? 'checked' : ''}>Enable sound</label><label>Music <output id="music-output">${Math.round(levels.music*100)}%</output><input id="music-volume" type="range" min="0" max="100" value="${Math.round(levels.music*100)}"></label><label>Effects <output id="effects-output">${Math.round(levels.effects*100)}%</output><input id="effects-volume" type="range" min="0" max="100" value="${Math.round(levels.effects*100)}"></label><label>Motion<select id="motion-setting"><option value="system">Follow system preference</option><option value="reduce">Reduce motion</option></select></label><p>Music at zero keeps effects audible. Sound begins only after you enable it.</p>${btn('New game', 'new', '', 'quiet')}${btn('Field manual', 'help', '', 'quiet')}</div>`);
+  modal('Sound & display', `<p>Original procedural music and effects. Your preferences stay on this device.</p><div class="stack"><label class="check-row"><input id="audio-enabled" type="checkbox" ${audio.enabled ? 'checked' : ''}>Enable sound</label><label>Music <output id="music-output">${Math.round(levels.music*100)}%</output><input id="music-volume" type="range" min="0" max="100" value="${Math.round(levels.music*100)}"></label><label>Effects <output id="effects-output">${Math.round(levels.effects*100)}%</output><input id="effects-volume" type="range" min="0" max="100" value="${Math.round(levels.effects*100)}"></label><label>Motion<select id="motion-setting"><option value="system">Follow system preference</option><option value="reduce">Reduce motion</option></select></label><label>Star labels<select id="label-setting"><option value="smart">Declutter crowded labels</option><option value="all">Show every charted name</option></select></label><label>Interface contrast<select id="contrast-setting"><option value="standard">Standard</option><option value="high">High contrast</option></select></label><label class="check-row"><input id="review-turn" type="checkbox" ${preferences.reviewTurn?'checked':''}>Review idle units before ending a turn</label><p>Music at zero keeps effects audible. Sound begins only after you enable it.</p>${btn('New game', 'new', '', 'quiet')}${btn('Field manual', 'help', '', 'quiet')}</div>`);
   $('#motion-setting').value = preferences.motion;
+  $('#label-setting').value = preferences.labels; $('#contrast-setting').value = preferences.contrast;
 }
-const preferences = { music: .55, effects: .8, motion: 'system' };
-try { const saved = JSON.parse(localStorage.getItem('voidward.preferences.v1') || '{}'); for (const k of ['music','effects']) if (Number.isFinite(saved[k])) preferences[k] = Math.min(1, Math.max(0,saved[k])); if (saved.motion === 'reduce') preferences.motion = 'reduce'; } catch {}
+const preferences = { music: .55, effects: .8, motion: 'system', labels: 'smart', contrast: 'standard', reviewTurn: false };
+try { const saved = JSON.parse(localStorage.getItem('voidward.preferences.v1') || '{}'); for (const k of ['music','effects']) if (Number.isFinite(saved[k])) preferences[k] = Math.min(1, Math.max(0,saved[k])); if (saved.motion === 'reduce') preferences.motion = 'reduce'; if(saved.labels === 'all') preferences.labels = 'all'; if(saved.contrast === 'high') preferences.contrast = 'high'; if(saved.reviewTurn === true) preferences.reviewTurn = true; } catch {}
 audio.setLevels(preferences.music, preferences.effects);
 document.documentElement.dataset.motion = preferences.motion;
+document.documentElement.dataset.contrast = preferences.contrast;
 function savePreferences() { try { localStorage.setItem('voidward.preferences.v1', JSON.stringify(preferences)); } catch {} }
 function coloniesView() {
   const all = engine.colonies(state), f = filters.colonies;
@@ -182,8 +186,8 @@ async function fingerprint(raw) {
   return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
 }
 function toast(message, error = false) { const el = $('#toast'); el.textContent = message; el.className = `toast visible${error ? ' error' : ''}`; clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('visible'), error ? 6500 : 3700); }
-function closeDialog() { $('#dialog').close(); }
-function modal(title, body) { const dialog=$('#dialog'),focus=dialog.open?captureFocus(dialog):null; if (!dialog.open) returnFocus = captureFocus(); dialog.innerHTML = `<div class="dialog-head"><h2>${title}</h2>${btn('✕', 'close', 'aria-label="Close dialog"', 'quiet small')}</div><div class="dialog-body">${body}</div>`; if (!dialog.open) dialog.showModal(); else restoreFocus(focus,dialog); }
+function closeDialog() { campaignLoadEpoch++; newCandidate=null; $('#dialog').close(); }
+function modal(title, body) { campaignLoadEpoch++;newCandidate=null;const dialog=$('#dialog'),focus=dialog.open?captureFocus(dialog):null,scroll=dialog.open?dialog.scrollTop:0; if (!dialog.open) returnFocus = captureFocus(); dialog.innerHTML = `<div class="dialog-head"><h2>${title}</h2>${btn('✕', 'close', 'aria-label="Close dialog"', 'quiet small')}</div><div class="dialog-body">${body}</div>`; if (!dialog.open) dialog.showModal(); else { restoreFocus(focus,dialog); dialog.scrollTop=scroll; } }
 function saveEnvelope() { return { kind: 'voidward.save.v1', extension, pack: pack.raw, state }; }
 function autoSave() {
   try { localStorage.setItem(activeKey, encodeSaveEnvelope(saveEnvelope())); localStorage.setItem('voidward.active.v1', activeKey); return true; }
@@ -195,7 +199,7 @@ async function activate(candidatePack, hooks, source, saved = null, seed = 2401,
   const hash = await fingerprint(candidatePack.raw);
   pack = candidatePack; engine = candidateEngine; state = candidateState; extension = source;
   activeKey = `voidward.save.v1.${pack.meta.id}@${pack.meta.version}.${hash}.${source || 'text'}${state.player ? '.empire-' + state.player : ''}`;
-  selected = pack.empires[player()].home; selectedFleet = null; designer = null; selectedShips.clear(); compareDesign = null; view = 'galaxy'; zoom = 1;
+  selected = pack.empires[player()].home; selectedFleet = null; designer = null; selectedShips.clear(); compareDesign = null; view = 'galaxy'; zoom = 1; mapPan = { x: 0, y: 0 }; panMode = false;
   audio.setScore(pack.music); audio.resume(); autoSave(); closeDialog(); render();
 }
 async function importSave(text) {
@@ -227,21 +231,64 @@ function shipCanvas(design, owner = player(), large = false) { return `<canvas d
 function planetCanvas(p) { return `<canvas data-planet="${esc(pack.planets[p.type].palette)}" data-variant="${p.id % 4}" role="img" aria-label="${esc(pack.planets[p.type].name)} planet"></canvas>`; }
 function progress(value, total) { return `<div class="progress" style="--progress:${Math.min(100, Math.max(0, value / total * 100))}%"><span></span></div>`; }
 function pageHead(eyebrow, title, subtitle, actions = '') { return `<div class="page-head"><div><div class="eyebrow">${eyebrow}</div><h1>${title}</h1><p>${subtitle}</p></div><div class="page-actions">${actions}</div></div>`; }
+function readinessStrip() {
+  const r = commandReadiness(state, engine);
+  return `<section class="command-readiness" aria-label="Command readiness"><div class="readiness-heading"><span class="status-dot"></span><strong>COMMAND DECK</strong><small>TURN ${String(state.turn).padStart(3,'0')}</small></div><div class="readiness-items">${btn(`<strong>${r.idleFleets.length}</strong> idle ships`, 'next-idle', `${!r.idleFleets.length?'disabled':''} title="Select the next idle ship (N)"`, 'quiet')}${btn(`<strong>${r.idleColonies.length}</strong> idle colonies`, 'idle-colonies', '', 'quiet')}${btn(`<strong>${r.threats.length}</strong> hostile contacts`, 'readiness', '', r.threats.length?'quiet danger':'quiet')}${btn('Command menu <kbd>Ctrl K</kbd>', 'command-menu', '', 'quiet command-menu-link')}</div></section>`;
+}
+function readinessDialog(confirmTurn = false) {
+  const r = commandReadiness(state, engine);
+  modal(confirmTurn ? 'Before the next turn' : 'Command readiness', `<p>Idle units may intentionally hold position. Only current sensor contacts appear here.</p><div class="readiness-summary"><div><strong>${r.idleFleets.length}</strong><small>SHIPS HOLDING</small></div><div><strong>${r.idleColonies.length}</strong><small>COLONIES IDLE</small></div><div><strong>${r.threats.length}</strong><small>HOSTILE SYSTEMS</small></div></div><div class="row wrap">${btn('Next idle ship', 'next-idle', r.idleFleets.length?'':'disabled', 'small')}${btn('Idle production queues', 'idle-colonies', '', 'small')}</div>${r.threats.length?`<h3>Current hostile contacts</h3><div class="command-results">${r.threats.map(t=>btn(`${esc(state.systems[t.system].name)} · ${t.ships} hostile ships`, 'jump-system', `data-id="${t.system}"`, 'quiet')).join('')}</div>`:''}${confirmTurn?`<div class="row wrap">${btn('Advance turn', 'end-confirmed', '', 'primary')}${btn('Keep planning', 'close', '', 'quiet')}</div>`:''}`);
+}
+function requestEndTurn() {
+  if (state.winner !== null) return;
+  const r = commandReadiness(state, engine);
+  if (preferences.reviewTurn && (r.idleFleets.length || r.idleColonies.length || r.threats.length)) readinessDialog(true);
+  else act({ type: 'endTurn' });
+}
+function nextIdleFleet() {
+  const rows = commandReadiness(state, engine).idleFleets;
+  if (!rows.length) { toast('Every ship has orders or is refitting.'); return; }
+  const index = rows.findIndex(f => f.id === selectedFleet), ship = rows[(index + 1) % rows.length];
+  selectedFleet = ship.id; selected = ship.system; view = 'galaxy'; closeDialog(); render(); revealSelection();
+  toast(`${ship.name} · awaiting orders`);
+}
+function systemResults(query = '') {
+  return chartedSystems(state, engine, query).map(s => btn(`<span>${esc(s.name)}</span><small>${s.surveyed?'SURVEYED':'FRONTIER SIGNAL'}</small>`, 'jump-system', `data-id="${s.id}"`, 'quiet')).join('') || '<p class="empty">No charted systems match. Explore to reveal more signals.</p>';
+}
+function commandMenu() {
+  modal('Command menu', `<label>FIND A CHARTED SYSTEM<input id="command-search" type="search" autocomplete="off" placeholder="System name or number…"></label><div class="command-shortcuts">${btn('Next idle ship <kbd>N</kbd>', 'next-idle', '', 'small')}${btn('Home system <kbd>H</kbd>', 'home', '', 'small')}${btn('Review readiness', 'readiness', '', 'small')}${btn('Save / load', 'saves', '', 'small')}${btn('New expedition', 'new', '', 'small')}</div><div id="command-results" class="command-results" aria-label="Matching systems">${systemResults()}</div>`);
+  $('#command-search').focus();
+}
+function scheduleMapDraw() {
+  if (!mapFrame) mapFrame = requestAnimationFrame(() => { mapFrame = 0; drawGalaxy(); });
+}
+function revealSelection(target = selected) {
+  const canvas = $('#galaxy-canvas'); if (!canvas || !canvas.clientWidth || !canvas.clientHeight) return;
+  const area=canvas.closest('.chart-viewport');if(area){area.scrollLeft=0;area.scrollTop=0;}
+  const points = mapProjection(state.systems, canvas.clientWidth, canvas.clientHeight, zoom, mapPan), p = points[target];
+  if (p && (p.x < 40 || p.x > canvas.clientWidth - 40 || p.y < 50 || p.y > canvas.clientHeight - 50)) {
+    mapPan = { x: mapPan.x + canvas.clientWidth/2 - p.x, y: mapPan.y + canvas.clientHeight/2 - p.y }; drawGalaxy();
+  }
+}
 function render() {
   const focus = captureFocus();
+  const scrollers = lastRenderedView === view ? [...document.querySelectorAll('.table-scroll,.design-library,.nav')].map((el,index) => [index,el.scrollLeft,el.scrollTop]) : [];
+  mapObserver?.disconnect(); cancelAnimationFrame(mapFrame); mapFrame = 0; mapDrag = null;
   previewEpoch++;
   document.documentElement.style.setProperty('--empire', pack.empires[player()].color);
   const e = state.empires[player()], yields = engine.income(state), owned = engine.colonies(state), ships = engine.fleets(state);
   const nav = [['galaxy', 'Galaxy map', '01'], ['colonies', 'Colonies', owned.length], ['fleets', 'Fleets', ships.length], ['research', 'Research', '04'], ['designer', 'Ship designer', '05'], ['diplomacy', 'Diplomacy', '06'], ['reports', 'Turn reports', state.log.length], ['mods', 'Campaign workshop', '08']];
   const victory = state.winner === null ? '' : `<div class="victory-banner"><div><div class="eyebrow">${state.winner === player() ? 'A NEW AGE BEGINS' : 'THE FRONTIER REMEMBERS'}</div><h2>${esc(pack.empires[state.winner].name)} prevails</h2><p>${esc(state.victory)}</p></div>${btn('New expedition', 'new', '', 'primary')}</div>`;
-  $('#app').innerHTML = `<header class="topbar"><div class="brand"><div class="brand-mark" aria-hidden="true">V</div><div><strong>VOIDWARD</strong><small>A QSOL-IMC SPACE 4X</small></div></div><div class="resources">${[['minerals', 'MINERALS'], ['energy', 'ENERGY'], ['research', 'RESEARCH']].map(([key, label]) => { const field = key === 'research' ? 'science' : key; return `<div class="resource" title="${field === 'energy' ? 'Net energy after fleet upkeep. At zero energy, fleet attack is halved.' : label + ' stockpile and yield per turn'}">${icon(key)}<span>${number(e[field])}<b>${plus(yields[field])}</b></span><small>${label}</small></div>`; }).join('')}</div>${btn(icon('sound'), 'settings', 'aria-label="Sound and display settings" title="Sound and display settings"', 'quiet settings-access')}<div class="turn-count"><strong>TURN ${String(state.turn).padStart(3, '0')}</strong><small>STARDATE ${2400 + Math.floor(state.turn / 10)}.${state.turn % 10}</small></div>${btn(`End turn ${icon('arrow')}`, 'end', state.winner !== null ? 'disabled' : '', 'primary end-turn')}</header>
+  $('#app').innerHTML = `<header class="topbar"><div class="brand"><div class="brand-mark" aria-hidden="true">V</div><div><strong>VOIDWARD</strong><small>A QSOL-IMC SPACE 4X</small></div></div><div class="resources">${[['minerals', 'MINERALS'], ['energy', 'ENERGY'], ['research', 'RESEARCH']].map(([key, label]) => { const field = key === 'research' ? 'science' : key; return `<div class="resource" title="${field === 'energy' ? 'Net energy after fleet upkeep. At zero energy, fleet attack is halved.' : label + ' stockpile and yield per turn'}">${icon(key)}<span>${number(e[field])}<b>${plus(yields[field])}</b></span><small>${label}</small></div>`; }).join('')}</div>${btn('⌘', 'command-menu', 'aria-label="Open command menu" title="Command menu (Ctrl K)"', 'quiet command-access')}${btn(icon('sound'), 'settings', 'aria-label="Sound and display settings" title="Sound and display settings"', 'quiet settings-access')}<div class="turn-count"><strong>TURN ${String(state.turn).padStart(3, '0')}</strong><small>STARDATE ${2400 + Math.floor(state.turn / 10)}.${state.turn % 10}</small></div>${btn(`End turn ${icon('arrow')}`, 'end', state.winner !== null ? 'disabled' : '', 'primary end-turn')}</header>
   <div class="shell"><aside class="sidebar"><div class="empire-sign"><div class="sigil" style="color:${pack.empires[player()].accent};background:${pack.empires[player()].color}33">${['⌁','◈','✧','⊙','⟁','⊞'][player()]}</div><div><strong>${esc(pack.empires[player()].short)}</strong><small>HIGH COMMAND</small></div></div><nav class="nav" aria-label="Empire command">${nav.map(([id, title, count]) => `<button data-view="${id}" class="${view === id ? 'active' : ''}" aria-label="${title}" ${view === id ? 'aria-current="page"' : ''} title="${title}">${icon(id)}<span>${title}</span><span class="badge">${String(count).padStart(2, '0')}</span></button>`).join('')}</nav>
   <div><div class="sidebar-heading">EMPIRE DIRECTIVE</div><div class="objective"><div class="eyebrow">BEYOND THE HORIZON</div><p>${pack.scenario.victory==='objectives' ? 'Follow Campaign operations for discoveries, persistent route choices and victory requirements.' : owned.length < 2 ? 'Send a fleet to a neighbouring star. Establish your first frontier colony.' : `Establish ${pack.rules.colonyTarget} colonies, master all sciences, or become the last empire standing.`}</p>${progress(owned.length, pack.rules.colonyTarget)}<div class="row between" style="margin-top:10px"><small>COLONIES</small><small class="mono">${owned.length} / ${pack.rules.colonyTarget}</small></div></div></div>
-  <div class="side-tools">${btn('Save / load', 'saves', '', 'quiet')}${btn(audio.enabled ? 'Sound on' : 'Sound off', 'sound', `aria-pressed="${audio.enabled}"`, 'quiet')}${btn('New game', 'new', '', 'quiet')}${btn('Settings', 'settings', '', 'quiet')}${btn('Field manual', 'help', '', 'quiet')}</div><div class="side-credit">EXPLORE. EXPAND.<br>EXPLOIT. EXTERMINATE.</div></aside>
-  <main id="main" class="main" tabindex="-1">${victory}${objectiveStrip()}${({ galaxy: galaxyView, colonies: coloniesView, fleets: fleetsView, research: researchView, designer: designerView, diplomacy: diplomacyView, reports: reportsView, mods: modsView }[view] || galaxyView)()}</main></div>
+  <div class="side-tools">${btn('Save / load', 'saves', '', 'quiet')}${btn(audio.enabled ? 'Sound on' : 'Sound off', 'sound', `aria-pressed="${audio.enabled}"`, 'quiet')}${btn('New game', 'new', '', 'quiet')}${btn('Settings', 'settings', '', 'quiet')}${btn('Field manual', 'help', '', 'quiet')}${btn('Commands', 'command-menu', '', 'quiet')}</div><div class="side-credit">EXPLORE. EXPAND.<br>EXPLOIT. EXTERMINATE.</div></aside>
+  <main id="main" class="main" tabindex="-1">${victory}${readinessStrip()}${objectiveStrip()}${({ galaxy: galaxyView, colonies: coloniesView, fleets: fleetsView, research: researchView, designer: designerView, diplomacy: diplomacyView, reports: reportsView, mods: modsView }[view] || galaxyView)()}</main></div>
   <footer class="footer"><span><i class="status-dot"></i>${esc(pack.meta.title.toUpperCase())} <span style="color:#394c5b"> / </span> TURN ${state.turn} <span style="color:#394c5b"> / </span> SEED ${state.seed}</span><span>LOCAL COMMAND · VANILLAJS + ALIEN MATH</span></footer>`;
-  paintCanvases(); mapObserver?.disconnect();
-  if ($('#galaxy-canvas')) { drawGalaxy(); mapObserver = new ResizeObserver(drawGalaxy); mapObserver.observe($('#galaxy-canvas')); }
+  paintCanvases();
+  if ($('#galaxy-canvas')) { drawGalaxy(); mapObserver = new ResizeObserver(scheduleMapDraw); mapObserver.observe($('#galaxy-canvas')); }
+  for (const [index,left,top] of scrollers) { const el=document.querySelectorAll('.table-scroll,.design-library,.nav')[index]; if(el){el.scrollLeft=left;el.scrollTop=top;} }
+  lastRenderedView = view;
   restoreFocus(focus);
 }
 function paintCanvases(root = document) {
@@ -250,23 +297,34 @@ function paintCanvases(root = document) {
 }
 function galaxyView() {
   return pageHead('STELLAR CARTOGRAPHY', 'The known frontier', `${state.empires[player()].known.length} systems surveyed · ${state.systems.length} stars in the sector`, `${btn(icon('help'), 'help', 'aria-label="Open field manual"', 'quiet')}${btn('Save / load', 'saves', '', 'quiet')}`) +
-  `<div class="chart-layout"><div><section class="card chart-card" aria-label="Interactive galaxy map"><div class="chart-toolbar"><div class="segmented" aria-label="Map display">${[['political', 'Territory'], ['survey', 'Exploration'], ['routes', 'Fleet orders']].map(([id, label]) => btn(label, 'map-mode', `data-mode="${id}" aria-pressed="${mapMode === id}"`, mapMode === id ? 'active' : '')).join('')}</div><span class="mono muted" style="font-size:9px">SECTOR ${String(state.seed % 999).padStart(3, '0')} / ${pack.rules.columns} : ${pack.rules.rows}</span></div><div class="chart-viewport"><canvas id="galaxy-canvas" aria-hidden="true"></canvas><div id="stars" class="star-layer" role="group" aria-label="Select a star system"></div><div class="map-coordinates">DEEP SPACE NETWORK<br><span class="mint">●</span> TELEMETRY ONLINE</div><div class="map-void">THE UNCHARTED REACH</div><div class="map-controls">${btn('−', 'zoom-out', 'aria-label="Zoom out"')}${btn('⌖', 'zoom-reset', 'aria-label="Fit galaxy"')}${btn('+', 'zoom-in', 'aria-label="Zoom in"')}</div></div><div class="map-legend"><span><i class="legend-dot" style="--dot:var(--mint)"></i>YOUR EMPIRE</span><span><i class="legend-dot" style="--dot:var(--gold)"></i>UNCLAIMED</span><span><i class="legend-dot" style="--dot:#647589"></i>UNSURVEYED</span><span class="gold">⌘ ANCIENT ARCHIVE</span></div></section>
+  `<div class="chart-layout"><div><section class="card chart-card" aria-label="Interactive galaxy map"><div class="chart-toolbar"><div class="segmented" aria-label="Map display">${[['political', 'Territory'], ['survey', 'Exploration'], ['routes', 'Fleet orders']].map(([id, label]) => btn(label, 'map-mode', `data-mode="${id}" aria-pressed="${mapMode === id}"`, mapMode === id ? 'active' : '')).join('')}</div><span class="mono muted" style="font-size:9px">SECTOR ${String(state.seed % 999).padStart(3, '0')} / ${pack.rules.columns} : ${pack.rules.rows}</span></div><div class="chart-viewport ${panMode?'pan-enabled':''}"><canvas id="galaxy-canvas" aria-hidden="true"></canvas><div id="stars" class="star-layer" role="group" aria-label="Select a star system"></div><div class="map-coordinates">DEEP SPACE NETWORK<br><span class="mint">●</span> TELEMETRY ONLINE</div><div class="map-void">THE UNCHARTED REACH</div><div class="map-controls">${btn('↔', 'pan-mode', `aria-label="Pan galaxy" aria-pressed="${panMode}" title="Toggle drag to pan (touch or mouse)"`, panMode?'active':'')}${btn('−', 'zoom-out', 'aria-label="Zoom out"')}${btn('⌖', 'zoom-reset', 'aria-label="Fit galaxy"')}${btn('+', 'zoom-in', 'aria-label="Zoom in"')}</div></div><div class="map-legend"><span><i class="legend-dot" style="--dot:var(--empire)"></i>YOUR EMPIRE</span><span><i class="legend-dot" style="--dot:var(--gold)"></i>UNCLAIMED</span><span><i class="legend-dot" style="--dot:#647589"></i>UNSURVEYED</span><span class="gold">⌘ ANCIENT ARCHIVE</span></div></section>
   <label class="system-picker">Find a charted system<select id="system-jump">${[...engine.visibleSystems(state)].map(id=>`<option value="${id}" ${id===selected?'selected':''}>${esc(state.systems[id].name)}${state.empires[player()].known.includes(id)?'':' · unsurveyed'}</option>`).join('')}</select></label><div class="card dispatch-strip">${icon('fleets')}<div><strong>${selectedFleet ? 'Fleet selected · choose a destination' : 'Your next command'}</strong><p>${selectedFleet ? 'Select a connected star, then confirm Plot course. Orders resolve when you end the turn.' : 'Select a ship in the system panel, then a neighbouring star to chart its course.'}</p></div></div></div><aside class="inspector" aria-label="Selected system">${inspector()}</aside></div>`;
 }
 function drawGalaxy() {
-  const canvas = $('#galaxy-canvas'); if (!canvas) return;
-  const points = drawMap(canvas, state, engine, selected, selectedFleet, zoom, mapMode), visible = engine.visibleSystems(state), known = new Set(state.empires[player()].known);
-  $('#stars').innerHTML = state.systems.filter(s => visible.has(s.id)).map(s => {
-    const p = engine.systemIntel(state, s.id)?.planets.find(p => p.owner >= 0), color = known.has(s.id) && p ? pack.empires[p.owner].color : '#c9b18a';
-    const count = engine.fleets(state).filter(f => f.system === s.id).length;
-    const danger=engine.systemIntel(state,s.id)?.fleets.some(f=>state.relations[player()][f.owner]==='war'&&f.attack>0);
-    const label = known.has(s.id) ? s.name : `${s.name} · unsurveyed`;
-    return `<button class="star-node ${danger?'danger':''} ${known.has(s.id) ? '' : 'frontier'} ${selected === s.id ? 'selected' : ''}" style="left:${points[s.id].x}px;top:${points[s.id].y}px;--star:${color}" data-action="system" data-id="${s.id}" aria-label="${esc(label)}" aria-pressed="${selected === s.id}" title="${esc(label)}"><i></i><span>${esc(s.name)}</span>${count ? `<b class="fleet-count">▴ ${count}</b>` : ''}${danger?'<b class="danger-mark" aria-label="Hostile fleet last reported">!</b>':''}</button>`;
-  }).join('');
-  // Keep the selected label, then surveyed labels, when charted systems crowd
-  // together. Star buttons, accessible names and the system picker remain intact.
-  const labels = [...$('#stars').querySelectorAll('.star-node')].map(node => ({
-    node, rect: node.querySelector('span').getBoundingClientRect(),
+  const canvas = $('#galaxy-canvas'), stars = $('#stars'); if (!canvas || !stars) return;
+  const points = drawMap(canvas, state, engine, selected, selectedFleet, zoom, mapMode, { pan: mapPan });
+  if (!points.length) return;
+  // A resize, zoom or pan only moves the existing controls. Keeping node identity
+  // preserves keyboard focus, pointer capture and assistive-technology context.
+  if (!stars.childElementCount) {
+    const visible = engine.visibleSystems(state), known = new Set(state.empires[player()].known), counts = new Map();
+    for (const ship of engine.fleets(state)) counts.set(ship.system, (counts.get(ship.system) || 0) + 1);
+    stars.innerHTML = state.systems.filter(s => visible.has(s.id)).map(s => {
+      const intel = engine.systemIntel(state, s.id), colony = intel?.planets.find(p => p.owner >= 0);
+      const color = known.has(s.id) && colony ? pack.empires[colony.owner].color : '#c9b18a';
+      const count = counts.get(s.id) || 0, danger = intel?.fleets.some(f => state.relations[player()][f.owner] === 'war' && f.attack > 0);
+      const label = known.has(s.id) ? s.name : `${s.name} · unsurveyed`;
+      return `<button class="star-node ${danger?'danger':''} ${known.has(s.id)?'':'frontier'} ${selected===s.id?'selected':''}" style="--star:${color}" data-action="system" data-id="${s.id}" aria-label="${esc(label)}" aria-pressed="${selected===s.id}" title="${esc(label)}"><i></i><span>${esc(s.name)}</span>${count?`<b class="fleet-count">▴ ${count}</b>`:''}${danger?'<b class="danger-mark" aria-label="Hostile fleet last reported">!</b>':''}</button>`;
+    }).join('');
+  }
+  const nodes = [...stars.querySelectorAll('.star-node')];
+  for (const node of nodes) {
+    const p = points[Number(node.dataset.id)];
+    node.style.left = `${p.x}px`; node.style.top = `${p.y}px`;
+    node.classList.remove('label-crowded');
+  }
+  if (preferences.labels === 'all') return;
+  const labels = nodes.map(node => ({ node, rect: node.querySelector('span').getBoundingClientRect(),
     priority: node.classList.contains('selected') ? 0 : node.classList.contains('frontier') ? 2 : 1
   })).sort((a, b) => a.priority - b.priority);
   const placed = [];
@@ -276,6 +334,7 @@ function drawGalaxy() {
     if (!crowded) placed.push(rect);
   }
 }
+
 function inspector() {
   const sys = state.systems[selected], known = state.empires[player()].known.includes(selected), local = engine.fleets(state).filter(f => f.system === selected), ship = state.fleets.find(f => f.id === selectedFleet);
   const intel=engine.systemIntel(state,selected);
@@ -312,19 +371,54 @@ function modsView() {
   <section class="card card-pad" style="margin-top:20px"><div class="eyebrow">FACTION SHIP ATLAS</div><div class="cards">${pack.empires.map(f => `<div><h3 style="color:${f.color}">${esc(f.name)}</h3><div class="design-library" style="padding:10px 0">${Object.values(pack.hulls).filter(h => h.faction === f.id || h.faction === -1).map(h => `<div style="text-align:center;min-width:100px">${shipCanvas({ hull: h.id }, f.id)}<small>${esc(h.name)}</small></div>`).join('')}</div></div>`).join('')}</div></section>`;
 }
 function help() {
-  modal('Your field manual', `<p>A classic turn-based space 4X, inspired by Space Empires IV. Nothing advances until you end a turn.</p><div class="help-grid"><div><h3>01 · Explore</h3><p>In the galaxy view, select a ship, then a neighbouring star and <b>Plot course</b>. End your turn to travel. The route can cross surveyed systems and end at an unsurveyed frontier star. Survey arrays recover golden ancient archives.</p><h3>02 · Expand</h3><p>Bring a colony ark to an unclaimed world, then choose <b>Colonise</b>. This consumes the ark and costs ${pack.rules.colonizeMinerals} minerals + ${pack.rules.colonizeEnergy} energy. You can also colonise another planet in your starting system.</p></div><div><h3>03 · Develop</h3><p>Manage a colony to queue facilities or ships. A shipyard enables shipbuilding and repairs. Research unlocks components; create a new design to use them. Existing ships retain their installed parts.</p><h3>04 · Prevail</h3><p>Sign treaties or declare war after first contact. Combat resolves each turn. Marine ships can capture planets once defenders are gone and their combined attack meets planetary defence. At zero energy, fleet attack is halved.</p></div></div><h3>Campaign objectives and command tools</h3><p>Scenario packs list their goals in <b>Objectives &amp; choices</b>. Choosing a route closes alternative branches; progress is stored in your save. Fleets can form task forces, auto-explore, patrol, return to a shipyard or refit. Production queues can be reordered without losing work. Search and sort colony and fleet manifests as your empire grows.</p><h3>Victory conditions</h3><p>${pack.scenario.victory==='objectives' ? 'This expedition uses scenario objectives. Complete a victory route after turn '+pack.scenario.minVictoryTurn+'. '+(pack.scenario.defeatAtLimit?'The deadline is a defeat condition. ':'')+'Legacy expansion and science victories are disabled. The following describes legacy campaigns: ' : ''}Found ${pack.rules.colonyTarget} colonies, research every field to level ${roman(pack.rules.maxTech)}, or eliminate the other empires. At turn ${pack.rules.turnLimit}, the highest score wins: 100 per colony, 25 per research level and 5 per surviving ship. Loss of all colonies and colony arks ends your campaign.</p><h3>Controls & saves</h3><p>Mouse and touch: select, then confirm an order. Keyboard: Tab through controls; Enter/Space activates a focused button. <b>E</b> ends a turn; <b>1–8</b> change command views; <b>?</b> opens this guide. Shortcuts are disabled in forms and dialogs. Standard gamepad: D-pad cycles visible stars, A selects, B clears the fleet selection. Held controls must return to neutral after focus loss.</p><p>Accepted orders autosave in this browser. Export a save before clearing site data. Each campaign content version has a separate save slot. Save files include their complete text pack. You can play offline after the first complete cache installation, or serve a downloaded checkout locally.</p><div class="row">${btn('Back to the frontier', 'close', '', 'primary')}${btn('Sound ' + (audio.enabled ? 'on' : 'off'), 'sound', '', 'quiet')}</div>`);
+  modal('Your field manual', `<p>A classic turn-based space 4X, inspired by Space Empires IV. Nothing advances until you end a turn.</p><div class="help-grid"><div><h3>01 · Explore</h3><p>In the galaxy view, select a ship, then a neighbouring star and <b>Plot course</b>. End your turn to travel. The route can cross surveyed systems and end at an unsurveyed frontier star. Survey arrays recover golden ancient archives.</p><h3>02 · Expand</h3><p>Bring a colony ark to an unclaimed world, then choose <b>Colonise</b>. This consumes the ark and costs ${pack.rules.colonizeMinerals} minerals + ${pack.rules.colonizeEnergy} energy. You can also colonise another planet in your starting system.</p></div><div><h3>03 · Develop</h3><p>Manage a colony to queue facilities or ships. A shipyard enables shipbuilding and repairs. Research unlocks components; create a new design to use them. Existing ships retain their installed parts.</p><h3>04 · Prevail</h3><p>Sign treaties or declare war after first contact. Combat resolves each turn. Marine ships can capture planets once defenders are gone and their combined attack meets planetary defence. At zero energy, fleet attack is halved.</p></div></div><h3>Campaign objectives and command tools</h3><p>Scenario packs list their goals in <b>Objectives &amp; choices</b>. Choosing a route closes alternative branches; progress is stored in your save. Fleets can form task forces, auto-explore, patrol, return to a shipyard or refit. Production queues can be reordered without losing work. Search and sort colony and fleet manifests as your empire grows.</p><h3>Victory conditions</h3><p>${pack.scenario.victory==='objectives' ? 'This expedition uses scenario objectives. Complete a victory route after turn '+pack.scenario.minVictoryTurn+'. '+(pack.scenario.defeatAtLimit?'The deadline is a defeat condition. ':'')+'Legacy expansion and science victories are disabled. The following describes legacy campaigns: ' : ''}Found ${pack.rules.colonyTarget} colonies, research every field to level ${roman(pack.rules.maxTech)}, or eliminate the other empires. At turn ${pack.rules.turnLimit}, the highest score wins: 100 per colony, 25 per research level and 5 per surviving ship. Loss of all colonies and colony arks ends your campaign.</p><h3>Controls & saves</h3><p>Mouse and touch: select, then confirm an order. Keyboard: Tab through controls; Enter/Space activates a focused button. <b>E</b> ends a turn; <b>1–8</b> change command views; <b>?</b> opens this guide. <b>N</b> selects the next idle ship; <b>H</b> returns home; <b>Ctrl/Cmd K</b> or <b>/</b> opens the searchable command menu. Arrow keys move between focused star targets. Drag empty chart space with a mouse, or enable <b>Pan galaxy</b> for touch; Fit galaxy resets the view. Settings offers full labels, high contrast and an optional idle-unit turn review. Gameplay shortcuts are disabled in forms and dialogs. Standard gamepad: D-pad cycles visible stars, A selects, B clears the fleet selection. Held controls must return to neutral after focus loss.</p><p>Accepted orders autosave in this browser. Export a save before clearing site data. Each campaign content version has a separate save slot. Save files include their complete text pack. You can play offline after the first complete cache installation, or serve a downloaded checkout locally.</p><div class="row">${btn('Back to the frontier', 'close', '', 'primary')}${btn('Sound ' + (audio.enabled ? 'on' : 'off'), 'sound', '', 'quiet')}</div>`);
+}
+function campaignBriefing(candidate, empireId) {
+  const faction = candidate.empires[empireId], start = candidate.starts.find(x => x.empire === empireId);
+  const positions = candidate.map.map(s => candidate.layout.find(p => p.id === s.id) || { id:s.id, x:s.id%candidate.rules.columns, y:Math.floor(s.id/candidate.rules.columns) });
+  const xs=positions.map(p=>p.x),ys=positions.map(p=>p.y),minX=Math.min(...xs),minY=Math.min(...ys),dx=Math.max(1,Math.max(...xs)-minX),dy=Math.max(1,Math.max(...ys)-minY);
+  const at=id=>({x:20+(positions[id].x-minX)/dx*360,y:20+(positions[id].y-minY)/dy*160});
+  const lanes=candidate.map.flatMap(s=>s.links.filter(n=>n>s.id).map(n=>`<line x1="${at(s.id).x}" y1="${at(s.id).y}" x2="${at(n).x}" y2="${at(n).y}"/>`)).join('');
+  const stars=candidate.map.map(s=>{const home=candidate.empires.find(e=>e.home===s.id);return `<circle cx="${at(s.id).x}" cy="${at(s.id).y}" r="${home?4.5:2}" fill="${home?home.color:'#7392a5'}"/>`;}).join('');
+  const ships=candidate.ships.filter(s=>s.empire===empireId);
+  return `<section class="expedition-briefing" style="--faction:${faction.color}"><div class="briefing-map"><svg viewBox="0 0 400 200" role="img" aria-label="Campaign starlane overview and faction home positions"><g stroke="#385667" stroke-width="1">${lanes}</g>${stars}</svg><span>${candidate.map.length} STARS / ${candidate.scenario.playable.length} PLAYABLE EMPIRES</span></div><div class="briefing-body"><div class="eyebrow">YOUR EXPEDITION</div><h3>${esc(candidate.meta.title)}</h3><p>${esc(candidate.meta.description)}</p><div class="briefing-deadline">${candidate.scenario.victory==='objectives'?`Objective victory from turn ${candidate.scenario.minVictoryTurn}`:'Expansion · science · conquest'} <span>DEADLINE ${candidate.rules.turnLimit}</span></div><div class="faction-brief"><div><strong>${esc(faction.name)}</strong><p>${esc(faction.ethos)}</p><small>HOME · ${esc(candidate.systemNames[faction.home])}</small></div><div class="briefing-ships">${ships.slice(0,3).map(s=>`<canvas data-briefing-hull="${esc(s.hull)}" role="img" aria-label="${esc(candidate.hulls[s.hull].name)}"></canvas>`).join('')}</div></div><div class="briefing-resources"><span><b>${number(start?.minerals??candidate.rules.startMinerals)}</b> minerals</span><span><b>${number(start?.energy??candidate.rules.startEnergy)}</b> energy</span><span><b>${ships.length}</b> starting ships</span></div></div></section>`;
+}
+function refreshBriefing(candidate) {
+  newCandidate=candidate;
+  const holder=$('#new-briefing'),empireId=Number($('#new-player')?.value);
+  if(!holder || !candidate.empires[empireId])return;
+  holder.innerHTML=campaignBriefing(candidate,empireId);
+  holder.querySelectorAll('[data-briefing-hull]').forEach(c=>paintShip(c,candidate.hulls[c.dataset.briefingHull],candidate.empires[empireId]));
 }
 async function newGameDialog(id = null) {
-  const wanted = id || extension || 'custom';
-  const candidate = wanted === 'custom' ? pack : (await registered(wanted)).pack;
-  modal('Begin an expedition', `<p>Your current campaign is saved. Starting again in the same campaign slot replaces that slot; export it first if you want to keep both.</p><div class="stack" style="margin-top:20px"><label>CAMPAIGN<select id="new-pack">${campaigns.map(c => `<option value="${c.id}" ${c.id === wanted ? 'selected' : ''}>${esc(c.title)}</option>`).join('')}${!extension ? `<option value="custom" ${wanted === 'custom' ? 'selected' : ''}>Current imported campaign</option>` : ''}</select></label><label>PLAYABLE EMPIRE<select id="new-player">${playableOptions(candidate)}</select></label><label>GALAXY SEED<input id="new-seed" type="number" min="0" max="4294967295" step="1" value="2401"></label><label>AI TEMPERAMENT<select id="new-difficulty"><option value="relaxed">Patient · longer opening peace</option><option value="standard" selected>Standard · a contested frontier</option><option value="veteran">Aggressive · earlier declarations of war</option></select></label></div><div class="row">${btn('Launch expedition', 'launch', '', 'primary')}${btn('Export current save', 'export-save', '', 'quiet')}</div>`);
+  const epoch=++campaignLoadEpoch, wanted=id||extension||'custom';
+  const candidate=wanted==='custom'?pack:(await registered(wanted)).pack;
+  if(epoch!==campaignLoadEpoch)return;
+  modal('Begin an expedition', `<p>Your current campaign is saved. Starting again in the same campaign slot replaces that slot; export it first if you want to keep both.</p><div class="expedition-controls"><label>CAMPAIGN<select id="new-pack">${campaigns.map(c=>`<option value="${c.id}" ${c.id===wanted?'selected':''}>${esc(c.title)}</option>`).join('')}${!extension?`<option value="custom" ${wanted==='custom'?'selected':''}>Current imported campaign</option>`:''}</select></label><label>PLAYABLE EMPIRE<select id="new-player">${playableOptions(candidate)}</select></label><label>GALAXY SEED<input id="new-seed" type="number" min="0" max="4294967295" step="1" value="2401"></label><label>AI TEMPERAMENT<select id="new-difficulty"><option value="relaxed">Patient · longer opening peace</option><option value="standard" selected>Standard · a contested frontier</option><option value="veteran">Aggressive · earlier declarations of war</option></select></label></div><div id="new-briefing" aria-live="polite"></div><div class="row wrap">${btn('Launch expedition','launch','','primary')}${btn('Export current save','export-save','','quiet')}</div>`);
+  refreshBriefing(candidate);
 }
+async function changeNewCampaign(id) {
+  const epoch=++campaignLoadEpoch,launch=$('[data-action="launch"]'),selector=$('#new-player');
+  newCandidate=null;launch.disabled=true;selector.disabled=true;
+  $('#new-briefing').innerHTML='<p class="briefing-loading" role="status">Opening campaign briefing…</p>';
+  try {
+    const candidate=id==='custom'?pack:(await registered(id)).pack;
+    if(epoch!==campaignLoadEpoch || !launch.isConnected)return;
+    selector.innerHTML=playableOptions(candidate);refreshBriefing(candidate);launch.disabled=false;selector.disabled=false;
+  } catch(error) {
+    if(epoch===campaignLoadEpoch && launch.isConnected) {
+      $('#new-briefing').innerHTML=`<p class="diagnostics">${esc(error.message)} Choose another campaign or retry after reconnecting.</p>`;
+      selector.innerHTML='';toast(error.message,true);
+    }
+  }
+}
+
 function savesDialog() { modal('Campaign records', `<p>Campaigns autosave after every accepted order. Export a self-contained save to transfer your campaign or keep a backup.</p><div class="row wrap">${btn('Export save', 'export-save', '', 'primary')}${btn('Import save', 'import-save')}${btn('Save now', 'save-now')}</div><h3>Current record</h3><p>${esc(pack.meta.title)} · turn ${state.turn} · seed ${state.seed}<br>${engine.colonies(state).length} colonies · ${engine.fleets(state).length} ships</p>`); }
 
 document.addEventListener('click', async event => {
   const button = event.target.closest('button'); if (!button || button.disabled || !state) return;
   try {
-    if (button.dataset.view) { view = button.dataset.view; render(); audio.effect(); return; }
+    if (button.dataset.view) { closeDialog(); view = button.dataset.view; render(); audio.effect(); return; }
     const d = button.dataset;
     switch (d.action) {
       case 'visual-workshop': openWorkshop(); break;
@@ -382,15 +476,22 @@ document.addEventListener('click', async event => {
       case 'group-orders': { const g=state.groups.find(g=>g.id===Number(d.group)),ship=state.fleets.find(f=>f.id===g.ships[0]); modal(esc(g.name), `<label>DESTINATION<select id="group-target">${destinationOptions(ship.system)}</select></label><div class="row">${btn('Plot task-force course','group-move',`data-group="${g.id}"`,'primary')}</div>`); break; }
       case 'group-move': if(act({type:'groupMove',group:Number(d.group),target:Number($('#group-target').value)})) closeDialog(); break;
       case 'close': closeDialog(); break;
-      case 'end': act({ type: 'endTurn' }); break;
+      case 'end': requestEndTurn(); break;
+      case 'end-confirmed': closeDialog(); act({type:'endTurn'}); break;
+      case 'readiness': readinessDialog(); break;
+      case 'command-menu': commandMenu(); break;
+      case 'next-idle': nextIdleFleet(); break;
+      case 'idle-colonies': closeDialog(); filters.colonies.mode='idle';filters.colonies.search='';view='colonies';render();break;
+      case 'home': closeDialog();selected=pack.empires[player()].home;view='galaxy';render();revealSelection();break;
+      case 'jump-system': closeDialog();selected=Number(d.id);view='galaxy';render();revealSelection();break;
       case 'system': selected = Number(d.id); render(); break;
       case 'select-fleet': selectedFleet = selectedFleet === Number(d.id) ? null : Number(d.id); render(); break;
-      case 'fleet-on-map': { selectedFleet = Number(d.id); selected = state.fleets.find(f => f.id === selectedFleet).system; view = 'galaxy'; render(); break; }
+      case 'fleet-on-map': { selectedFleet = Number(d.id); selected = state.fleets.find(f => f.id === selectedFleet).system; view = 'galaxy'; render();revealSelection();break; }
       case 'move': if (act(courseCommand(Number(d.target)))) toast('Course plotted. End the turn to engage warp.'); break;
       case 'hold': act({ type: 'hold', fleet: selectedFleet }); break;
       case 'colonize': act({ type: 'colonize', planet: Number(d.planet), fleet: Number(d.fleet) }); break;
       case 'manage': manageColony(Number(d.id)); break;
-      case 'locate': selected = Number(d.id); view = 'galaxy'; render(); break;
+      case 'locate': selected = Number(d.id); view = 'galaxy'; render();revealSelection();break;
       case 'build': act({ type: 'build', planet: Number(d.planet), kind: d.kind }); manageColony(Number(d.planet)); break;
       case 'build-ship': act({ type: 'build', planet: Number(d.planet), kind: 'ship', design: Number(d.design) }); manageColony(Number(d.planet)); break;
       case 'cancel-build': act({ type: 'cancel', planet: Number(d.planet), index: Number(d.index) }); manageColony(Number(d.planet)); break;
@@ -405,9 +506,10 @@ document.addEventListener('click', async event => {
       case 'diplomacy': act({ type: 'diplomacy', target: Number(d.target), offer: d.offer }); closeDialog(); break;
       case 'war-prompt': modal('Declare war?', `<p>This breaks any trade pact with ${esc(pack.empires[Number(d.target)].name)}. Fleets and planets become hostile when turns resolve.</p><div class="row">${btn('Declare war', 'diplomacy', `data-target="${d.target}" data-offer="war"`, 'danger')}${btn('Keep the peace', 'close', '', 'quiet')}</div>`); break;
       case 'map-mode': mapMode = d.mode; render(); break;
-      case 'zoom-in': zoom = Math.min(1.4, zoom + .1); drawGalaxy(); break;
-      case 'zoom-out': zoom = Math.max(.7, zoom - .1); drawGalaxy(); break;
-      case 'zoom-reset': zoom = 1; drawGalaxy(); break;
+      case 'zoom-in': zoom = Math.min(2.4, zoom + .2); drawGalaxy(); break;
+      case 'zoom-out': zoom = Math.max(.6, zoom - .2); drawGalaxy(); break;
+      case 'zoom-reset': zoom = 1;mapPan={x:0,y:0};drawGalaxy();break;
+      case 'pan-mode': panMode=!panMode;$('.chart-viewport')?.classList.toggle('pan-enabled',panMode);button.setAttribute('aria-pressed',String(panMode));button.classList.toggle('active',panMode);break;
       case 'help': help(); break;
       case 'sound': await audio.toggle(); render(); toast(audio.enabled ? 'Sound enabled · original procedural soundscape' : 'Sound muted'); break;
       case 'new': await newGameDialog(); break;
@@ -443,6 +545,7 @@ document.addEventListener('click',event=>{
 document.addEventListener('input', event => {
   const t=event.target;
   if(t.id==='design-name') designer.name=t.value;
+  if(t.id==='command-search') $('#command-results').innerHTML=systemResults(t.value);
   if(t.dataset.filter && t.dataset.key==='search') { filters[t.dataset.filter].search=t.value; render(); }
   if(['music-volume','effects-volume'].includes(t.id)) {
     preferences.music=Number($('#music-volume').value)/100; preferences.effects=Number($('#effects-volume').value)/100;
@@ -464,35 +567,79 @@ document.addEventListener('change', async event => {
     if(t.id==='compare-design') { compareDesign=Number(t.value); render(); }
     if(t.id==='audio-enabled') { await audio.setEnabled(t.checked); render(); }
     if(t.id==='motion-setting') { preferences.motion=t.value; document.documentElement.dataset.motion=t.value; savePreferences(); }
-    if(t.id==='system-jump') { selected=Number(t.value); render(); }
+    if(t.id==='label-setting') { preferences.labels=t.value;savePreferences();drawGalaxy(); }
+    if(t.id==='contrast-setting') { preferences.contrast=t.value;document.documentElement.dataset.contrast=t.value;savePreferences(); }
+    if(t.id==='review-turn') { preferences.reviewTurn=t.checked;savePreferences(); }
+    if(t.id==='system-jump') { selected=Number(t.value);render();revealSelection(); }
     if (event.target.id === 'design-hull') { designer.hull = event.target.value; render(); }
-    if (event.target.id === 'new-pack') { const epoch=++campaignLoadEpoch, id=event.target.value; const launch=$('[data-action="launch"]'); launch.disabled=true; try { const candidate=id==='custom'?pack:(await registered(id)).pack;if(epoch===campaignLoadEpoch&&$('#new-player'))$('#new-player').innerHTML=playableOptions(candidate); } finally { if(epoch===campaignLoadEpoch&&launch.isConnected)launch.disabled=false; } }
+    if(t.id==='new-pack') { await changeNewCampaign(t.value);return; }
+    if(t.id==='new-player' && newCandidate) refreshBriefing(newCandidate);
     if (event.target.id === 'pack-file') { editorFiles[editingFile] = $('#pack-text').value; editingFile = event.target.value; $('#pack-text').value = editorFiles[editingFile] || ''; }
     if (event.target.id === 'pack-json') { const file = event.target.files[0]; if (!file) return; if (file.size > 1000000) throw new Error('Pack exceeds 1 MB.'); const data = JSON.parse(await file.text()); if (data.kind !== 'voidward.text-pack.v1') throw new Error('Unknown campaign format.'); const parsed = parsePack(data.files); editorFiles = parsed.raw; editingFile = 'campaign.txt'; $('#pack-file').value = editingFile; $('#pack-text').value = editorFiles[editingFile] || ''; toast('Text pack loaded into the editor. Validate & start to play.'); }
     if (event.target.id === 'save-file') { const file = event.target.files[0]; if (!file) return; if (file.size > MAX_SAVE_BYTES) throw new Error('Save exceeds the 49 MiB UTF-8 limit.'); await importSave(await file.text()); toast('Save verified and restored.'); event.target.value = ''; }
     if (event.target.id === 'mod-files') { if (!event.target.files.length) return; const candidate = await loadDirectory(event.target.files); await activate(candidate, {}, null); toast(`Campaign loaded: ${candidate.meta.title}`); event.target.value = ''; }
   } catch (error) { event.target.value = ''; toast(error.message, true); }
 });
-document.addEventListener('keydown', event => {
-  if (event.repeat || event.ctrlKey || event.metaKey || event.altKey || !state || $('#dialog').open || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(event.target.tagName)) return;
-  if (event.key.toLowerCase() === 'e') { event.preventDefault(); act({ type: 'endTurn' }); }
-  if (event.key === '?') help();
-  const index = Number(event.key) - 1; if (index >= 0 && index < 8) { view = ['galaxy', 'colonies', 'fleets', 'research', 'designer', 'diplomacy', 'reports', 'mods'][index]; render(); }
+document.addEventListener('pointerdown', event => {
+  const area=event.target.closest('.chart-viewport');
+  if(!area || event.button!==0 || event.target.closest('button') || (event.pointerType==='touch' && !panMode))return;
+  mapDrag={id:event.pointerId,area,x:event.clientX,y:event.clientY,pan:{...mapPan}};
+  area.setPointerCapture(event.pointerId);area.classList.add('dragging');event.preventDefault();
 });
+document.addEventListener('pointermove',event=>{
+  if(!mapDrag || mapDrag.id!==event.pointerId)return;
+  const limit=Math.max(mapDrag.area.clientWidth,mapDrag.area.clientHeight)*4;
+  mapPan={x:Math.max(-limit,Math.min(limit,mapDrag.pan.x+event.clientX-mapDrag.x)),y:Math.max(-limit,Math.min(limit,mapDrag.pan.y+event.clientY-mapDrag.y))};
+  scheduleMapDraw();event.preventDefault();
+});
+function stopMapDrag(event) {
+  if(!mapDrag || event.pointerId!==undefined && mapDrag.id!==event.pointerId)return;
+  const {area,id}=mapDrag;mapDrag=null;area.classList.remove('dragging');
+  if(area.hasPointerCapture(id))area.releasePointerCapture(id);
+}
+document.addEventListener('pointerup',stopMapDrag);
+document.addEventListener('pointercancel',stopMapDrag);
+document.addEventListener('lostpointercapture',stopMapDrag);
+document.addEventListener('focusin',event=>{
+  const star=event.target.closest('.star-node');
+  if(star && view==='galaxy')revealSelection(Number(star.dataset.id));
+});
+document.addEventListener('keydown', event => {
+  if(event.repeat || !state || event.isComposing || $('#dialog').open)return;
+  if((event.ctrlKey||event.metaKey) && event.key.toLowerCase()==='k') { event.preventDefault();commandMenu();return; }
+  if(event.ctrlKey||event.metaKey||event.altKey||event.target.isContentEditable||['INPUT','TEXTAREA','SELECT'].includes(event.target.tagName))return;
+  const star=event.target.closest('.star-node'),vectors={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]};
+  if(star && vectors[event.key]) {
+    event.preventDefault();const c=$('#galaxy-canvas'),points=mapProjection(state.systems,c.clientWidth,c.clientHeight,zoom,mapPan),origin=points[Number(star.dataset.id)],[dx,dy]=vectors[event.key];
+    const candidates=[...engine.visibleSystems(state)].map(id=>({id,x:points[id].x-origin.x,y:points[id].y-origin.y})).filter(p=>p.x*dx+p.y*dy>1);
+    candidates.sort((a,b)=>(Math.hypot(a.x,a.y)+Math.abs(a.x*dy-a.y*dx)*2)-(Math.hypot(b.x,b.y)+Math.abs(b.x*dy-b.y*dx)*2)||a.id-b.id);
+    if(candidates.length){selected=candidates[0].id;render();revealSelection();$(`.star-node[data-id="${selected}"]`)?.focus({preventScroll:true});}return;
+  }
+  if(['BUTTON','A'].includes(event.target.tagName))return;
+  const key=event.key.toLowerCase();
+  if(key==='e'){event.preventDefault();requestEndTurn();}
+  else if(key==='n'){event.preventDefault();nextIdleFleet();}
+  else if(key==='h'){event.preventDefault();selected=pack.empires[player()].home;view='galaxy';render();revealSelection();}
+  else if(key==='/'){event.preventDefault();commandMenu();}
+  else if(key==='escape' && selectedFleet!==null){selectedFleet=null;render();}
+  else if(event.key==='?')help();
+  const index=Number(event.key)-1;if(index>=0&&index<8){view=['galaxy','colonies','fleets','research','designer','diplomacy','reports','mods'][index];render();}
+});
+
 function pollGamepad() {
   if (!state || document.hidden || !document.hasFocus() || $('#dialog').open) return;
   gamepad.poll(); const B = globalThis.QsolInput.BUTTON;
   if (gamepad.pressed(B.EAST)) { selectedFleet = null; render(); }
   if (view !== 'galaxy') return;
   const ids = [...engine.visibleSystems(state)].sort((a, b) => a - b), current = ids.indexOf(selected);
-  if (gamepad.pressed(B.RIGHT) || gamepad.pressed(B.DOWN)) { selected = ids[(current + 1) % ids.length]; render(); }
-  if (gamepad.pressed(B.LEFT) || gamepad.pressed(B.UP)) { selected = ids[(current - 1 + ids.length) % ids.length]; render(); }
+  if (gamepad.pressed(B.RIGHT) || gamepad.pressed(B.DOWN)) { selected = ids[(current + 1) % ids.length]; render();revealSelection(); }
+  if (gamepad.pressed(B.LEFT) || gamepad.pressed(B.UP)) { selected = ids[(current - 1 + ids.length) % ids.length]; render();revealSelection(); }
   if (gamepad.pressed(B.SOUTH)) { if (selectedFleet) act(courseCommand(selected)); else { selectedFleet = engine.fleets(state).find(f => f.system === selected)?.id || null; render(); } }
 }
-window.addEventListener('blur', () => { gamepad.reset(); audio.suspend(); });
+window.addEventListener('blur', () => { stopMapDrag({});gamepad.reset(); audio.suspend(); });
 window.addEventListener('focus', () => { gamepad.reset(); audio.resume(); });
 document.addEventListener('visibilitychange', () => { gamepad.reset(); document.hidden ? audio.suspend() : audio.resume(); });
-$('#dialog').addEventListener('close', () => { gamepad.reset(); restoreFocus(returnFocus); returnFocus = null; });
+$('#dialog').addEventListener('close', () => { campaignLoadEpoch++;newCandidate=null;gamepad.reset(); restoreFocus(returnFocus); returnFocus = null; });
 async function boot() {
   let restoreError = '', incoming = null;
   if (new URL(location.href).searchParams.get('draft') === 'editor') {
@@ -519,4 +666,4 @@ boot().then(() => {
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) navigator.serviceWorker.register(new URL('../sw.js', import.meta.url)).catch(error => toast('Offline cache unavailable: ' + error.message, true));
 }).catch(error => { $('#app').innerHTML = `<div class="loading"><h1>Unable to open the frontier</h1><p>${esc(error.message)}</p><p>Serve this folder over HTTP. See README.md for local play.</p><button onclick="location.reload()">Retry</button></div>`; });
 // Read-only snapshots for diagnostics: external code cannot mutate the live campaign.
-Object.defineProperty(globalThis, '__voidward', { get: () => state ? { state: structuredClone(state), player: player(), pack: structuredClone(pack), view, selected, selectedFleet, audio: { enabled: audio.enabled, context: audio.effects.ctx?.state, cachedNotes: audio.notes.size, noteBytes: audio.noteBytes, levels: audio.levels, musicVoices: audio.sources.size }, renderer: backdropStats(), workshop: editorFiles ? { files: structuredClone(editorFiles), tab: workshopTab, hull: workshopHull } : null, engineVersion: 2 } : null });
+Object.defineProperty(globalThis, '__voidward', { get: () => state ? { state: structuredClone(state), player: player(), pack: structuredClone(pack), view, selected, selectedFleet, audio: { enabled: audio.enabled, context: audio.effects.ctx?.state, cachedNotes: audio.notes.size, noteBytes: audio.noteBytes, levels: audio.levels, musicVoices: audio.sources.size }, renderer: {...backdropStats(),zoom,pan:{...mapPan}}, workshop: editorFiles ? { files: structuredClone(editorFiles), tab: workshopTab, hull: workshopHull } : null, engineVersion: 2 } : null });

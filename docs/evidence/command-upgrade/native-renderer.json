@@ -1,0 +1,43 @@
+{
+  "kind": "native-canvas-parity",
+  "runtime": "v24.22.1",
+  "renderer": "@napi-rs/canvas; not browser",
+  "sourceSha256": "5fa95c8137cc3cdd0c14eb5f5ac5aba7f9de00574c505a866f6feb394cba82e4",
+  "checks": [
+    {
+      "case": "planet-ocean",
+      "status": "PASS",
+      "channels": 262144
+    },
+    {
+      "case": "planet-gas",
+      "status": "PASS",
+      "channels": 262144
+    },
+    {
+      "case": "planet-ice",
+      "status": "PASS",
+      "channels": 262144
+    },
+    {
+      "case": "map-600x420-dpr1",
+      "status": "PASS",
+      "channels": 1008000
+    },
+    {
+      "case": "map-601x421-dpr1.25",
+      "status": "PASS",
+      "channels": 1580104
+    },
+    {
+      "case": "map-390x420-dpr2",
+      "status": "PASS",
+      "channels": 2620800
+    },
+    {
+      "case": "map-900x620-dpr2",
+      "status": "PASS",
+      "channels": 8928000
+    }
+  ]
+}

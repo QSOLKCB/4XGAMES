@@ -1,5 +1,30 @@
 # Bounded visual reuse
 
+## Command-deck canvas lifecycle
+
+The Horizons renderer retains a canvas backing store while its required integer
+pixel dimensions remain unchanged. The full image is still redrawn directly.
+Star-control DOM nodes likewise survive zoom/pan/resize within one rendered view.
+
+- **X:** assign canvas width/height on every draw, or only on actual size change.
+- **F:** same source, logical viewport, rounded device-scale dimensions, campaign,
+  selected system, fleet, map mode, zoom and pan.
+- **f/d:** eliminate redundant canvas backing resets and preserve input focus.
+- **C:** repeated redraw followed by the original view equals a freshly drawn
+  reference in every RGBA channel; state remains unchanged and node focus survives.
+- **B:** no extra retained pixel images; the existing bounded star samples and
+  three planet textures remain. Fixed four native size/DPR cases and two browser
+  fractional-DPR cases, with actual resize/pan/focus interaction checks.
+- **S:** stop after fixed parity and lifecycle checks; no timing tuning or broad
+  browser/GPU speedup claim follows from avoiding these assignments.
+
+Native comparisons passed; see
+[`native-renderer.json`](evidence/command-upgrade/native-renderer.json).
+The PR workflow records browser parity separately. `tests/render-map.test.mjs`
+counts real property assignments through the renderer's public interface and
+checks projection alignment and state purity. Failure retains the reference
+rendering path; there is no bitmap-backdrop admission to relax.
+
 Applied reference: QSOLKCB/OPT, OPT-INV-001, pinned in vendor/PROVENANCE.json.
 
 - **X:** regenerate a planet for every draw, or reuse the exact generated texture.
@@ -100,3 +125,89 @@ AudioContext tests establish bus/control semantics, not audible output or device
 performance. Node process heap observations are not isolated allocation counts.
 The workstation is not an isolated benchmark appliance; OS scheduling, GC and
 other work can affect timings. There is no universal speed or memory claim.
+
+## Command upgrade: exact AI ranking reuse and current observations
+
+The command upgrade keeps the pinned VANILLAJS integer, rational and ExactGraph
+modules unchanged. It reduces two repeated operations in `js/core.js`:
+
+1. Each AI call ranks the available component catalogue once per role, reusing
+   those rankings across its hull and slot choices. The six possible roles share
+   at most one entry per eligible component; their minimum slot costs are also
+   computed once. Research levels and catalogue values cannot change during the
+   synchronous design phase. The maps are local to that call and are discarded
+   when it returns. A different empire, state, research level or mod always gets
+   fresh rankings, including a subsequent call in the same turn.
+2. Each sensor snapshot scans the fleet once, accumulating strength and ship
+   counts in original fleet order, and emits owners in the original empire
+   order. Every observation is newly allocated. No observation cache survives
+   a command, and last-seen reports continue to return their saved observations
+   while a remote system lacks friendly sensors.
+
+The bounded experiment is declared as follows:
+
+- **X:** the untouched merged engine at
+  `11c0fa582e1b28953f0df8f2a7a5f7217cb08953`, versus these two local changes.
+- **F:** identical original campaign files, seeds, chosen empires, branches,
+  difficulty, source hooks, legal-command policy and turn limits. No new rules,
+  random draws or donor changes are part of this comparison.
+- **f/d:** reduce repeated component filtering/sorting and repeated fleet scans.
+  Observe elapsed time for player-policy AI plus the complete `endTurn` call.
+- **C:** independent baseline and proposed states must serialize to identical
+  bytes initially and after every step. Both states validate on every step,
+  and final saves must deserialize identically. No fog, ordering, integer/rational
+  or immutable-design contracts may change.
+- **B:** 60 fixed workloads: all original playable empires and both routes where
+  present, standard seeds 0/7/2401; first playable/first route at relaxed and
+  veteran seed 7; two preserved 64-star/256-world stress fixtures. Stop at a
+  winner or turn 160 (turn 120 for stress). One eight-step warmup per engine.
+  Rankings retain at most six role lists during a call; a snapshot retains at
+  most one force accumulator per empire. There is no persistent state cache.
+- **S:** execute the fixed matrix once, alternating baseline/proposed execution
+  order on successive steps. Stop and reject the candidate if any state differs.
+  Report medians, p95 and full arrays without extending the matrix to find a
+  favourable result.
+
+Reproduce with an untouched detached checkout of the pinned baseline:
+
+```sh
+git worktree add --detach ../4XGAMES-opt-baseline 11c0fa582e1b28953f0df8f2a7a5f7217cb08953
+node scripts/benchmark-engine-reuse.mjs ../4XGAMES-opt-baseline
+node --test tests/optimization.test.mjs
+```
+
+The script verifies the baseline revision and clean runtime/content paths before
+running. `test-results/engine-reuse.json` records exact source and pack hashes,
+outcomes (including losses), final state hashes, full timing arrays and summaries.
+The experiment excludes browser rendering, save persistence, input latency and
+GPU work. Timings describe this fixed Node workload on a shared execution host;
+they are not a whole-browser or universal speedup guarantee. The separate
+regressions exercise current observation isolation, concealed remote changes,
+cross-empire/research invalidation and changes to live catalogue values.
+
+### Executed result, 12 November 2026
+
+The fixed matrix passed **60/60 workloads and 4,393 steps**, with exact serialized
+state equality at every checkpoint and successful independent save admission.
+The [complete receipt](evidence/command-upgrade/engine-reuse.json) records source
+hashes and every observation. Five compact baseline witnesses also run in the
+normal Node suite, using the independently obtained baseline state hashes in
+`tests/fixtures/engine-reuse-baseline.json`.
+
+| Original workload | Paired steps | Baseline median / p95, ms | Proposed median / p95, ms |
+| --- | ---: | ---: | ---: |
+| Open Frontier | 162 | 1.624 / 3.654 | 1.162 / 3.146 |
+| Machine Dawn | 70 | 1.101 / 2.190 | 0.835 / 2.226 |
+| Grand Frontier | 1,980 | 14.411 / 45.406 | 13.116 / 41.773 |
+| Fallen Gates | 1,380 | 3.332 / 18.283 | 2.858 / 16.916 |
+| Outer Rim | 563 | 2.346 / 7.122 | 1.845 / 6.519 |
+| Preserved 64-star / 256-world stress | 238 | 34.946 / 78.601 | 33.927 / 73.774 |
+
+This execution used Node 24 on the cloud workspace, with other development work
+on the shared host. Median observations were lower across this fixed matrix;
+the stress median difference is only about 3%, and Machine Dawn's p95 increased
+slightly. Do not interpret the result as a uniform latency improvement or compare
+these absolute times directly with earlier workstation benchmarks. The reliable
+claim is preserved authoritative behaviour with bounded elimination of repeated
+catalogue rankings and fleet scans; the table is the observed timing consequence
+for this execution. No further timing search was performed.

@@ -252,7 +252,15 @@ function command(state, action, owner = state.player) {
 const effectiveAttack = (state,f) => state.empires[f.owner].energy === 0 ? Math.floor(designStats(f.design).attack / 2) : designStats(f.design).attack;
 function observedSystems(state, owner = state.player) { return new Set([...colonies(state,owner).map(p=>p.system),...fleets(state,owner).map(f=>f.system)]); }
 function snapshotIntel(state, system) {
-  return {system,turn:state.turn,archive:state.systems[system].relic&&!state.systems[system].claimed,planets:state.planets.filter(p=>p.system===system).map(p=>({id:p.id,owner:p.owner})),fleets:state.empires.map(e=>({owner:e.id,ships:state.fleets.filter(f=>f.system===system&&f.owner===e.id).length,attack:state.fleets.filter(f=>f.system===system&&f.owner===e.id).reduce((n,f)=>n+effectiveAttack(state,f),0)})).filter(f=>f.ships)};
+  // Build a fresh observation: never retain a state-derived cache across orders.
+  // Accumulate each owner's ships in their original order and publish owners in
+  // empire order, preserving both exact attack sums and serialized save bytes.
+  const forces = new Map(state.empires.map(e => [e.id, {owner:e.id,ships:0,attack:0}]));
+  for (const f of state.fleets) if (f.system === system) {
+    const force = forces.get(f.owner);
+    if (force) { force.ships++; force.attack += effectiveAttack(state,f); }
+  }
+  return {system,turn:state.turn,archive:state.systems[system].relic&&!state.systems[system].claimed,planets:state.planets.filter(p=>p.system===system).map(p=>({id:p.id,owner:p.owner})),fleets:[...forces.values()].filter(f=>f.ships)};
 }
 function refreshIntel(state) {
   for (let owner=0;owner<E;owner++) for (const system of observedSystems(state,owner)) {
@@ -453,11 +461,21 @@ function ai(state, owner) {
   const desired=objectives(state,owner).find(o=>o.status==='active'&&o.chosen&&o.kind==='research'&&e.tech[o.target]<o.amount);
   if(desired){const prioritize=(field,seen=new Set())=>{if(seen.has(field))return;seen.add(field);const gate=researchAvailable(state,field,owner);if(gate.available){const i=research.indexOf(field);if(i>=0){research.splice(i,1);research.unshift(field);}}else for(const r of gate.requirements)if(r.current<r.level)prioritize(r.field,seen);};prioritize(desired.target);}
   if (research.length) tryOrder({type:'research',field:research.find(k => researchAvailable(state,k,owner).available) || research[0]});
+  // Technology and the catalogue cannot change during this synchronous design
+  // phase. Rank each of the six component roles once, then discard the rankings
+  // before the next AI call. No cache survives research, refits, saves or mods.
+  const availableByKind = new Map(), minimumByKind = new Map();
+  const value=c=>c.kind==='engine'?c.speed*1000+c.hp:c.kind==='weapon'?c.attack*100+c.hp:c.kind==='shield'?c.hp*100:c.level;
+  const available=kind=>{
+    if (!availableByKind.has(kind)) availableByKind.set(kind,Object.values(COMPONENTS).filter(c=>c.kind===kind&&c.level<=e.tech[c.tech]).sort((a,b)=>value(b)-value(a)||a.slots-b.slots||a.cost-b.cost||a.id.localeCompare(b.id)));
+    return availableByKind.get(kind);
+  };
+  const minimum=kind=>{
+    if (!minimumByKind.has(kind)) minimumByKind.set(kind,Math.min(...available(kind).map(c=>c.slots)));
+    return minimumByKind.get(kind);
+  };
   for (const d of e.designs) {
     const next=structuredClone(d), template=content.ships.filter(x=>x.empire===owner)[d.id]||d, roles=template.parts.map(id=>COMPONENTS[id].kind),combat=roles.includes('assault');
-    const value=c=>c.kind==='engine'?c.speed*1000+c.hp:c.kind==='weapon'?c.attack*100+c.hp:c.kind==='shield'?c.hp*100:c.level;
-    const available=kind=>Object.values(COMPONENTS).filter(c=>c.kind===kind&&c.level<=e.tech[c.tech]).sort((a,b)=>value(b)-value(a)||a.slots-b.slots||a.cost-b.cost||a.id.localeCompare(b.id));
-    const minimum=kind=>Math.min(...available(kind).map(c=>c.slots));
     const candidates=Object.values(HULLS).filter(h=>(h.faction===owner||h.faction===-1)&&h.level<=e.tech[h.tech]&&(combat||h.id===d.hull)&&h.slots>=roles.reduce((n,k)=>n+minimum(k),0)).sort((a,b)=>b.slots-a.slots||b.hp-a.hp||a.cost-b.cost||a.id.localeCompare(b.id));
     next.hull=candidates[0]?.id||d.hull;let room=HULLS[next.hull].slots;next.parts=[];
     for(let i=0;i<roles.length;i++){

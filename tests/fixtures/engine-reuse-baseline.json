@@ -1,0 +1,68 @@
+{
+  "schema": "voidward-original-engine-witnesses-v1",
+  "baselineCommit": "11c0fa582e1b28953f0df8f2a7a5f7217cb08953",
+  "baselineCoreSha256": "fe17f4334cba6909a461618a0598d6493035a042835b166b11db32452d27364c",
+  "method": "Extracted from the first fixed baseline/proposed differential run, retaining the independently executed baseline hashes. Every intermediate state matched serialized bytes. These are automated legal-command policies, including losses, not manual campaign completions. Do not regenerate from candidate behavior alone.",
+  "runs": [
+    {
+      "campaign": "frontier",
+      "player": 0,
+      "branch": null,
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 34,
+      "winner": 2,
+      "victory": "Expansion victory — 14 colonies",
+      "serializedSha256": "41345b6ed2db292ab57bb1c8da0dc99b7687a1f034a506a05efafcbeec818740",
+      "rawPackSha256": "129d56cce097fd3ba5f8ae172233c87d4b351831949eab545fa8631c6d8e2184"
+    },
+    {
+      "campaign": "machine-dawn",
+      "player": 0,
+      "branch": null,
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 15,
+      "winner": 1,
+      "victory": "Expansion victory — 6 colonies",
+      "serializedSha256": "e1e140c87a6a6b8f36f9509f514e7d8399f328118597629a728f77ef62271013",
+      "rawPackSha256": "34c201c19891475266fba6cfad9cd17eb759a0fd5048dd6f4a183a64c6d43e14"
+    },
+    {
+      "campaign": "grand-frontier",
+      "player": 0,
+      "branch": "concord",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 100,
+      "winner": 0,
+      "victory": "Campaign objectives complete",
+      "serializedSha256": "ba51bfb523f534dec2375ec22ec3c37d8cdcd30e1ef3600fce9139d053b1c850",
+      "rawPackSha256": "0a6e276f8d2b3cd79886454363c6ce6dcc76e678f89bf09220e25caff2beda5c"
+    },
+    {
+      "campaign": "fallen-gates",
+      "player": 0,
+      "branch": "restore",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 70,
+      "winner": 2,
+      "victory": "Campaign objectives complete",
+      "serializedSha256": "5e73a6b375763cb4d6dafc4803ef1c9d148e16f035d7acf5ab3ecc14e84540fc",
+      "rawPackSha256": "ae9dee7e348241262eecbd5bbd549303d7fea826219590ba0ecd0b80ea46b439"
+    },
+    {
+      "campaign": "outer-rim",
+      "player": 0,
+      "branch": "endure",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 90,
+      "winner": 0,
+      "victory": "Campaign objectives complete",
+      "serializedSha256": "6c8a169f325c33af589622f165c74bf11654842a5053a2a1623c0d18b3bad38d",
+      "rawPackSha256": "9673afa4fd5878943449c451af1f1737fcc81b78f78ccde70603e59d4a78329d"
+    }
+  ]
+}

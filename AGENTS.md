@@ -23,6 +23,7 @@ without repeatedly asking permission.
 | `js/save-codec.js` | Shared bounded UTF-8 save admission and encoding |
 | `js/app.js` | Player controls, views, command transactions and saves |
 | `js/workshop.js`, `js/workbench-bridge.js` | Authoring operations and validated donor-format exchange |
+| `editor/`, `js/editor-workflow.js` | Bundled 3D Workbench adapters, separate campaign history and local handoffs |
 | `js/render.js`, `js/audio.js` | Presentation, procedural assets and audio |
 | `mods/` | Editable campaign data and explicitly registered source hooks |
 | `vendor/PROVENANCE.json` | Exact donor revisions, file hashes and contributions |
@@ -85,7 +86,7 @@ after edits to included files, including README/docs. Never hand-edit its digest
 Keep the deployed `/4XGAMES/` subpath, offline reload and cache-scope isolation working.
 
 For UI/runtime changes, exercise the packaged game using `tests/browser.mjs` and
-`tests/expansion-browser.mjs` in an authorised browser environment. Cover relevant
+`tests/expansion-browser.mjs` and `tests/workbench-browser.mjs` in an authorised browser environment. Cover relevant
 campaign/empire choices, authoring roundtrips, malformed imports, keyboard,
 narrow screens and offline operation. The owner-workstation gate below applies
 before local browser execution there; ordinary hosted CI does not control that desktop.

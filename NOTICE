@@ -28,3 +28,10 @@ campaign/source-mod lifecycle code was inspected as a design reference.
 Original campaign fiction, names, objective tables and geography are independent
 VOIDWARD content. Workbench-imported user assets retain their declared source
 licence and digest in their pack; their metadata does not relicense this code.
+
+The bundled 3D Workbench upgrades VANILLAJS to
+b12f24f789da81325491f96b5c2dd786d31e96f0 (PR #81). Local editor entry points,
+campaign workflow, hull bundle bridge and authoring tests adapt its Apache-2.0
+demos/editor and 4X Lab code. Runtime donor modules, renderer/WASM bytes and their
+notices remain unmodified under vendor/vanillajs/. Local adaptations retain SPDX
+headers and identify their source revision. See vendor/PROVENANCE.json.

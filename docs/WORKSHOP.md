@@ -76,9 +76,12 @@ Browser confirmation of the visible workflow is recorded separately.
 
 The bridge uses the real `parseProject`/`serializeProject`, scene and Component
 Forge validators from VANILLAJS commit
-`5a91cd4cc7251c485eaf2fc80d5227a20571fd8c`. The Workbench is experimental and its
-3D preview is a different application. Import/export **project JSON**, not the
-exported game-preview HTML. No imported script or preview engine runs in VOIDWARD.
+`b12f24f789da81325491f96b5c2dd786d31e96f0` (PR #81). The experimental Workbench is
+now bundled at [editor/index.html](../editor/index.html), including a separate
+campaign draft and recovery. Choose **Open in 3D Workbench** from the visual
+workshop to send the current draft. Follow the [3D Workbench guide](WORKBENCH.md)
+for viewport editing and returning a draft to the game. Exchange **project JSON**
+or a hull bundle, not exported scene-preview HTML. Imported data never runs code.
 
 For a ship family:
 
@@ -89,6 +92,13 @@ For a ship family:
    preview before applying it to a hull.
 4. Export the campaign. `provenance.txt` retains the source name, SHA-256, declared
    licence and conversion operation. Check the class and build it in a test game.
+
+Use **Export hull + attribution** for complete source history. A hull bundle
+retains multiple sources, even when they have the same bytes but different
+source/licence declarations. Native **Export hull to Workbench** rejects cases
+that would lose multiple declarations or a long source name. Mixed imported
+meshes and built-in geometry retain their separate declarations; a built-in
+primitive never inherits another mesh's sharing licence.
 
 The adapter projects world X/Z into chart X/Y, including composed scale/yaw and
 child meshes, then centres and scales the **convex** boundary. This loses height,

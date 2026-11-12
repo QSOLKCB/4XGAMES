@@ -2,6 +2,32 @@
 
 Implementation work: 12 November 2026.
 
+## VANILLAJS #81 integration — 12 November 2026
+
+Base: `e2e2b2352428438d3ce377e5daff7b542a6dce10` (4XGAMES #3).
+Donor: `b12f24f789da81325491f96b5c2dd786d31e96f0` (VANILLAJS #81).
+
+This update adds the bundled editor, separate campaign history/recovery, staged
+game/editor handoffs and complete hull attribution bundles. Existing campaign
+files, authoritative simulation and save-codec files are unchanged. The new
+Node authoring tests exercise independent histories, invalid transactions,
+viewport coordinates, mixed mesh/primitive provenance, multi-source roundtrips,
+bundle rejection and the actual packaged module dependency closure.
+
+The full Node suite passes **76 tests**. The public inventory verifies **61
+pinned donor files** and all five campaigns. The package includes every editor
+entry point, stylesheet and transitive runtime module, including the optional
+renderer's local WASM byte module. `tests/workbench-browser.mjs` extends hosted
+QA with real viewport editing, recovery, 320px keyboard use, offline reload and
+editor/game exchange while preserving an existing expedition.
+
+Cloud Chromium launch was attempted and failed before opening a page:
+`process_singleton_posix.cc:297: socket() failed: Operation not permitted`.
+No UI pass or hardware result is claimed for that attempt. Hosted browser
+results for this upgrade are reported separately in its PR/workflow artifacts.
+The owner's workstation was not used. All expansion results below describe
+their recorded historical sources, not this editor update.
+
 Latest expansion browser verification: **PASS — 14/14 expansion checks and
 18/18 checks in each legacy/baseline suite**, on source
 `381383e2c5a54c2e49c3516befb7942030607763`.

@@ -1,0 +1,9 @@
+{
+  "status": "BLOCKED_BEFORE_PAGE",
+  "baselineCommit": "11c0fa582e1b28953f0df8f2a7a5f7217cb08953",
+  "command": "PLAYWRIGHT_MODULE=<preinstalled playwright> node tests/browser.mjs",
+  "environment": "managed cloud workspace; owner workstation not used",
+  "error": "Chromium process_singleton_posix.cc:297: socket() failed: Operation not permitted (1)",
+  "browserChecksExecuted": 0,
+  "followup": "Use ordinary pull-request hosted CI; no sandbox escalation or owner test was launched."
+}

@@ -1,0 +1,3255 @@
+{
+  "node": "v24.22.1",
+  "policy": "engine.ai issues legal commands for the selected player; the requested branch is chosen as soon as available. Rivals retain their ordinary AI. Every turn validates; each run has a separate deterministic replay and exact save roundtrip. No state edits and no manual-play or universal-balance claim.",
+  "budget": {
+    "seeds": [
+      0,
+      7
+    ],
+    "difficulties": [
+      "relaxed",
+      "standard",
+      "veteran"
+    ],
+    "maxTurns": 170,
+    "maxScenarios": 216,
+    "independentReplaysPerScenario": 1
+  },
+  "sourceSha256": {
+    "js/core.js": "94fe731d038aabfd719bd9158126107a30144861536256285be440b597cfbab4",
+    "js/content.js": "6f12b9ac080b22b45360143e56b2c77bdbd3c4d5bb3294becc0eae282bef0f39",
+    "js/workshop.js": "ce03ccc6c7fc76a57093b2c593b9f2b31bcb6654e60f02d6c999d02103f0f0d4",
+    "mods/registry.js": "8246fee946cab4388b71742adea67628b9430eaead2a852aef0fc9edd15a943d",
+    "scripts/generate-horizons.mjs": "d4a0b0af6a2331f5d03745356b4fed4156376d8bc6e65033205561dd1c8ca3aa",
+    "scripts/horizons-sweep.mjs": "dd9f532cfc80db7141e36c8db5e326b7e347458d27f4a5cb00dc2af4c4eec952"
+  },
+  "packSha256": {
+    "helix-accord": "1660a233a06955278b50c3ed20b39608dd63b5b96350ca02d3dd55356cad54eb",
+    "emberwake": "1f3b9506b7d275d6a32488cb665245906011810af54de7f2c2d68e3ea8676faf",
+    "glass-meridian": "21f5f3751b26ac484794e81a735c8833008fd09666225cebf46292f596eae3e4"
+  },
+  "results": [
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "exchange",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 36,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "614e59d27d349411e0d865761d3325e0c31bc4a68512fada813894464ce93a24",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:open-ledger",
+        "0:reliable-fabrication",
+        "0:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56905
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "exchange",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 36,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "59e9a56540efe25b4b97d8c5f2c5c7c827f2483b25b54b1d98f7fd730282d020",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:open-ledger",
+        "0:reliable-fabrication",
+        "0:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 57214
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "exchange",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 36,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ea0af6cff607edbd4cec8b6e60549c1e3b8b60c32d6f67ac5730b387791e6afd",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:open-ledger",
+        "0:reliable-fabrication",
+        "0:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56906
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "exchange",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 36,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "b6af099098ee9a37ca1b37e64067f362a7012722eb81ce7264da071182b7f9de",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:open-ledger",
+        "0:reliable-fabrication",
+        "0:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 57215
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "exchange",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 36,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "70181ac73adf1f8ed6f4cb6566a1eb2838c99e2fc008b485ce70317b4ff77f74",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:open-ledger",
+        "0:reliable-fabrication",
+        "0:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56905
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "exchange",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 36,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ea7dbbb9e3ca38899237f2d25b5b4853f5216184b836071b5124920ffbc91f8f",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:open-ledger",
+        "0:reliable-fabrication",
+        "0:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 57214
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "federation",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 44,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "1f168d3620646ed4106bce1c42b073178cf92d0adf23bd5d2e7459b031512af7",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:federation-foundries",
+        "0:eight-workshops",
+        "0:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 67297
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "federation",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 44,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2aa772968becf1bd966440fd8ca75c3c863e60047ff8cfdb093c3b1fcd6d940b",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:federation-foundries",
+        "0:eight-workshops",
+        "0:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 66213
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "federation",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 44,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "0261be8aab31643e3ef2069a2a08a598e2c3aa8caf7c99dbf9ec939cf0d99f18",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:federation-foundries",
+        "0:eight-workshops",
+        "0:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 67298
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "federation",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 44,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "1eae899f7ae059597c7e9ddf64da7c19371fc32e4e7dc86e1fce754a1dffd66f",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:federation-foundries",
+        "0:eight-workshops",
+        "0:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 66214
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "federation",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 44,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "766d7c7532a7b9ff33b9ce0aee91d2c4092bebd6fb08e65134be1d1002a156c2",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:federation-foundries",
+        "0:eight-workshops",
+        "0:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 67297
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 0,
+      "branch": "federation",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 44,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "7c8aac7d6aa7ab0396839434b6d2b48683e76311b41aa3743f7bf77c14a40e0d",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:arm-chart",
+        "0:first-charter",
+        "0:federation-foundries",
+        "0:eight-workshops",
+        "0:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 66213
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "exchange",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 36,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "e68c43b0669578ec3f2b1736085ba26bc3bb6c1c3bc18f6183f239b16821e894",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:open-ledger",
+        "1:reliable-fabrication",
+        "1:exchange-charter"
+      ],
+      "colonies": 11,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 59255
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "exchange",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 36,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "7964d06765455b7d67ffd4df6c469ed7d0fdad5beae35047bee2ed5571be5a8e",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:open-ledger",
+        "1:reliable-fabrication",
+        "1:exchange-charter"
+      ],
+      "colonies": 12,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56466
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "exchange",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 36,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "375aa6ccb0a9c834f0f8e45009cb91152437a77ff8b233406d5c3e1a335f9b93",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:open-ledger",
+        "1:reliable-fabrication",
+        "1:exchange-charter"
+      ],
+      "colonies": 11,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 59256
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "exchange",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 36,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "48ae0c998239405bc4e6be2fdc7efbaeb0cf97876ded534a87d5887dc81908b6",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:open-ledger",
+        "1:reliable-fabrication",
+        "1:exchange-charter"
+      ],
+      "colonies": 12,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56467
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "exchange",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 36,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ed164a14bc6fee8371f2c26a64eda6f1eea1bc303d0dc3218b505570cbdb39f0",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:open-ledger",
+        "1:reliable-fabrication",
+        "1:exchange-charter"
+      ],
+      "colonies": 11,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 59255
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "exchange",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 36,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "06a5496d2085285a2a3ad06d244d8100caa9cd32fb36c183a00a99b369790a17",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:open-ledger",
+        "1:reliable-fabrication",
+        "1:exchange-charter"
+      ],
+      "colonies": 12,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56466
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "federation",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 44,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2f9e4ea7345b6e573b2e6dda97b72e7265debb7b10dea68f0e417722ac447735",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:federation-foundries",
+        "1:eight-workshops",
+        "1:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 66033
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "federation",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 44,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "db6fe6f8540a8cf2d5d7d02597b0e70ea0900c76ff5650c158aeba6532714529",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:federation-foundries",
+        "1:eight-workshops",
+        "1:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 23,
+        "assembly-call": 30
+      },
+      "saveBytes": 63047
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "federation",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 44,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "42258c318e8de9be85c3cc3ff9843c22bb1a5f3b58fbcae789f3dee3ab8b1db6",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:federation-foundries",
+        "1:eight-workshops",
+        "1:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 66034
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "federation",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 44,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "12f350348d28f5966d2b254a7a5fddba05298e576d0d782562727b53f990b667",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:federation-foundries",
+        "1:eight-workshops",
+        "1:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 23,
+        "assembly-call": 30
+      },
+      "saveBytes": 63048
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "federation",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 44,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "3c99f4950e07f432a980fc9f3bcf0dbaef36935d993024a69d15407c3756b340",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:federation-foundries",
+        "1:eight-workshops",
+        "1:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 66033
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 1,
+      "branch": "federation",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 44,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "05240f2a8a45e451df38961636847c1b60fc3ec7ec21e01f3cc5055a78149340",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:arm-chart",
+        "1:first-charter",
+        "1:federation-foundries",
+        "1:eight-workshops",
+        "1:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 23,
+        "assembly-call": 30
+      },
+      "saveBytes": 63047
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "exchange",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 36,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "12f6e0896cdde971ae4fa197b6868764b713bd15feda43a2b1e69044b243c68a",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:open-ledger",
+        "2:reliable-fabrication",
+        "2:exchange-charter"
+      ],
+      "colonies": 12,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 55439
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "exchange",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 36,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "15b128e00a30102557cd9e126e08f2662870b9ed2782b4e9d296f98dea1a3f66",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:open-ledger",
+        "2:reliable-fabrication",
+        "2:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56070
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "exchange",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 36,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "9849d19caf53c7acd48cfd8e85b828acaf943295f9e8a394d83ae0d6d1812dba",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:open-ledger",
+        "2:reliable-fabrication",
+        "2:exchange-charter"
+      ],
+      "colonies": 12,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 55440
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "exchange",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 36,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "6e6cd110b3ea93ccaae1925acdc3dc3c3db15703019d94f3e2280cf2be4f7e6d",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:open-ledger",
+        "2:reliable-fabrication",
+        "2:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56071
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "exchange",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 36,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "bac69e08445a1c334a6372a970d2d1f811218da0a018d05606980babbd7a32ca",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:open-ledger",
+        "2:reliable-fabrication",
+        "2:exchange-charter"
+      ],
+      "colonies": 12,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 55439
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "exchange",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 36,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "e2525004dd09eea091b59c483af8d7902b629ad5fd3fcf3c064fbf80f1f536ec",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:open-ledger",
+        "2:reliable-fabrication",
+        "2:exchange-charter"
+      ],
+      "colonies": 13,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "exchange-dividend": 36,
+        "assembly-call": 30
+      },
+      "saveBytes": 56070
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "federation",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 44,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "f604b91533015cdf6c5bf4515303260cb0307cd202a3d9c79b09d153b599d513",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:federation-foundries",
+        "2:eight-workshops",
+        "2:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 64140
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "federation",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 44,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "debb97bce29de9cf7eea664ba1455c09bfdf2f5cea67ad3257ee2a4272c2fbe3",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:federation-foundries",
+        "2:eight-workshops",
+        "2:federation-charter"
+      ],
+      "colonies": 17,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 63772
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "federation",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 44,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "7c1b504c83a95436db9ed0610a27a4d538e9ae8df4ba5fa9272fda62f4128112",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:federation-foundries",
+        "2:eight-workshops",
+        "2:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 64141
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "federation",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 44,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "8c2f66bf03d408db6336d7906586c0214385661d0f4f8c1d1d553f0e3c12c1fe",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:federation-foundries",
+        "2:eight-workshops",
+        "2:federation-charter"
+      ],
+      "colonies": 17,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 63773
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "federation",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 44,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "84771e2f34e6b739e84bd3bf192991ffd3fa3385a45aede8eabc20a0fec01538",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:federation-foundries",
+        "2:eight-workshops",
+        "2:federation-charter"
+      ],
+      "colonies": 14,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 64140
+    },
+    {
+      "campaign": "helix-accord",
+      "player": 2,
+      "branch": "federation",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 44,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "914562984ef7801b0788da44490344925ca2075d115e6b6118af20a77b8cdba3",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:arm-chart",
+        "2:first-charter",
+        "2:federation-foundries",
+        "2:eight-workshops",
+        "2:federation-charter"
+      ],
+      "colonies": 17,
+      "events": {
+        "arm-buoy": 4,
+        "charter-grant": 10,
+        "fabricator-grant": 22,
+        "assembly-call": 30
+      },
+      "saveBytes": 63772
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "havens",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 55,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "4ff4aff26c41b35e3267752dd3ac6808a858dd411580ad4098230ccfb1c585d8",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:permanent-havens",
+        "0:haven-industry",
+        "0:settled-exodus"
+      ],
+      "colonies": 24,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94983
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "havens",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 55,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2d2284416113018cb462b935a1527a09d95d8dfd51aa57f4a65c16d7b6f6f9d7",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:permanent-havens",
+        "0:haven-industry",
+        "0:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 49,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94287
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "havens",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 55,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "83e731470daa7680334bf59a1c29054e62d9c05ffefc3561d3ef2a71c98805fb",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:permanent-havens",
+        "0:haven-industry",
+        "0:settled-exodus"
+      ],
+      "colonies": 24,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94984
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "havens",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 55,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a3895f3ce112b8e3d8800498dc8f07773ffa5b70f914388ad1a8a5ef3c7f86cf",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:permanent-havens",
+        "0:haven-industry",
+        "0:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 49,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94288
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "havens",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 55,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "f5ad83cb8ff5423536d193b49cdbb559af069c085c0913b0e261d3a55ebbdd6b",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:permanent-havens",
+        "0:haven-industry",
+        "0:settled-exodus"
+      ],
+      "colonies": 24,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94983
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "havens",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 55,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "fcefc3d218abe794472eddd092ec4201217539388e1644eb42c737292e375132",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:permanent-havens",
+        "0:haven-industry",
+        "0:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 49,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94287
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "convoy",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 48,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ee2b76aee7d8cf349a42bc3b9595928c4c9b3ffa35d6378c9cc3e222a08233cf",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:convoy-engines",
+        "0:convoy-chart",
+        "0:convoy-fields",
+        "0:last-convoy"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85706
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "convoy",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 48,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "924a5d024bce32f1f93430b56bf8d7b0b11be4121cf66c64afffb5a6756bc1d7",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:convoy-engines",
+        "0:convoy-chart",
+        "0:convoy-fields",
+        "0:last-convoy"
+      ],
+      "colonies": 19,
+      "events": {
+        "beacon": 4,
+        "supply-train": 37,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85975
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "convoy",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 48,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "e794bd53d2e16983af99705def948b1a8d824403f4e61f25e011f5fff0f2a32e",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:convoy-engines",
+        "0:convoy-chart",
+        "0:convoy-fields",
+        "0:last-convoy"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85707
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "convoy",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 48,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "f70a4511f9e2bbad936eec0484bc2e800b1773ce11662023e62ce9e3ef5bf7c6",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:convoy-engines",
+        "0:convoy-chart",
+        "0:convoy-fields",
+        "0:last-convoy"
+      ],
+      "colonies": 19,
+      "events": {
+        "beacon": 4,
+        "supply-train": 37,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85976
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "convoy",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 48,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "0a16ceeb85a4d8a49cb8a3c265e2989ec0f8e5514cb201db0043429793ed498e",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:convoy-engines",
+        "0:convoy-chart",
+        "0:convoy-fields",
+        "0:last-convoy"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85706
+    },
+    {
+      "campaign": "emberwake",
+      "player": 0,
+      "branch": "convoy",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 48,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "4ba84d7fa2f76aeb998f899cc5f11cff893c2817df91d818c16e5fd998b1f29e",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:lantern-chain",
+        "0:five-hearths",
+        "0:convoy-engines",
+        "0:convoy-chart",
+        "0:convoy-fields",
+        "0:last-convoy"
+      ],
+      "colonies": 19,
+      "events": {
+        "beacon": 4,
+        "supply-train": 37,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85975
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "havens",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 55,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "65e0260f99ed24b970f2f0a31a7bbd8f3763d819959864562ba376bb29a6ae92",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:permanent-havens",
+        "1:haven-industry",
+        "1:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 95060
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "havens",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 55,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "28bc1c827e57904e8bfe7c18b59cc82dbbc4a2fd894922ec417f797cf962a51a",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:permanent-havens",
+        "1:haven-industry",
+        "1:settled-exodus"
+      ],
+      "colonies": 25,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 93548
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "havens",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 55,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "46517238635f69dfa92fbd79cc7498f6c394be635ce50bd28c3f16234e5abad4",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:permanent-havens",
+        "1:haven-industry",
+        "1:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 95061
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "havens",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 55,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "69bff284a3a49507dcf71008d057dbe4bc2faa68cf06d7d73868ab68883f4951",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:permanent-havens",
+        "1:haven-industry",
+        "1:settled-exodus"
+      ],
+      "colonies": 25,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 93549
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "havens",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 55,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a5f456dc80b0f750e7777e50b55aa444234d0ce8cac6ab5930c48f6f2733d789",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:permanent-havens",
+        "1:haven-industry",
+        "1:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 95060
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "havens",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 55,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "1084ad447a5fddc968e3e03eeb9db2344dc7f74634e5ab35980fc8567586e09b",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:permanent-havens",
+        "1:haven-industry",
+        "1:settled-exodus"
+      ],
+      "colonies": 25,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 93548
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "convoy",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 48,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "28b369f46d2bbc4f8ca71b6e64f9d8237f3a041aa42dddd96a0200e9bbc1bd5a",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:convoy-engines",
+        "1:convoy-chart",
+        "1:convoy-fields",
+        "1:last-convoy"
+      ],
+      "colonies": 21,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85847
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "convoy",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 48,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "f8ebc7cf0ec5f9f970d8056117b6c32e07b50479811fabee9c8daf7fa255b0e5",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:convoy-engines",
+        "1:convoy-chart",
+        "1:convoy-fields",
+        "1:last-convoy"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 84967
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "convoy",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 48,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "cf0ff7ae82a2cb5e8fe73b610c422bad5b0eb00ada21fb70a61243366721dd00",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:convoy-engines",
+        "1:convoy-chart",
+        "1:convoy-fields",
+        "1:last-convoy"
+      ],
+      "colonies": 21,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85848
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "convoy",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 48,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "c8e46d347d3e297f8528905b49ba99e816807b80203d4d17aefe182a8a255421",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:convoy-engines",
+        "1:convoy-chart",
+        "1:convoy-fields",
+        "1:last-convoy"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 84968
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "convoy",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 48,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "b3e2bb7512673444d699039b93ae595adc20e68fc2d87bfdb432e5899e2a58d0",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:convoy-engines",
+        "1:convoy-chart",
+        "1:convoy-fields",
+        "1:last-convoy"
+      ],
+      "colonies": 21,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 85847
+    },
+    {
+      "campaign": "emberwake",
+      "player": 1,
+      "branch": "convoy",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 48,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "1fc1ffeac6be16c53d9e21be493397061b15b1f8f7e7a0f5d771964baacade6b",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:lantern-chain",
+        "1:five-hearths",
+        "1:convoy-engines",
+        "1:convoy-chart",
+        "1:convoy-fields",
+        "1:last-convoy"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 48,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 84967
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "havens",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 55,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2fe7c66736f3496e12608a824a26ac51c486fd0c7ee4147fad91d39f30a9368a",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:permanent-havens",
+        "2:haven-industry",
+        "2:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 50,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 93822
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "havens",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 55,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "fc3c8879040e24f2f198b614992617072ebc3e3879edc929d886a32f2793f329",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:permanent-havens",
+        "2:haven-industry",
+        "2:settled-exodus"
+      ],
+      "colonies": 18,
+      "events": {
+        "beacon": 4,
+        "supply-train": 49,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94267
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "havens",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 55,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "14b645ee83126581665c7be400b191d20c8d1e4cfa5d1584b81a9cc18a86190c",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:permanent-havens",
+        "2:haven-industry",
+        "2:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 50,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 93823
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "havens",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 55,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "67fa5a58135594541d2e46a92b1b874f29758108843de61e161b6e0537bee54e",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:permanent-havens",
+        "2:haven-industry",
+        "2:settled-exodus"
+      ],
+      "colonies": 18,
+      "events": {
+        "beacon": 4,
+        "supply-train": 49,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94268
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "havens",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 55,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "da69ed7f110c3d7c490b22cd3bc98628b931e047ca538d5277b63c223a13f211",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:permanent-havens",
+        "2:haven-industry",
+        "2:settled-exodus"
+      ],
+      "colonies": 22,
+      "events": {
+        "beacon": 4,
+        "supply-train": 50,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 93822
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "havens",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 55,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "0a54285357fe66e5f36424ddfea6aa7668402e5990784d15dec529003425fec7",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:permanent-havens",
+        "2:haven-industry",
+        "2:settled-exodus"
+      ],
+      "colonies": 18,
+      "events": {
+        "beacon": 4,
+        "supply-train": 49,
+        "garden-seed": 20,
+        "haven-crates": 34,
+        "last-light": 43
+      },
+      "saveBytes": 94267
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "convoy",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 48,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "7632f6a512e0c894865acdea48c5f5afe6096230ae49150c34425ac061ed18a0",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:convoy-engines",
+        "2:convoy-chart",
+        "2:convoy-fields",
+        "2:last-convoy"
+      ],
+      "colonies": 20,
+      "events": {
+        "beacon": 4,
+        "supply-train": 38,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 86635
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "convoy",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 48,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "9b5a25036024d74eed13a4eaea9c88a3d3e28c440a8d3454f30456b0057f6d06",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:convoy-engines",
+        "2:convoy-chart",
+        "2:convoy-fields",
+        "2:last-convoy"
+      ],
+      "colonies": 20,
+      "events": {
+        "beacon": 4,
+        "supply-train": 37,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 83180
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "convoy",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 48,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "3e159ef8847cdef1578bc632dad9175f57420cddd38781a1948abbc72e19d972",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:convoy-engines",
+        "2:convoy-chart",
+        "2:convoy-fields",
+        "2:last-convoy"
+      ],
+      "colonies": 20,
+      "events": {
+        "beacon": 4,
+        "supply-train": 38,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 86636
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "convoy",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 48,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "ad19e63f17f29ac5409e0c5640a4abe8a7b7741ff47d54ccf3a44fd0e388dc57",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:convoy-engines",
+        "2:convoy-chart",
+        "2:convoy-fields",
+        "2:last-convoy"
+      ],
+      "colonies": 20,
+      "events": {
+        "beacon": 4,
+        "supply-train": 37,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 83181
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "convoy",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 48,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "1d58ec2729aebd4c0f765dfbba6b68620a29b994d5056ed5c390af84b23c6896",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:convoy-engines",
+        "2:convoy-chart",
+        "2:convoy-fields",
+        "2:last-convoy"
+      ],
+      "colonies": 20,
+      "events": {
+        "beacon": 4,
+        "supply-train": 38,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 86635
+    },
+    {
+      "campaign": "emberwake",
+      "player": 2,
+      "branch": "convoy",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 48,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "f20dafe847779ac83b0cf281964c25f623f8dad05b6293ea6efbb4c4911d9d71",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:lantern-chain",
+        "2:five-hearths",
+        "2:convoy-engines",
+        "2:convoy-chart",
+        "2:convoy-fields",
+        "2:last-convoy"
+      ],
+      "colonies": 20,
+      "events": {
+        "beacon": 4,
+        "supply-train": 37,
+        "garden-seed": 20,
+        "convoy-reserve": 30,
+        "last-light": 43
+      },
+      "saveBytes": 83180
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "preserve",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 65,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "03562112e24d46910629bb72dc266777411f916be82399e2ed567f5624430d82",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:memory-industry",
+        "0:memory-fields",
+        "0:memory-kept"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 15,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 118455
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "preserve",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 65,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "9c8015bc32191e4232594fdde19638e4414de1bd242b80561e557b0ea8e231da",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:memory-industry",
+        "0:memory-fields",
+        "0:memory-kept"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117666
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "preserve",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 65,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "0b41f5a0048f759fd4ef94800ca5567ac381900144c391698324f726f4b7ffe7",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:memory-industry",
+        "0:memory-fields",
+        "0:memory-kept"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 15,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 118456
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "preserve",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 65,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2cba965a1c3e60c13847f30a29d4f24c96316bde35b56f0410341fb0af36b652",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:memory-industry",
+        "0:memory-fields",
+        "0:memory-kept"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117667
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "preserve",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 65,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2d2796dabb9636a6bc83590e6f838dc7698c14b2c40bd8fd6c041432ca8cb615",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:memory-industry",
+        "0:memory-fields",
+        "0:memory-kept"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 15,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 118455
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "preserve",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 65,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "e87d01245bd6c910bf3162ee9f7be1a4c4abf9c0e65c0a3e0c17c507d7a0a253",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:memory-industry",
+        "0:memory-fields",
+        "0:memory-kept"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117666
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "unwritten",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 58,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "3d6777df522065c06fa4e43b47ce7db0a7a7f18c2888651b1bc8190629357886",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:unwritten-engines",
+        "0:unwritten-chart",
+        "0:unwritten-sky"
+      ],
+      "colonies": 25,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 15,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 112250
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "unwritten",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 58,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "324fa6b91242125ee22b395e371647b3d15aa4c0bb6a32f538dfe509144e23d2",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:unwritten-engines",
+        "0:unwritten-chart",
+        "0:unwritten-sky"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 111691
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "unwritten",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 58,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a23f841d037695f2421b3f6a51095b750a8bb102ecb74913e386293d0f3b74b4",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:unwritten-engines",
+        "0:unwritten-chart",
+        "0:unwritten-sky"
+      ],
+      "colonies": 25,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 15,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 112251
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "unwritten",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 58,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "9353b924afc0ae89d17524e9b065f7adf6947ee5cb7c7b5afcc42c0b2cfd865f",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:unwritten-engines",
+        "0:unwritten-chart",
+        "0:unwritten-sky"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 111692
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "unwritten",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 58,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "cf8d951c15fddd955495e2ac9b64c3e86660493f37b10b51d566288b04e91ab0",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:unwritten-engines",
+        "0:unwritten-chart",
+        "0:unwritten-sky"
+      ],
+      "colonies": 25,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 15,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 112250
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 0,
+      "branch": "unwritten",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 58,
+      "winner": 0,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a1131d339ec20aa74343cb6cf0f398fc164af45f12d22a43c155dcf9504fc93a",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "0:ring-chart",
+        "0:memory-pair",
+        "0:unwritten-engines",
+        "0:unwritten-chart",
+        "0:unwritten-sky"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 111691
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "preserve",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 65,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "77048409a230f57f3754e838135a8009e9064aaefb7000e5a92134af8e15abe1",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:memory-industry",
+        "1:memory-fields",
+        "1:memory-kept"
+      ],
+      "colonies": 27,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117255
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "preserve",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 65,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "4ea08b1ddac9c2f1bdc7c7f91243b4b82b9cc4ecb1acfb0f4c6c4adca3e74d46",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:memory-industry",
+        "1:memory-fields",
+        "1:memory-kept"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 119309
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "preserve",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 65,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "4b04af2d6f19a7363bd3e741932e06659a869fe963f7fd01f98f2c807db442b4",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:memory-industry",
+        "1:memory-fields",
+        "1:memory-kept"
+      ],
+      "colonies": 27,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117256
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "preserve",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 65,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "a58ca5a14ffcee7884df6cac1b0d08febf019641e3292dd9328d89b166819194",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:memory-industry",
+        "1:memory-fields",
+        "1:memory-kept"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 119310
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "preserve",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 65,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "8d26614cefbeae8e6e3095070daf11a335a9b75e816d1c7c0ef687ee8bb00bdb",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:memory-industry",
+        "1:memory-fields",
+        "1:memory-kept"
+      ],
+      "colonies": 27,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117255
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "preserve",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 65,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "9b8b6ce8a188ac9017f88e94ec452fc2f1c3f76861a8b4ac7f86a0acd74e4bc2",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:memory-industry",
+        "1:memory-fields",
+        "1:memory-kept"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 119309
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "unwritten",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 58,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "bc7beef61d1397ee19ccae613a7bfddcf965fbb196503464425316c4f11fd1af",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:unwritten-engines",
+        "1:unwritten-chart",
+        "1:unwritten-sky"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113016
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "unwritten",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 58,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "e3949d998e4e50efd52d046616dc27d367635b99fb081268ff9bcdf1a42ef5cd",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:unwritten-engines",
+        "1:unwritten-chart",
+        "1:unwritten-sky"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113095
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "unwritten",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 58,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "d4860047c3fcb54a8f8a5ce3fbe5b90e8bc9309982ed2a2e46480937c63280be",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:unwritten-engines",
+        "1:unwritten-chart",
+        "1:unwritten-sky"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113017
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "unwritten",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 58,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "28e2dda29b713629aed5fc6986b278609ba8accbdfd2481dc38b7bed0f1b8f87",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:unwritten-engines",
+        "1:unwritten-chart",
+        "1:unwritten-sky"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113096
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "unwritten",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 58,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "80b3a1fb0f366cc0dae8a8732f53117641becb7503611794d795064aa6bb1bc4",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:unwritten-engines",
+        "1:unwritten-chart",
+        "1:unwritten-sky"
+      ],
+      "colonies": 24,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113016
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 1,
+      "branch": "unwritten",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 58,
+      "winner": 1,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "1feb7b3e36dfa576e3fa8e45f57e2d893d2671bb8c4bc0e1c2a50034d99744ef",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "1:ring-chart",
+        "1:memory-pair",
+        "1:unwritten-engines",
+        "1:unwritten-chart",
+        "1:unwritten-sky"
+      ],
+      "colonies": 26,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 16,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113095
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "preserve",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 65,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "81984c40dd93d070f104606116160f57dfb6bde76ca4831ebb387643383eb6b5",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:memory-industry",
+        "2:memory-fields",
+        "2:memory-kept"
+      ],
+      "colonies": 25,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 19,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117364
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "preserve",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 65,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "f22d9067f9e409d519741628ca3c48f943c1282078dc069bfbb9dcd5c7a2da36",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:memory-industry",
+        "2:memory-fields",
+        "2:memory-kept"
+      ],
+      "colonies": 27,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 115574
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "preserve",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 65,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "6e8a628d3a82095d01c103aec7304f1a750811104b9709c959edbafcb73c60f1",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:memory-industry",
+        "2:memory-fields",
+        "2:memory-kept"
+      ],
+      "colonies": 25,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 19,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117365
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "preserve",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 65,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "02a0e166a3cf41071894a7f1a1779e07cf13037ff96af5e4e883d2bd16b28bbc",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:memory-industry",
+        "2:memory-fields",
+        "2:memory-kept"
+      ],
+      "colonies": 27,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 115575
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "preserve",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 65,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "6512652d8d97fad9ccea23581feb79a5f7e6e44490c1266415125b73f0ed46f2",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:memory-industry",
+        "2:memory-fields",
+        "2:memory-kept"
+      ],
+      "colonies": 25,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 19,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 117364
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "preserve",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 65,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "2fc6c2a123c38408256dffdfbad1e0daa6bd8bdae99fb6a92b1549651e7a92cc",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:memory-industry",
+        "2:memory-fields",
+        "2:memory-kept"
+      ],
+      "colonies": 27,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "field-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 115574
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "unwritten",
+      "difficulty": "relaxed",
+      "seed": 0,
+      "turn": 58,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "93c0f66ed393df89f58b223fbae26b45f5ad9c0b52eefec5ed044367ee58d0f2",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:unwritten-engines",
+        "2:unwritten-chart",
+        "2:unwritten-sky"
+      ],
+      "colonies": 21,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 19,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113938
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "unwritten",
+      "difficulty": "relaxed",
+      "seed": 7,
+      "turn": 58,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "bf39139c56c9b41f7d068d8f235e1f131168770717a26135dbb6471442cd43cf",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:unwritten-engines",
+        "2:unwritten-chart",
+        "2:unwritten-sky"
+      ],
+      "colonies": 22,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113457
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "unwritten",
+      "difficulty": "standard",
+      "seed": 0,
+      "turn": 58,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "9de5372e7aa8d29116454abc8c9e50dc8b197f94a32a7d75bc1b71bec5c29909",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:unwritten-engines",
+        "2:unwritten-chart",
+        "2:unwritten-sky"
+      ],
+      "colonies": 21,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 19,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113939
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "unwritten",
+      "difficulty": "standard",
+      "seed": 7,
+      "turn": 58,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "c671358f1025631f73ff78e2ff45dafffadc800bb0036c1ba548ecca7d40f2da",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:unwritten-engines",
+        "2:unwritten-chart",
+        "2:unwritten-sky"
+      ],
+      "colonies": 22,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113458
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "unwritten",
+      "difficulty": "veteran",
+      "seed": 0,
+      "turn": 58,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "87503cf178d2a64963b7a28856fc9b60c8637e6a25171cd170a703b1cc023715",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:unwritten-engines",
+        "2:unwritten-chart",
+        "2:unwritten-sky"
+      ],
+      "colonies": 21,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 19,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113938
+    },
+    {
+      "campaign": "glass-meridian",
+      "player": 2,
+      "branch": "unwritten",
+      "difficulty": "veteran",
+      "seed": 7,
+      "turn": 58,
+      "winner": 2,
+      "playerWon": true,
+      "victory": "Campaign objectives complete",
+      "sha256": "fa17ebf8f2bbef9050c6e002f8806c13aa6d46783aef5f590a09d4ac7ff15907",
+      "replayMatches": true,
+      "branchOrders": 1,
+      "completed": [
+        "2:ring-chart",
+        "2:memory-pair",
+        "2:unwritten-engines",
+        "2:unwritten-chart",
+        "2:unwritten-sky"
+      ],
+      "colonies": 22,
+      "events": {
+        "paired-signal": 5,
+        "ring-grant": 17,
+        "memory-decoded": 24,
+        "chart-resupply": 40,
+        "quiet-observatory": 52
+      },
+      "saveBytes": 113457
+    }
+  ]
+}

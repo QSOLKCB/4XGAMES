@@ -7,7 +7,7 @@
 <p>
   <a href="https://github.com/QSOLKCB/4XGAMES/actions/workflows/pages.yml"><img src="https://github.com/QSOLKCB/4XGAMES/actions/workflows/pages.yml/badge.svg?branch=main" alt="Test and deploy VOIDWARD" /></a>
   <a href="https://qsolkcb.github.io/4XGAMES/"><img src="https://img.shields.io/badge/PLAY-GitHub_Pages-72dbc4?style=flat-square&amp;labelColor=101b27" alt="Play on GitHub Pages" /></a>
-  <a href="docs/CAMPAIGNS.md"><img src="https://img.shields.io/badge/CAMPAIGNS-5-d4ae73?style=flat-square&amp;labelColor=101b27" alt="Five campaigns" /></a>
+  <a href="docs/CAMPAIGNS.md"><img src="https://img.shields.io/badge/CAMPAIGNS-8-d4ae73?style=flat-square&amp;labelColor=101b27" alt="Eight campaigns" /></a>
   <a href="MOD_GUIDE.md"><img src="https://img.shields.io/badge/MODS-Editable_.txt-b9a0ed?style=flat-square&amp;labelColor=101b27" alt="Editable plain-text mods" /></a>
   <a href="#saves-and-offline-play"><img src="https://img.shields.io/badge/PLAY-Offline_ready-72dbc4?style=flat-square&amp;labelColor=101b27" alt="Offline after complete first-load caching" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/LICENSE-Apache--2.0-d4ae73?style=flat-square&amp;labelColor=101b27" alt="Original code: Apache-2.0" /></a>
@@ -28,6 +28,21 @@ silhouettes and sound arrangements are original; its browser engine combines
 original code with attributed QSOL modules. All game code and assets are local:
 **vanilla HTML, CSS and JavaScript, with no runtime package installation,
 account, backend or CDN**.
+
+## Horizons and the command deck
+
+Three new campaigns bring **nine new playable factions, 36 original hull silhouettes
+and six branching victory routes**. Their authored maps, starting resources,
+loadouts, facilities and music remain editable text. Choose among **18
+campaign/empire combinations**; the original five campaigns retain their content.
+
+The command deck shows idle ships, idle colonies and current hostile contacts.
+Use **Ctrl/Cmd K** to search the chart, **N** to cycle idle ships and **H** to
+return home. Pan and zoom the map, choose full or decluttered labels, and enable
+high contrast or an optional turn review. Campaign briefings show the chosen
+faction, starting fleet, resources, geography and victory timing before launch.
+
+[Upgrade details, compatibility and evidence](docs/HORIZONS_UPGRADE.md).
 
 ## Command your empire
 
@@ -54,7 +69,7 @@ Combat resolves on end-turn. The default Open Frontier starts with **30 systems,
 refits snapshot their designs; research and class edits never silently refit a
 ship already built or ordered.
 
-## Five expeditions, different ambitions
+## Eight expeditions, different ambitions
 
 | Campaign | Stars / worlds | Playable empires | Your expedition |
 | --- | --- | --- | --- |
@@ -63,6 +78,9 @@ ship already built or ordered.
 | **Grand Frontier: The Long Concord** | 64 / 128 | Meridian, Viridian, Basalt | Build a diplomatic commonwealth or territorial dominion; objective victory from turn 100 |
 | **Fallen Gates: The Quiet Meridian** | 36 / 72 | Lanterns, Glass, Hinterland | Recover archives and choose restoration or independent routes; objective victory from turn 70 |
 | **Siege of the Outer Rim** | 40 / 80 | Rimward Freeholds | Face escalating incursions; reconquest from turn 60 or endurance at turn 90 |
+| **Helix Accord: The Threefold Charter** | 24 / 48 | Lattice Compact, Tidebound Exchange, Cinder Directorate | Build an exchange from turn 36 or a federation from turn 44 |
+| **Emberwake Exodus: The Last Convoy** | 32 / 64 | Ashwake Flotilla, Gloam Gardeners, Sunspindle Union | Lead a convoy from turn 48 or establish havens from turn 55 |
+| **Glass Meridian: The Unwritten Sky** | 48 / 96 | Prism Cartographers, Mnemonic Choir, Null Survey | Chart an unwritten future from turn 58 or preserve the archive from turn 65 |
 
 These are objective turn thresholds, not guaranteed session lengths. Early
 military elimination can end a campaign. Each new scenario has its own deadline,
@@ -86,7 +104,9 @@ for routes, starting conditions and defeat rules.
 
 Mouse and touch use select-then-confirm orders. **Tab** navigates controls;
 **Enter/Space** activates them. **E** ends a turn, **1–8** change command views and
-**?** opens help. Turn shortcuts are suppressed in forms and dialogs. A standard
+**?** opens help. **N** selects the next idle ship, **H** returns home and
+**Ctrl/Cmd K** opens the searchable command menu. Arrow keys navigate focused
+star targets. Turn shortcuts are suppressed in forms and dialogs. A standard
 gamepad can navigate the chart and select fleet orders.
 
 For a local checkout, serve the repository over HTTP:
@@ -169,6 +189,11 @@ contributions are recorded in [source provenance](vendor/PROVENANCE.json).
 ExactGraph retains its 16-vertex limit; larger sectors use a separate bounded BFS.
 
 ## Verification you can inspect
+
+The Horizons upgrade adds exact baseline parity checks, a 108-scenario campaign
+sweep and command-deck browser coverage. The [current validation record](docs/HORIZONS_UPGRADE.md#verification)
+distinguishes executed simulation checks from hosted browser results. The older
+receipts below retain their original source revisions.
 
 The merged expansion records **68 named Node tests**, **70 seeded campaign,
 difficulty and route workloads with independent replays**, and a completed

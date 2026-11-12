@@ -2,6 +2,13 @@
 
 Implementation work: 12 November 2026.
 
+## Horizons / command deck — 12 November 2026
+
+See [the current upgrade record](HORIZONS_UPGRADE.md#verification) and its
+[source-hashed receipts](evidence/command-upgrade/) for this change. It builds on
+merged 4XGAMES #4 at `11c0fa582e1b28953f0df8f2a7a5f7217cb08953`.
+The records below remain historical evidence for their stated revisions.
+
 ## VANILLAJS #81 integration — 12 November 2026
 
 PR #4 review follow-up addresses five editor defects: map attachment carryover,

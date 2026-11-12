@@ -25,3 +25,80 @@
 .star-node.label-crowded span{visibility:hidden}
 .star-node:hover,.star-node:focus-visible{z-index:2}
 .star-node:hover span,.star-node:focus-visible span{visibility:visible;max-width:none;background:#101820;border-radius:3px}
+
+/* Frontier command deck: calm instruments, visible priorities, local controls. */
+body{background:radial-gradient(ellipse at 70% 0,#14202b 0,transparent 55%),var(--bg)}
+.topbar{background:linear-gradient(110deg,#101c28,#0a141e 65%);box-shadow:0 7px 24px #0002}
+.brand-mark{filter:drop-shadow(0 0 12px #d4ae7325)}
+.sidebar{background:linear-gradient(180deg,#101b26,#09121c)}
+.card{background:linear-gradient(150deg,#111d29,#0d1722);box-shadow:0 5px 16px #0002}
+.main{max-width:2100px;width:100%;margin:0 auto}
+.page-head h1{font-weight:600;letter-spacing:-.8px}
+.page-head .eyebrow{color:var(--empire)}
+.command-access{font-size:20px;line-height:1;padding:9px;min-width:37px}
+kbd{font:9px ui-monospace,monospace;color:#a7becb;border:1px solid #3c515f;background:#101c27;padding:2px 4px;border-radius:3px;white-space:nowrap}
+.command-readiness{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid #304352;background:linear-gradient(110deg,#172735,#111c28);border-radius:6px;margin-bottom:18px;padding:10px 14px;min-width:0}
+.readiness-heading{display:flex;align-items:center;gap:8px;white-space:nowrap;font:10px ui-monospace,monospace;letter-spacing:1.2px}
+.readiness-heading .status-dot{margin:0;background:var(--empire)}
+.readiness-heading small{font-size:9px;color:#9baebd;letter-spacing:.3px}
+.readiness-items{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.readiness-items button{font-size:11px;padding:7px 9px;border-color:transparent;min-height:34px}
+.readiness-items button strong{color:var(--empire);font:14px ui-monospace,monospace;margin-right:3px}
+.readiness-items .danger strong{color:var(--danger)}
+.command-menu-link{color:#b1c4d0}.command-menu-link kbd{margin-left:4px}
+.readiness-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0}
+.readiness-summary>div{padding:15px;border:1px solid #334959;border-radius:5px;background:#0d1924}
+.readiness-summary strong{display:block;font:26px ui-monospace,monospace;color:var(--empire)}
+.readiness-summary small{display:block;margin-top:7px;font-size:9px;letter-spacing:.5px}
+.command-shortcuts{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.command-shortcuts kbd{margin-left:6px}
+.command-results{display:grid;gap:5px;max-height:40vh;overflow-y:auto;overscroll-behavior:contain;border-top:1px solid var(--line);padding-top:12px}
+.command-results button{display:flex;justify-content:space-between;align-items:center;gap:14px;text-align:left;padding:12px;min-width:0}
+.command-results button span{overflow-wrap:anywhere}.command-results small{font:9px ui-monospace,monospace;flex-shrink:0}
+.chart-card{border-color:#334d5b}.chart-toolbar{background:linear-gradient(90deg,#1a2b39,#101d29)}
+.chart-toolbar .segmented{min-width:0;flex-wrap:wrap}
+.chart-toolbar .segmented button{min-height:32px}.chart-toolbar .segmented button.active{box-shadow:inset 0 -2px var(--empire);background:#253b44}
+.chart-viewport{cursor:grab;overflow:clip}.chart-viewport.dragging{cursor:grabbing;user-select:none}
+.chart-viewport.pan-enabled{touch-action:none}.chart-viewport.pan-enabled .star-layer{touch-action:none}
+.star-node{cursor:pointer}.star-node.selected span{color:var(--empire);font-weight:700}
+.star-node.selected i{outline-color:var(--empire)}
+.star-node:focus-visible{outline-offset:5px;z-index:5}
+.map-controls{padding:5px;background:#08121bd9;border:1px solid #3a5263;border-radius:6px;bottom:13px;right:13px;z-index:6}
+.map-controls button{width:34px;height:34px;border-color:transparent;font-size:18px}
+.map-controls button.active{background:#254542;color:var(--mint);border-color:#6aaca0}
+.map-controls button:hover{background:#2a4251}.map-legend{background:#0e1b26}
+.system-hero{background:radial-gradient(ellipse at 90% 60%,#36546b70,transparent 58%),linear-gradient(130deg,#152c38,#0b1825)}
+.system-hero h2{overflow-wrap:anywhere;position:relative;z-index:1}
+.system-hero:after{border-color:#5c8b9755;box-shadow:0 0 0 12px #365d691c,0 0 0 24px #365d6911}
+.selected-order{border-left:3px solid var(--empire);background:linear-gradient(130deg,#19332f,#12252c)}
+.dispatch-strip{border-left:3px solid var(--empire)}
+.tech-card.active{box-shadow:inset 0 3px #a99ee8,0 8px 20px #0002}.tech-card.active .icon{filter:drop-shadow(0 0 9px #c4affb33)}
+.mod-swatch{background-image:radial-gradient(circle at 75% 15%,#7560aa38,transparent 60%),repeating-linear-gradient(35deg,transparent 0 24px,#7095a20b 24px 25px),linear-gradient(115deg,#183c41,#152132)}
+.mod-card:nth-child(3n+2) .mod-swatch{background-image:radial-gradient(circle at 70% 50%,#9e734438,transparent 70%),linear-gradient(120deg,#24394a,#1f2532)}
+.mod-card:nth-child(3n) .mod-swatch{background-image:radial-gradient(circle at 20% 30%,#7167a542,transparent 70%),linear-gradient(120deg,#22263e,#112a36)}
+dialog{max-height:90vh;max-height:90dvh;scrollbar-gutter:stable;overscroll-behavior:contain}
+.dialog-head{position:sticky;top:0;z-index:8;background:#12212e;box-shadow:0 3px 15px #0002}
+.dialog-head h2{min-width:0;overflow-wrap:anywhere}.dialog-head button{flex-shrink:0}
+.expedition-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:20px 0}
+.expedition-controls label{min-width:0}.expedition-controls select{width:100%;min-width:0}
+.expedition-briefing{border:1px solid #36505e;border-radius:7px;overflow:hidden;background:#0a1722}
+.briefing-map{position:relative;background:radial-gradient(ellipse at 70% 30%,#213a4a,#0b1623 80%);border-bottom:1px solid #304351}
+.briefing-map svg{display:block;width:100%;height:175px}.briefing-map>span{position:absolute;right:12px;bottom:9px;font:9px ui-monospace,monospace;letter-spacing:1px;color:#b0c7d6;background:#09141ccc;padding:4px 6px}
+.briefing-body{padding:19px}.briefing-body>.eyebrow{font-size:9px;margin-bottom:6px;color:var(--faction)}
+.dialog-body .briefing-body h3{margin:0 0 8px;font-size:20px;color:#e5eef3;line-height:1.3}
+.dialog-body .briefing-body p{font-size:12px;line-height:1.7}
+.briefing-deadline{display:flex;justify-content:space-between;gap:10px;font:10px ui-monospace,monospace;flex-wrap:wrap;color:var(--gold);margin-top:15px;padding-bottom:15px;border-bottom:1px solid #2a3d4a}
+.faction-brief{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 0}
+.faction-brief strong{display:block;color:var(--faction);font-size:15px;margin-bottom:5px}.faction-brief small{display:block;margin-top:6px;font:9px ui-monospace,monospace}
+.briefing-ships{display:flex;flex-shrink:0}.briefing-ships canvas{width:64px;height:64px}
+.briefing-resources{display:flex;flex-wrap:wrap;gap:16px;border-top:1px solid #2a3d4a;padding-top:13px;font-size:11px;color:#9eb5c5}.briefing-resources b{color:#e2edf2;font:13px ui-monospace,monospace;margin-right:4px}
+.briefing-loading{padding:25px}
+[data-contrast=high]{--muted:#b0c5d4;--line:#4b6373}
+[data-contrast=high] .star-node span{color:#edf7ff;text-shadow:0 1px 3px #000,0 0 5px #000}
+[data-contrast=high] .star-node.frontier span{color:#bad1e0}
+[data-contrast=high] .star-node.frontier i{opacity:.85}
+[data-contrast=high] .nav button{color:#bfd0dd}
+[data-contrast=high] .card{border-color:#4b6373}
+@media(max-width:1200px){.command-readiness{align-items:flex-start;flex-direction:column;gap:7px}.readiness-items{width:100%;justify-content:space-between}.command-menu-link kbd{display:none}}
+@media(max-width:760px){.command-readiness{padding:10px;margin-bottom:13px}.readiness-heading{font-size:9px}.readiness-items{gap:2px;justify-content:flex-start}.readiness-items button{font-size:10px;padding:6px 8px}.readiness-items button strong{font-size:13px}.command-menu-link{display:none}.command-access{min-width:30px;padding:7px}.topbar{gap:9px}.topbar .brand{min-width:130px}.map-legend{font-size:8px;gap:11px}.expedition-controls{gap:12px}.briefing-ships canvas{width:48px;height:48px}.briefing-body{padding:15px}.command-results button{min-height:44px}.readiness-summary{gap:7px}.readiness-summary>div{padding:11px}}
+@media(max-width:480px){.expedition-controls{grid-template-columns:1fr}.faction-brief{align-items:flex-start;flex-direction:column;gap:8px}.briefing-ships canvas{width:60px;height:60px}.briefing-map svg{height:150px}.briefing-resources{gap:10px}.readiness-items button{padding:6px;font-size:9px}.readiness-heading small{margin-left:auto}.readiness-heading{width:100%}.readiness-summary small{font-size:8px}.readiness-summary strong{font-size:23px}.command-results small{font-size:8px}.system-hero h2{font-size:25px}.dialog-head{padding:16px}.dialog-head h2{font-size:20px}}

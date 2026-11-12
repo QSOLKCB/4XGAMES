@@ -13,7 +13,7 @@ required. Serve the repository over HTTP as described in the README.
    form edits, then choose **Open in 3D Workbench**. The validated draft travels
    locally to the editor. Your expedition's save stays in its existing slot.
 2. Change the campaign ID and title before making a new universe. Choose
-   **Apply campaign identity**. All five installed campaigns can be sent to the
+   **Apply campaign identity**. All eight installed campaigns can be sent to the
    editor this way; **Load frontier template** starts a fresh Open Frontier draft.
 3. Use the galaxy, hull or text controls below. Changes affect a detached draft.
    **Undo campaign / Redo campaign** has a separate history from scene Undo/Redo.

@@ -88,7 +88,32 @@ Notifications and turn summaries help identify new unlocks and completed work.
 Tab moves through controls; Enter/Space activates a focused button. E ends a turn,
 1–8 select command views and ? opens help. Typing in forms and open dialogs
 suppresses turn shortcuts. Mouse and touch use the same select-then-confirm orders.
-Settings include independent music/effects levels, mute and reduced motion.
+The command deck counts idle ships, idle colony queues and hostile contacts under
+current sensors. **Next idle ship** cycles ships that are holding position;
+refitting, travelling and auto-exploring ships are excluded. **Idle colonies**
+opens all idle queues, clearing any older search. **Review readiness** lists
+current hostile systems without turning stale intelligence into live reports.
+
+**Ctrl/Cmd K** or **/** opens a searchable command menu. Search by system name
+or number, then select a result to inspect it. **N** selects the next idle ship;
+**H** returns to your home system. Arrow keys move between focused stars.
+Selection and navigation never issue a fleet order or advance a turn.
+
+Zoom using the map controls. Drag empty space with a mouse to pan; touch users
+can enable **Pan galaxy** before dragging, then disable it to scroll the page.
+**Fit galaxy** restores the initial zoom and position. Choosing a system through
+the command menu or system picker brings an offscreen selection back into view.
+
+Settings include independent music/effects levels, mute, reduced motion,
+high contrast and a choice between decluttered or complete star labels. Enable
+**Review idle units before ending a turn** to see a readiness dialog when ships,
+colonies or threats need attention. It is off by default; holding position is
+always a valid decision. Confirm **Advance turn** or return to planning.
+
+Before launch, the expedition briefing displays the selected faction's home,
+starting resources, ship silhouettes, campaign map and objective timing. Switch
+factions to compare their starts. Previewing a briefing does not replace your
+current campaign.
 
 ## Saves and offline play
 

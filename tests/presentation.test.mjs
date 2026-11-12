@@ -9,19 +9,20 @@ import {parsePack,PACK_FILES,OPTIONAL_PACK_FILES} from '../js/content.js';
 import {createEngine} from '../js/core.js';
 import {encodeSaveEnvelope,decodeSaveEnvelope,MAX_SAVE_BYTES} from '../js/save-codec.js';
 import {campaigns} from '../mods/registry.js';
+import {commandReadiness,chartedSystems} from '../js/command-tools.js';
 import * as Workshop from '../js/workshop.js';
 import * as Bridge from '../js/workbench-bridge.js';
 
 const root=new URL('../',import.meta.url);
-async function templateHarness() {
+async function templateHarness(overrides={}) {
   let source=await fs.readFile(new URL('js/app.js',root),'utf8');
   // Exercise production template functions with real engine/content. Only the
   // unavailable DOM/bootstrap boundary is replaced; no authoritative mutations.
   source=source.replace(/^import .*;\n/gm,'');source=source.slice(0,source.indexOf('boot().then('));
-  source+=`\nglobalThis.probe={set(p,e,s){pack=p;engine=e;state=s;selected=p.empires[s.player].home;designer=null;},select(id,fleet=null){selected=id;selectedFleet=fleet;},inspector,courseCommand,fingerprint,activate,key(){return activeKey;},stored(){return localStorage.getItem(activeKey);},views(){return [galaxyView(),coloniesView(),fleetsView(),researchView(),designerView(),diplomacyView(),reportsView(),modsView(),objectiveStrip()];},workshop(p){editorFiles=p.raw;workshopHull=Object.keys(p.hulls)[0];hullDraft=null;return [workshopMapMarkup(p),workshopHullMarkup(p),workshopRecordsMarkup(p)];}};`;
+  source+=`\nglobalThis.probe={set(p,e,s){pack=p;engine=e;state=s;selected=p.empires[s.player].home;designer=null;},select(id,fleet=null){selected=id;selectedFleet=fleet;},inspector,courseCommand,fingerprint,activate,newGameDialog,help,dialog(){return $('#dialog').innerHTML;},key(){return activeKey;},stored(){return localStorage.getItem(activeKey);},views(){return [galaxyView(),coloniesView(),fleetsView(),researchView(),designerView(),diplomacyView(),reportsView(),modsView(),objectiveStrip(),readinessStrip(),campaignBriefing(pack,state.player)];},workshop(p){editorFiles=p.raw;workshopHull=Object.keys(p.hulls)[0];hullDraft=null;return [workshopMapMarkup(p),workshopHullMarkup(p),workshopRecordsMarkup(p)];}};`;
   const storage=new Map();
   const node={addEventListener(){},querySelectorAll(){return[]},contains(){return false},innerHTML:'',close(){},showModal(){},style:{setProperty(){}},dataset:{}};
-  const context=vm.createContext({structuredClone,parsePack,PACK_FILES,OPTIONAL_PACK_FILES,createEngine,encodeSaveEnvelope,decodeSaveEnvelope,MAX_SAVE_BYTES,campaigns,Workshop,Bridge,TextEncoder,crypto,Soundscape:class{constructor(){this.effects={};this.levels={music:.5,effects:.8};}setLevels(){}setScore(){}resume(){}},document:{querySelector(selector){return selector==='#galaxy-canvas'?null:node;},querySelectorAll(){return[];},activeElement:null,documentElement:node,addEventListener(){}},window:{addEventListener(){},scrollY:0},localStorage:{getItem(key){return storage.get(key)||null;},setItem(key,value){storage.set(key,value);}},setTimeout,clearTimeout,URL});
+  const context=vm.createContext({structuredClone,parsePack,PACK_FILES,OPTIONAL_PACK_FILES,createEngine,encodeSaveEnvelope,decodeSaveEnvelope,MAX_SAVE_BYTES,campaigns,commandReadiness,chartedSystems,Workshop,Bridge,TextEncoder,crypto,Soundscape:class{constructor(){this.effects={};this.levels={music:.5,effects:.8};}setLevels(){}setScore(){}resume(){}},document:{querySelector(selector){return selector==='#galaxy-canvas'?null:node;},querySelectorAll(){return[];},activeElement:null,documentElement:node,addEventListener(){}},window:{addEventListener(){},scrollY:0},localStorage:{getItem(key){return storage.get(key)||null;},setItem(key,value){storage.set(key,value);}},setTimeout,clearTimeout,requestAnimationFrame(){return 1;},cancelAnimationFrame(){},URL,...overrides});
   context.QsolInput={GamepadReader:class{},BUTTON:{}};vm.runInContext(source,context);return context.probe;
 }
 test('every shipped playable empire renders command and workshop templates without changing state',async()=>{
@@ -80,6 +81,18 @@ test('map course uses the selected task force and its slowest member',async()=>{
   e.command(s,{type:'group',name:'Convoy',fleets:ships.slice(0,2).map(x=>x.id)});
   probe.set(p,e,s);probe.select(13,ships[0].id);const command=probe.courseCommand(13);
   assert.equal(command.type,'groupMove');assert.equal(command.group,s.groups[0].id);e.command(s,command);assert.deepEqual(ships[0].path,ships[1].path);
+});
+
+
+test('a delayed campaign request cannot replace a newer field-manual dialog',async()=>{
+  let release,started;
+  const gate=new Promise(resolve=>release=resolve),waiting=new Promise(resolve=>started=resolve);
+  const probe=await templateHarness({loadPack:async()=>{started();return gate;}});
+  const fixture=JSON.parse(await fs.readFile(new URL('tests/fixtures/v1-frontier.json',root),'utf8'));
+  const p=parsePack(fixture.pack),e=createEngine(p);probe.set(p,e,e.createGame());
+  const opening=probe.newGameDialog('grand-frontier');await waiting;
+  probe.help();assert.match(probe.dialog(),/Your field manual/);
+  release(p);await opening;assert.match(probe.dialog(),/Your field manual/);assert.doesNotMatch(probe.dialog(),/Begin an expedition/);
 });
 
 test('Soundscape uses ARCADE music bus, independent levels, and releases muted sources',async()=>{

@@ -20,7 +20,7 @@ for (const campaign of campaigns) {
 }
 const expectedWorker = await workerSource();
 if (await fs.readFile('sw.js', 'utf8') !== expectedWorker) {
-  const revision = expectedWorker.match(/const CACHE = PREFIX \\+ '([a-f0-9]+)'/)?.[1] || 'unknown';
+  const revision = expectedWorker.split("const CACHE = PREFIX + '")[1]?.split("'")[0] || 'unknown';
   throw new Error(`Offline cache is stale (expected ${revision}). Run node scripts/site.mjs sync.`);
 }
 for (const file of await inventory()) {

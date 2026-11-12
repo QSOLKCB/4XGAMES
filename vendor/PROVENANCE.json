@@ -184,110 +184,268 @@
       "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
     },
     {
-      "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "modules/integer-math/index.js",
-      "local": "vendor/vanillajs/modules/integer-math/index.js",
-      "sha256": "4c0bb66780bf9e810efb1963c0238d9356814abf79c959dcd1734164de57905f"
+      "repository": "QSOLKCB/GAMES",
+      "commit": "7e0a9019d07b491cffc9b698fa51acdb843c49cc",
+      "source": "SOVEREIGN_LATTICE/NOTICE.md",
+      "local": "vendor/games/SOVEREIGN_LATTICE/NOTICE.md",
+      "sha256": "f7955eb159410505c40c2ab25ca11e14d21392531dbf73b970ac9dc7fda781d2"
     },
     {
       "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "modules/math/index.js",
-      "local": "vendor/vanillajs/modules/math/index.js",
-      "sha256": "4f4ebf0786b97342c11004b8830a535890b16693458a0436edb1fc581a411da7"
-    },
-    {
-      "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "modules/audio2d/index.js",
-      "local": "vendor/vanillajs/modules/audio2d/index.js",
-      "sha256": "07e19391b84034acba56ef840a4d622b70e815f5376de123b6a07a9ccebf3098"
-    },
-    {
-      "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "modules/exact-rational/index.js",
-      "local": "vendor/vanillajs/modules/exact-rational/index.js",
-      "sha256": "dbc7e08ee27e824c874b339074804a0d103906fb91b2f2c3b3ad806cf05e0f48"
-    },
-    {
-      "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "modules/exact-graph/index.js",
-      "local": "vendor/vanillajs/modules/exact-graph/index.js",
-      "sha256": "cdfb0e74a330e62ea1312ff042b570856707bfac2c491e3e3125647b2867aa10"
-    },
-    {
-      "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "docs/4X_GAME_LAB.md",
-      "local": "vendor/vanillajs/docs/4X_GAME_LAB.md",
-      "sha256": "9d1cd7596c4cd129bb515fd44f91acf64f4c9ee22047aa5dad8700947c317044"
-    },
-    {
-      "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
       "source": "LICENSE",
       "local": "vendor/vanillajs/LICENSE",
       "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
     },
     {
       "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
       "source": "NOTICE",
       "local": "vendor/vanillajs/NOTICE",
-      "sha256": "926a5ca59c5a886696f863d500ae64c1dca5babf3fcd15e197def21e70e65a85"
+      "sha256": "9dc4454d8760ca708804b585cbff7ff33e170ea3d3ba354e34fed5db920922a4"
     },
     {
       "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "demos/editor/model.js",
-      "local": "vendor/vanillajs/demos/editor/model.js",
-      "sha256": "0684530070b112627fecad974d1a8df035fcf9a94d22a4b144c2a286c3330c70"
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "api/webgl/index.js",
+      "local": "vendor/vanillajs/api/webgl/index.js",
+      "sha256": "0f791aa8e118ad82a7d2aced4bf22633fbd4f94bcf9c54e695b571a3ae28d342"
     },
     {
       "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
-      "source": "demos/editor/components.js",
-      "local": "vendor/vanillajs/demos/editor/components.js",
-      "sha256": "06909dee76b29c0fd64cbb894306ebacf2dbe18c871acde8cad84448c5e8f6f1"
-    },
-    {
-      "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
       "source": "demos/editor/asset-foundry.js",
       "local": "vendor/vanillajs/demos/editor/asset-foundry.js",
       "sha256": "0e027213bfcc67574e29b9d1845eaedaaa287f98dbbb58dc6bd8e9d8d92e7293"
     },
     {
       "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/authoring-math.js",
+      "local": "vendor/vanillajs/demos/editor/authoring-math.js",
+      "sha256": "391556f69e812482268ab47fdbe6011252e5241f8bc18f6ba1537d2dc8c03483"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/components.js",
+      "local": "vendor/vanillajs/demos/editor/components.js",
+      "sha256": "06909dee76b29c0fd64cbb894306ebacf2dbe18c871acde8cad84448c5e8f6f1"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/forge-preview.js",
+      "local": "vendor/vanillajs/demos/editor/forge-preview.js",
+      "sha256": "047c4c376ad0cb3021cf7bbded5938d41a19e557a20c530ff3df80e553d8d53b"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/game-export.js",
+      "local": "vendor/vanillajs/demos/editor/game-export.js",
+      "sha256": "8b61360ad2574b1a80174dd93edc46309a46b62ee2a70f700d17558473dfc601"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/game-player.js",
+      "local": "vendor/vanillajs/demos/editor/game-player.js",
+      "sha256": "c4bf388afe89638d1dd5a553c8115448fb82f5ac91fa479f66a68e60093f3fcd"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/gizmos.js",
+      "local": "vendor/vanillajs/demos/editor/gizmos.js",
+      "sha256": "ca1abedd8cf509ce60e0ecca1c9181fa357da38486856e15ebb9325b760dc68f"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/model.js",
+      "local": "vendor/vanillajs/demos/editor/model.js",
+      "sha256": "0684530070b112627fecad974d1a8df035fcf9a94d22a4b144c2a286c3330c70"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/preview.js",
+      "local": "vendor/vanillajs/demos/editor/preview.js",
+      "sha256": "686f77d906a225689fdc71bae3ca3cfa0b28f016f30c89d054f446d810c94c06"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/scene-meshes.js",
+      "local": "vendor/vanillajs/demos/editor/scene-meshes.js",
+      "sha256": "8851b61deb40f322850ad0bf6ca2f4c64647ad6b7ef0e6e034d288e8c2078e1d"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/style.css",
+      "local": "vendor/vanillajs/demos/editor/style.css",
+      "sha256": "2481346fca4c1b4bde939af4a12bec9bfeac942111743876747fdba8b566ec49"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/viewport.js",
+      "local": "vendor/vanillajs/demos/editor/viewport.js",
+      "sha256": "e488d26e6b02ae3cf985fe0f9f6cb10ebee9591b1fe21d6c41e88cb220051729"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/editor/workflows.js",
+      "local": "vendor/vanillajs/demos/editor/workflows.js",
+      "sha256": "c9b63926af8faedc0d117c7c1ac052b8e01aacdc00cb2b4e84151acd1bbfcc29"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "demos/gpu-lab/controls.js",
+      "local": "vendor/vanillajs/demos/gpu-lab/controls.js",
+      "sha256": "89860cedff23993e910670fb031050fe2822ed432a4b0f040f4d8013d6642340"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "docs/4X_GAME_LAB.md",
+      "local": "vendor/vanillajs/docs/4X_GAME_LAB.md",
+      "sha256": "88fa854d074b56065d7dd834984bca5eeb602561b8b85080e7ecfbfa45d5df56"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/audio2d/index.js",
+      "local": "vendor/vanillajs/modules/audio2d/index.js",
+      "sha256": "07e19391b84034acba56ef840a4d622b70e815f5376de123b6a07a9ccebf3098"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/collision/index.js",
+      "local": "vendor/vanillajs/modules/collision/index.js",
+      "sha256": "99c0f4bc106d4162fc5bea057a7108d7cf52526279b2a8ad4e4f27c1f0e6f5c1"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/exact-d4/index.js",
+      "local": "vendor/vanillajs/modules/exact-d4/index.js",
+      "sha256": "b28a4567bf068a4b7beca70a45b527c620b537f5a7ba334e0f86a7c6e7364f78"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/exact-geometry/index.js",
+      "local": "vendor/vanillajs/modules/exact-geometry/index.js",
+      "sha256": "c5895c1fc6faa93c4761b327dd689fcd28d383c22cec0e229dee5275d1f7eb5b"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/exact-graph/index.js",
+      "local": "vendor/vanillajs/modules/exact-graph/index.js",
+      "sha256": "cdfb0e74a330e62ea1312ff042b570856707bfac2c491e3e3125647b2867aa10"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/exact-interval/index.js",
+      "local": "vendor/vanillajs/modules/exact-interval/index.js",
+      "sha256": "d171e150119d45d2cb951f2e517ef05f8cabb8977ce7d9424e1d6bb958ea0de8"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/exact-rational/index.js",
+      "local": "vendor/vanillajs/modules/exact-rational/index.js",
+      "sha256": "dbc7e08ee27e824c874b339074804a0d103906fb91b2f2c3b3ad806cf05e0f48"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/geometry/index.js",
+      "local": "vendor/vanillajs/modules/geometry/index.js",
+      "sha256": "186c7e4a930deece17a7b6f739f796ab75b0e0381631364ce6f7928a0544c8e2"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/integer-math/index.js",
+      "local": "vendor/vanillajs/modules/integer-math/index.js",
+      "sha256": "4c0bb66780bf9e810efb1963c0238d9356814abf79c959dcd1734164de57905f"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/math/index.js",
+      "local": "vendor/vanillajs/modules/math/index.js",
+      "sha256": "4f4ebf0786b97342c11004b8830a535890b16693458a0436edb1fc581a411da7"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
       "source": "modules/mod-sdk/index.js",
       "local": "vendor/vanillajs/modules/mod-sdk/index.js",
       "sha256": "1b8e11d442d77365e4ec79ace6736855dcb8b7946edabbf0123168f790f52b64"
     },
     {
-      "repository": "QSOLKCB/GAMES",
-      "commit": "7e0a9019d07b491cffc9b698fa51acdb843c49cc",
-      "source": "SOVEREIGN_LATTICE/NOTICE.md",
-      "local": "vendor/games/SOVEREIGN_LATTICE/NOTICE.md",
-      "sha256": "f7955eb159410505c40c2ab25ca11e14d21392531dbf73b970ac9dc7fda781d2"
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/rational-q16/index.js",
+      "local": "vendor/vanillajs/modules/rational-q16/index.js",
+      "sha256": "8383681b2f8fd1404261d73b4c7447217a54af72b1a400ed01f9a993d432bcc7"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/render-optional/index.js",
+      "local": "vendor/vanillajs/modules/render-optional/index.js",
+      "sha256": "3119543e88252c4b5c4a14fe0dde15fc3a444e5860f9ebeafb7f14629de2e711"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/render-optional/wasm-bytes.js",
+      "local": "vendor/vanillajs/modules/render-optional/wasm-bytes.js",
+      "sha256": "8750b9d17cb82fee910762c6c2bc0e787b0203120fe4e1331bf67bc5be3c1595"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/render-optional/webgpu.js",
+      "local": "vendor/vanillajs/modules/render-optional/webgpu.js",
+      "sha256": "fdaa1656f74984db0a48cca01b56b02be63a6b0c555195e99fd5809294cacd63"
+    },
+    {
+      "repository": "QSOLKCB/VANILLAJS",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
+      "source": "modules/time/index.js",
+      "local": "vendor/vanillajs/modules/time/index.js",
+      "sha256": "de94c0bc04e6a269504c5742455ce114f824c2c0d9d59a2fd94555df5d9bb4a2"
     }
   ],
   "integrations": [
     {
       "repository": "QSOLKCB/VANILLAJS",
-      "commit": "5a91cd4cc7251c485eaf2fc80d5227a20571fd8c",
+      "commit": "b12f24f789da81325491f96b5c2dd786d31e96f0",
       "sources": [
         "demos/editor/model.js",
         "demos/editor/components.js",
         "demos/editor/asset-foundry.js",
         "modules/mod-sdk/index.js",
-        "demos/4x-game-lab/world.js"
+        "demos/4x-game-lab/world.js",
+        "demos/editor/4x-panel.js",
+        "demos/editor/4x-workflow.js",
+        "demos/editor/app.js",
+        "demos/4x-game-lab/voidward/js/workbench-bridge.js"
       ],
-      "adapter": "js/workbench-bridge.js; js/workshop.js; js/core.js",
-      "contribution": "Actual strict Workbench project/Component Forge validation, convex hull and fixed-scale map exchange, bounded data-only SDK manifests. Ternary Reach command/fog design remains a reference; its 16-vertex exact-graph limit is unchanged."
+      "adapter": "editor/; js/editor-workflow.js; js/workbench-bridge.js; js/workshop.js; js/app.js; js/core.js",
+      "contribution": "Locally bundled native 3D Workbench, Asset Foundry, exact authoring controls and optional renderer. PR81 campaign draft history/recovery, viewport map editing, reciprocal game/editor exchange and full source-declaration hull bundles adapted outside vendor. Existing project, SDK and ExactGraph bounds retained; existing VOIDWARD save namespace and campaign data preserved."
     },
     {
       "repository": "QSOLKCB/GAMES",

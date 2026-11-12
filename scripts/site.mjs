@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 const root = path.resolve(import.meta.dirname, '..');
 export async function inventory() {
-  const files = ['index.html', 'style.css', 'icon.svg', 'manifest.webmanifest', 'LICENSE', 'NOTICE', 'README.md', 'MOD_GUIDE.md', 'AGENTS.md', 'docs/assets/voidward-banner.svg'];
+  const files = ['index.html', 'style.css', 'icon.svg', 'manifest.webmanifest', 'LICENSE', 'NOTICE', 'README.md', 'MOD_GUIDE.md', 'AGENTS.md', 'docs/assets/voidward-banner.svg', 'editor/index.html', 'editor/style.css', 'vendor/vanillajs/demos/editor/style.css'];
   async function walk(dir) {
     for (const entry of (await fs.readdir(path.join(root, dir), { withFileTypes: true })).sort((a, b) => a.name.localeCompare(b.name))) {
       if (entry.name.startsWith('.')) continue;
@@ -13,7 +13,7 @@ export async function inventory() {
       else if (entry.isFile() && (/\.(js|txt|json|md)$/.test(name) || /\/(LICENSE|NOTICE)$/.test(name))) files.push(name);
     }
   }
-  for (const dir of ['js', 'mods', 'vendor', 'docs']) await walk(dir);
+  for (const dir of ['js', 'mods', 'vendor', 'docs', 'editor']) await walk(dir);
   return files.sort();
 }
 export async function workerSource() {

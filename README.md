@@ -15,7 +15,7 @@
 
 **A moddable, offline space strategy game by QSOL-IMC.**
 
-[Play VOIDWARD](https://qsolkcb.github.io/4XGAMES/) · [Player guide](docs/PLAYER_GUIDE.md) · [Campaigns](docs/CAMPAIGNS.md) · [Build a universe](docs/WORKSHOP.md) · [Modding reference](MOD_GUIDE.md)
+[Play VOIDWARD](https://qsolkcb.github.io/4XGAMES/) · [3D Workbench](https://qsolkcb.github.io/4XGAMES/editor/index.html) · [Player guide](docs/PLAYER_GUIDE.md) · [Build a universe](docs/WORKSHOP.md) · [Modding reference](MOD_GUIDE.md)
 
 </div>
 
@@ -113,9 +113,16 @@ homeworld editing, hull polygon tools, record forms and a text editor. Work on a
 draft, validate it, export it, reimport it and launch a playable campaign.
 Diagnostics identify the file, line and field that needs attention.
 
+The local **3D Workbench**, integrated from VANILLAJS #81, adds viewport star
+placement, transform gizmos, OBJ ship projection and an independent campaign
+draft with undo/redo and recovery. Send a draft from the game into the editor,
+then return it for review and launch. Ship bundles preserve every declared source
+and licence. All editor modules are included in the offline package.
+
 | Start here | What it covers |
 | --- | --- |
 | [Visual workshop tutorial](docs/WORKSHOP.md) | Create a galaxy, edit maps and ships, validate, export and play |
+| [3D Workbench guide](docs/WORKBENCH.md) | Move stars, project ship geometry, recover drafts and exchange campaigns |
 | [Modding reference](MOD_GUIDE.md) | Text schemas, component roles, rules, source hooks and limits |
 | [Campaign briefings](docs/CAMPAIGNS.md) | Shipped objectives, route choices and reproducible campaign generation |
 | [Save compatibility and budgets](docs/SAVE_LIMITS.md) | Migration, export/import admission and large-save limits |
@@ -198,6 +205,7 @@ Packaged browser checks use an existing Playwright installation:
 ```sh
 node tests/browser.mjs
 node tests/expansion-browser.mjs
+node tests/workbench-browser.mjs
 ```
 
 **On the owner's workstation, stop and complete the explicit `proceed` handover

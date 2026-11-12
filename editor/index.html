@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a1219"><meta name="description" content="Create VOIDWARD campaigns and ships locally with the VANILLAJS 3D Workbench.">
+<title>VOIDWARD Visual Workbench | QSOL–IMC</title>
+<link rel="stylesheet" href="../vendor/vanillajs/demos/editor/style.css">
+<link rel="stylesheet" href="./style.css"><link rel="icon" href="../icon.svg">
+</head><body>
+<header class="topbar"><div class="brand"><a href="../index.html"><b>VOID<span>WARD</span></b></a><strong>WORKBENCH</strong><small>POWERED BY VANILLAJS</small></div>
+<div class="actions" aria-label="Project controls">
+<button id="new-scene" title="Create a new scene">New</button>
+<button id="save" title="Save scene JSON to disk (Ctrl/Cmd+S)">Save scene</button>
+<label class="import">Open scene<input type="file" id="open" accept=".json,.vscene,application/json"></label>
+<button id="restore-draft" disabled title="Restore the last local recovery copy">Restore draft</button><span id="draft-status" class="draft-status">Recovery ready</span>
+<span class="separator"></span>
+<button id="undo" title="Undo (Ctrl+Z)">↶ Undo</button><button id="redo" title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
+<span class="separator"></span>
+<button id="play" class="primary">▶ Play</button><button id="pause" disabled>Pause</button><button id="stop" disabled>■ Stop</button>
+</div></header>
+<main class="workbench">
+<aside class="sidebar tree"><section id="fourx-workshop" aria-label="4X campaign authoring"></section><div class="panel-head"><div><small>PROJECT</small><h2>Hierarchy</h2></div><span id="count">0</span></div>
+<label class="sr-only" for="scene-name">Scene name</label>
+<input id="scene-name" class="scene-name" maxlength="64" value="New World">
+<div class="tree-tools"><button id="add" title="Add a root cube">+ Cube</button><button id="add-child" title="Add child under selection">+ Child</button>
+<button id="duplicate" title="Duplicate selection and descendants">Duplicate</button><button id="remove" title="Delete selected subtree">Delete</button></div>
+<label class="sr-only" for="hierarchy-search">Find objects by name, ID or body type</label>
+<input id="hierarchy-search" type="search" placeholder="Find objects…" autocomplete="off">
+<p id="hierarchy-empty" class="search-empty" hidden>No matching objects.</p>
+<div id="hierarchy" class="hierarchy" role="tree" aria-label="Scene objects"></div>
+<section id="asset-foundry-controls" class="asset-foundry" aria-label="Asset Foundry">
+  <div class="asset-header"><small>ASSET FOUNDRY · v1.6</small><strong id="asset-count">0 assets</strong></div>
+  <label>Asset rights / provenance<select id="asset-license">
+    <option value="OWNER-LOCAL-ONLY">Owner / local only</option>
+    <option value="CC0-1.0">CC0-1.0 (declare rights)</option>
+    <option value="CC-BY-4.0">CC-BY-4.0 (declare rights)</option>
+    <option value="Apache-2.0">Apache-2.0 (declare rights)</option>
+    <option value="MIT">MIT (declare rights)</option>
+  </select></label>
+  <div class="asset-buttons">
+    <label class="import">Import OBJ<input id="asset-obj" type="file" accept=".obj,text/plain"></label>
+    <label class="import">Import PNG<input id="asset-png" type="file" accept="image/png,.png"></label>
+  </div>
+  <label>Find assets<input id="asset-search" type="search" placeholder="Name, kind or ID…" autocomplete="off"></label>
+  <label>Asset library<select id="asset-list" size="5" aria-label="Project assets"></select></label>
+  <div class="asset-buttons">
+    <button id="asset-attach" type="button">Attach to selected</button>
+    <button id="asset-clear" type="button">Clear attachment</button>
+  </div>
+  <label>New material colour<input id="asset-material-color" type="color" value="#54bff2"></label>
+  <div class="asset-buttons"><button id="asset-make-material" type="button">Create material</button>
+    <button id="asset-make-prefab" type="button">Save prefab</button>
+    <button id="asset-instance" type="button">Instance prefab</button></div>
+  <div class="asset-buttons project-actions"><button id="asset-save-project" type="button">Export project</button>
+    <label class="import">Open project<input id="asset-open-project" type="file" accept=".vproject.json,.json"></label>
+  </div>
+  <p class="asset-note">Local assets only · source SHA-256 · strict OBJ · PNG max 64×64 · image colours baked into mesh vertices. No external downloads.</p>
+</section>
+
+<div class="panel-foot">Component-driven scenes · local OBJ/PNG/material/prefab projects · Apache-2.0 engine</div></aside>
+<section class="center"><div class="graphics-tools"><label><input type="checkbox" id="optional-gpu"> Add CPU + optional GPU/WASM to game</label><button id="export-game">Export scene preview</button><span id="graphics-controls"></span><a href="../docs/WORKBENCH.md">Creator guide</a> · <a href="../index.html">Return to game</a></div><div class="viewport-head"><span><i></i> <strong id="mode">EDIT</strong> · <span id="active-scene">New World</span></span>
+<span id="selection-name">No selection</span></div>
+<div class="forge-tools" id="forge-tools" role="toolbar" aria-label="Transform gizmo tools">
+  <button type="button" id="tool-move" class="active" aria-pressed="true" title="Move gizmo (W)">↔ Move <kbd>W</kbd></button>
+  <button type="button" id="tool-rotate" aria-pressed="false" title="Y rotation gizmo (E)">⟳ Rotate <kbd>E</kbd></button>
+  <button type="button" id="tool-scale" aria-pressed="false" title="Scale gizmo (R)">◇ Scale <kbd>R</kbd></button>
+  <label>Space <select id="gizmo-space"><option value="world">World</option><option value="local">Local</option></select></label>
+  <label class="snap-label"><input id="gizmo-snap" type="checkbox" checked> Snap · 0.25m / 15° / 0.1</label>
+</div>
+<div class="viewport"><canvas id="view" tabindex="0" aria-label="3D scene editor. Click a box to select. Right drag or Alt drag to orbit, Shift drag selected root to move. Scroll to zoom. Play: WASD movement, Space jump."></canvas>
+<div class="axis"><b>X</b><b>Y</b><b>Z</b></div><div class="overlay" id="overlay">Native WebGL1 · X red / Z blue</div></div>
+<div class="viewport-foot"><span id="status" role="status" aria-live="polite">Editor ready.</span><span id="stats">0 uploads · 0 draw calls</span></div>
+<div class="tips"><span><kbd>Left click</kbd> select</span><span><kbd>Gizmo drag</kbd> transform selected axis</span><span><kbd>Shift + drag</kbd> X/Z root movement</span>
+<span><kbd>Right / Alt + drag</kbd> orbit</span><span><kbd>Wheel</kbd> zoom</span><span><kbd>F / Shift+F</kbd> frame selection / scene</span><span><kbd>Ctrl/Cmd+D</kbd> duplicate</span><span><kbd>Esc</kbd> cancel drag</span>
+<span><kbd>WASD / Space</kbd> play controls</span></div></section>
+<aside class="sidebar inspector"><div class="panel-head"><div><small>PROPERTIES</small><h2>Inspector</h2></div><button id="frame" title="Frame selection (F); Shift+F frames scene">Frame</button></div>
+<div id="empty" class="empty">Select an object in the hierarchy or the 3D viewport.</div>
+<form id="properties" hidden>
+<label>Object name<input id="object-name" name="name" maxlength="64" required></label>
+<label>Parent<select id="object-parent" name="parent"></select></label>
+<div class="row-fields"><label>Body type<select id="object-body" name="body"><option value="static">Static</option>
+<option value="dynamic">Dynamic</option><option value="player">Player</option></select></label>
+<label class="check"><input type="checkbox" name="visible" id="object-visible"> Visible</label></div>
+<fieldset><legend>Position · metres</legend><div class="triple"><label>X<input data-axis="position" data-i="0" type="number" step="0.25" min="-1000" max="1000"></label>
+<label>Y<input data-axis="position" data-i="1" type="number" step="0.25" min="-1000" max="1000"></label>
+<label>Z<input data-axis="position" data-i="2" type="number" step="0.25" min="-1000" max="1000"></label></div></fieldset>
+<fieldset><legend>Rotation</legend><label>Y degrees<input id="object-yaw" name="rotationY" type="number" step="5" min="-360000" max="360000"></label></fieldset>
+<fieldset><legend>Scale</legend><div class="triple"><label>X<input data-axis="scale" data-i="0" type="number" step="0.1" min="0.01" max="100"></label>
+<label>Y<input data-axis="scale" data-i="1" type="number" step="0.1" min="0.01" max="100"></label>
+<label>Z<input data-axis="scale" data-i="2" type="number" step="0.1" min="0.01" max="100"></label></div></fieldset>
+<details id="exact-authoring" class="exact-authoring"><summary>ALIEN MATH · exact position</summary>
+<p>Local coordinates in metres. Decimals stay exact here until you apply them to the floating-point scene.</p>
+<div class="triple"><label>X<input id="exact-x" type="text" inputmode="decimal" maxlength="38" autocomplete="off"></label>
+<label>Y<input id="exact-y" type="text" inputmode="decimal" maxlength="38" autocomplete="off"></label>
+<label>Z<input id="exact-z" type="text" inputmode="decimal" maxlength="38" autocomplete="off"></label></div>
+<div class="exact-actions"><button type="button" id="exact-read">Read selection</button><button type="button" id="exact-apply">Apply decimals</button></div>
+<label>Q16.16 rounding<select id="exact-rounding"><option value="nearest-even">Nearest · ties to even</option><option value="nearest-away">Nearest · ties away</option><option value="floor">Floor</option><option value="ceil">Ceiling</option><option value="toward-zero">Toward zero</option><option value="exact">Exact only</option></select></label>
+<label>Q16.16 overflow<select id="exact-overflow"><option value="reject">Reject</option><option value="saturate">Saturate (explicit opt-in)</option></select></label>
+<div class="exact-actions"><button type="button" id="exact-preview">Preview Q16.16</button><button type="button" id="exact-quantize">Apply Q16.16</button></div>
+<label>D4 position layout · local XY about origin<select id="exact-symmetry"><option value="r">Rotate point 90°</option><option value="r2">Rotate point 180°</option><option value="r3">Rotate point 270°</option><option value="s">Reflect point across X</option><option value="r2s">Reflect point across Y</option><option value="rs">Swap X and Y</option><option value="r3s">Reflect across Y = −X</option><option value="e">Identity</option></select></label>
+<button type="button" id="exact-transform">Transform decimal draft</button>
+<output id="exact-result" aria-live="polite">Read or enter decimal coordinates. Z and object orientation are unchanged by D4.</output>
+<p>Q16.16 preview shows raw integers and signed conversion error. Applying changes the selected position in one undo step. Scene JSON retains its existing Number format.</p>
+</details>
+<label>Object colour<input id="object-color" type="color" value="#44bbdd"></label>
+<fieldset id="components"><legend>Component Forge · v2</legend>
+  <label class="component-switch"><input type="checkbox" data-component="mesh" data-field="enabled"> Mesh Renderer</label>
+  <label class="component-switch"><input type="checkbox" data-component="collider" data-field="enabled"> Collider · box</label>
+  <label>Rigidbody <select data-component="rigidbody" data-field="mode"><option value="static">Static</option><option value="dynamic">Dynamic</option></select></label>
+  <label>Gravity scale<input type="number" step="0.1" min="0" max="10" data-component="rigidbody" data-field="gravityScale"></label>
+  <label class="component-switch"><input type="checkbox" data-component="controller" data-field="enabled"> Player Controller</label>
+  <div class="row-fields"><label>Movement speed<input type="number" min="0" max="40" step="0.25" data-component="controller" data-field="speed"></label>
+  <label>Jump impulse<input type="number" min="0" max="30" step="0.25" data-component="controller" data-field="jumpImpulse"></label></div>
+  <label class="component-switch"><input type="checkbox" data-component="trigger" data-field="enabled"> Trigger</label>
+  <label>Trigger event tag<input type="text" maxlength="48" pattern="[A-Za-z][A-Za-z0-9_-]*" data-component="trigger" data-field="tag"></label>
+  <label class="component-switch"><input type="checkbox" data-component="camera" data-field="enabled"> Camera · authored metadata</label>
+  <label>Camera field of view<input type="number" min="25" max="120" step="1" data-component="camera" data-field="fov"></label>
+</fieldset>
+</form>
+<section class="help"><h3>Play mode</h3><p>Component-driven fixed 60 Hz preview with continuous AABB collision, editable speed and jump impulse, and trigger-enter events. WASD moves; Space jumps. Stop restores the authored scene.</p>
+<h3>Engine boundaries</h3><p>Box mesh editor with X/Y/Z move and scale, Y rotation, snapping and authored components. Dynamic-dynamic and rotated collisions and scripting are not implemented. Local meshes, materials and prefabs use Asset Foundry; playable HTML needs the packaged modules beside it.</p>
+<a href="../docs/WORKBENCH.md">Workbench guide ↗</a></section>
+</aside></main>
+<footer>VANILLAJS Mod SDK — Build games. Extend the engine. Own your creations. · Experimental authoring tools · This is not a product. This is INDEPENDENCE. 👽</footer>
+<script type="module" src="./app.js"></script><script type="module" src="./offline.js"></script>
+</body></html>

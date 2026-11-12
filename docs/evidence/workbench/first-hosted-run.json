@@ -1,0 +1,99 @@
+{
+  "schema": "voidward.hosted-validation-summary.v1",
+  "run": 43129136165,
+  "sourceHead": "b738faad2bef5b3c938fef0ff2e43b1d05ff5c99",
+  "testedMerge": "e44e5f2c5689cffd1a3c808390cbd0ea6bdb5663",
+  "artifact": 13903509568,
+  "artifactSha256": "ae65547305305d3bd9aaba0710bf0b7234dd4b15386cf60d3127ec1a122068be",
+  "baseline": {
+    "status": "PASS",
+    "checks": [
+      "movement",
+      "colonisation",
+      "construction/cancel",
+      "research",
+      "ship-design",
+      "all-views",
+      "web-audio",
+      "save-roundtrip",
+      "rejected-save",
+      "reload",
+      "texture-parity",
+      "directory-mod",
+      "mod-victory",
+      "source-campaign",
+      "responsive",
+      "offline",
+      "keyboard",
+      "touch"
+    ]
+  },
+  "expansion": {
+    "status": "PASS",
+    "checks": {
+      "all-campaign-empires": {
+        "status": "PASS",
+        "elapsedMs": 7890
+      },
+      "player-orders": {
+        "status": "PASS",
+        "elapsedMs": 589
+      },
+      "group-orders": {
+        "status": "PASS",
+        "elapsedMs": 643
+      },
+      "ship-refit-construction": {
+        "status": "PASS",
+        "elapsedMs": 830
+      },
+      "diplomacy-combat": {
+        "status": "PASS",
+        "elapsedMs": 985
+      },
+      "creator-roundtrip": {
+        "status": "PASS",
+        "elapsedMs": 2517
+      },
+      "legacy-save-migration": {
+        "status": "PASS",
+        "elapsedMs": 546
+      },
+      "large-save-roundtrip": {
+        "status": "PASS",
+        "elapsedMs": 1581
+      },
+      "campaign-progress": {
+        "status": "PASS",
+        "elapsedMs": 428
+      },
+      "large-list-filtering": {
+        "status": "PASS",
+        "elapsedMs": 1254
+      },
+      "audio-preferences": {
+        "status": "PASS",
+        "elapsedMs": 789
+      },
+      "keyboard-responsive-touch": {
+        "status": "PASS",
+        "elapsedMs": 1539
+      },
+      "offline": {
+        "status": "PASS",
+        "elapsedMs": 271
+      },
+      "render-parity-performance": {
+        "status": "PASS",
+        "elapsedMs": 6207
+      }
+    }
+  },
+  "workbench": {
+    "status": "FAIL",
+    "failure": "ReferenceError: __voidward is not defined in tests/workbench-browser.mjs:89, while waiting for the offline game tab to initialise."
+  },
+  "resolution": "Wait predicates now access globalThis diagnostic snapshots; the test continues polling before the global is installed. A later run must establish PASS.",
+  "hardwareAcceleration": "NOT_CLAIMED",
+  "ownerWorkstation": "NOT_USED"
+}

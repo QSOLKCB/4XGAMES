@@ -1,14 +1,35 @@
 // SPDX-License-Identifier: Apache-2.0
+// Backported from VANILLAJS b12f24f789da81325491f96b5c2dd786d31e96f0, PR81; local donor paths.
 // VOIDWARD adapter for the experimental VANILLAJS Workbench, pinned in provenance.
 // Workbench X/Z becomes chart X/Y; -Z forward becomes the negative-Y ship nose.
 // This imports inert project data, never exported preview HTML or executable code.
-import {parseProject,serializeProject,createAssetLibrary,addMeshAsset,setPlacement} from '../vendor/vanillajs/demos/editor/asset-foundry.js';
+import {parseProject,serializeProject,createAssetLibrary,addMeshAsset,setPlacement,licenses} from '../vendor/vanillajs/demos/editor/asset-foundry.js';
 import {validateScene,sceneWorld} from '../vendor/vanillajs/demos/editor/model.js';
 import {defaultComponents} from '../vendor/vanillajs/demos/editor/components.js';
 import {readRows,writeRows,updateHull} from './workshop.js';
 import {parsePack} from './content.js';
 const hash = async text => [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(text)))].map(n=>n.toString(16).padStart(2,'0')).join('');
-function project(text) { if(typeof text!=='string') throw new Error('Choose exported Workbench project JSON.'); return parseProject(text); }
+export const HULL_BUNDLE_KIND='voidward.workbench-hull.v1';
+export const MAX_HULL_BUNDLE_BYTES=512*1024;
+const sourceKey=p=>JSON.stringify([p.sha256,p.source,p.license]);
+const exact=(value,keys)=>value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).length===keys.length&&keys.every(k=>Object.hasOwn(value,k));
+// This demo-owned envelope retains attribution which native project v1/v2 cannot
+// represent. The embedded native project and its 256 KiB budget are unchanged.
+export function readWorkbenchProject(text) {
+  if(typeof text!=='string') throw new Error('Choose exported Workbench project JSON.');
+  if(new TextEncoder().encode(text).length>MAX_HULL_BUNDLE_BYTES)throw new Error('Hull bundle exceeds 512 KiB.');
+  const value=JSON.parse(text);
+  if(value?.kind!==HULL_BUNDLE_KIND)return parseProject(text);
+  if(!exact(value,['kind','hull','project','provenance'])||typeof value.hull!=='string'||!/^[a-z][a-z0-9-]{0,39}$/.test(value.hull)||['constructor','prototype'].includes(value.hull)||!Array.isArray(value.provenance)||value.provenance.length>128)throw new Error('Invalid hull bundle fields.');
+  const provenance=value.provenance.map(p=>{
+    if(!exact(p,['hull','source','sha256','license','operation'])||p.hull!==value.hull||!licenses().includes(p.license)||typeof p.sha256!=='string'||!/^[a-f0-9]{64}$/.test(p.sha256)||[['source',160],['operation',300]].some(([key,max])=>typeof p[key]!=='string'||!p[key].trim()||p[key].length>max||/[|\r\n\0]/.test(p[key])))throw new Error('Invalid hull bundle provenance.');
+    return {...p};
+  });
+  const parsed=parseProject(value.project);
+  if(!parsed.library.assets.some(a=>a.id==='asset-1'&&a.kind==='mesh'))throw new Error('Hull bundle needs its exported projection mesh.');
+  return {...parsed,hull:value.hull,provenance};
+}
+const project=readWorkbenchProject;
 export function inspectWorkbench(text) {
   const p=project(text); return p.scene.objects.map(e=>({id:e.id,name:e.name,mesh:p.library.placements.find(a=>a.entityId===e.id)?.meshId || null,visible:e.visible}));
 }
@@ -23,12 +44,16 @@ export async function importWorkbench(text,{entityId,extent=48}={}) {
   if(!world.some(e=>e.id===selected)) throw new Error('Choose a valid Workbench entity.');
   if(!Number.isFinite(extent)||extent<4||extent>60) throw new Error('Hull extent must be 4..60 chart units.');
   const ids=new Set([selected]);for(let i=0;i<world.length;i++)for(const e of world)if(ids.has(e.parent))ids.add(e.id);
-  const points=[], sources=new Map();
+  const points=[], sources=new Map(), retained=[];let primitive=false;
   for(const e of world.filter(e=>ids.has(e.id)&&e.visible&&(e.components?.mesh.enabled??true))) {
     const place=p.library.placements.find(a=>a.entityId===e.id), mesh=p.library.assets.find(a=>a.id===place?.meshId);
     let vertices=[];
-    if(mesh){for(let i=0;i<mesh.vertices.length;i+=5)vertices.push(mesh.vertices.slice(i,i+3));sources.set(mesh.sourceSha256,{source:mesh.sourceName,sha256:mesh.sourceSha256,license:mesh.license});}
-    else for(const x of [-.5,.5])for(const z of [-.5,.5])vertices.push([x,0,z]);
+    if(mesh){
+      for(let i=0;i<mesh.vertices.length;i+=5)vertices.push(mesh.vertices.slice(i,i+3));
+      if(p.provenance?.length&&mesh.id==='asset-1'){
+        if(!retained.length)retained.push(...p.provenance.map(({hull,...row})=>row));
+      }else{const source={source:mesh.sourceName,sha256:mesh.sourceSha256,license:mesh.license};sources.set(sourceKey(source),source);}
+    }else{primitive=true;for(const x of [-.5,.5])for(const z of [-.5,.5])vertices.push([x,0,z]);}
     const angle=e.rotationY*Math.PI/180,c=Math.cos(angle),s=Math.sin(angle);
     for(const v of vertices){const x=v[0]*e.scale[0],z=v[2]*e.scale[2];points.push([e.position[0]+x*c+z*s,e.position[2]-x*s+z*c]);}
   }
@@ -40,8 +65,10 @@ export async function importWorkbench(text,{entityId,extent=48}={}) {
   const shape=boundary.map(([x,y])=>[Number(((x-(minX+maxX)/2)*extent*2/span).toFixed(6)),Number(((y-(minY+maxY)/2)*extent*2/span).toFixed(6))]);
   if(new Set(shape.map(p=>p.join(','))).size<3)throw new Error('Projected geometry collapsed after rounding.');
   const projectSha256=await hash(text), operation=`Workbench ${selected}; convex X/Z projection; centred; extent ${extent}; six decimal chart units`;
-  if(!sources.size)sources.set(projectSha256,{source:'workbench-project.json',sha256:projectSha256,license:'OWNER-LOCAL-ONLY'});
-  return {shape,entityId:selected,name:world.find(e=>e.id===selected).name,projectSha256,provenance:[...sources.values()].map(s=>({...s,operation})),warnings:['Convex top-down silhouette: concave details and height are discarded.','Materials, textures, colliders, controllers, triggers and camera settings do not become game mechanics.'],shareable:[...sources.values()].every(s=>s.license!=='OWNER-LOCAL-ONLY')};
+  if(primitive||(!sources.size&&!retained.length)){const source={source:'workbench-project.json',sha256:projectSha256,license:'OWNER-LOCAL-ONLY'};sources.set(sourceKey(source),source);}
+  const provenance=retained.concat([...sources.values()].map(s=>({...s,operation})));
+  if(provenance.length>128)throw new Error('Projection exceeds the campaign limit of 128 provenance rows.');
+  return {shape,entityId:selected,name:world.find(e=>e.id===selected).name,projectSha256,provenance,warnings:['Convex top-down silhouette: concave details and height are discarded.','Materials, textures, colliders, controllers, triggers and camera settings do not become game mechanics.'],shareable:provenance.every(s=>s.license!=='OWNER-LOCAL-ONLY')};
 }
 export function applyWorkbenchHull(raw,hullId,result) {
   if(!Array.isArray(result?.shape)||!Array.isArray(result.provenance))throw new Error('Use a validated Workbench projection.');
@@ -49,12 +76,22 @@ export function applyWorkbenchHull(raw,hullId,result) {
   const rows=readRows(candidate,'provenance').filter(p=>p.hull!==hullId).concat(result.provenance.map(p=>({hull:hullId,...p})));
   candidate=writeRows(candidate,'provenance',rows);return candidate;
 }
-export async function exportWorkbenchHull(raw,hullId) {
+async function hullProject(raw,hullId,{bundle=false}={}) {
   const pack=parsePack(raw),h=pack.hulls[hullId];if(!h)throw new Error('Unknown hull.');
   const text=h.shape.map(([x,y])=>`v ${x} 0 ${y}`).join('\n')+'\n'+h.shape.slice(2).map((_,i)=>`f 1 ${i+2} ${i+3}`).join('\n')+'\n';
   const scene=validateScene({schemaVersion:2,name:h.name.slice(0,64),nextId:2,objects:[{id:'entity-1',name:h.name.slice(0,64),parent:null,position:[0,0,0],rotationY:0,scale:[1,1,1],color:[.4,.8,.9],body:'static',visible:true,components:defaultComponents()}]});
-  const metadata=pack.provenance.find(p=>p.hull===hullId),created=addMeshAsset(createAssetLibrary(),{name:h.name.slice(0,64),license:metadata?.license||'OWNER-LOCAL-ONLY',sourceName:`${hullId}.obj`,sourceSha256:await hash(text),text});
-  return serializeProject(scene,setPlacement(scene,created.library,'entity-1',created.id));
+  const provenance=pack.provenance.filter(p=>p.hull===hullId),metadata=provenance[0];
+  if(!bundle&&(provenance.length>1||metadata?.source.length>64))throw new Error('Native Workbench projects cannot retain this hull attribution. Export the lossless hull bundle.');
+  const created=addMeshAsset(createAssetLibrary(),{name:h.name.slice(0,64),license:provenance.length>1?'OWNER-LOCAL-ONLY':metadata?.license||'OWNER-LOCAL-ONLY',sourceName:metadata&&metadata.source.length<=64?metadata.source:`${hullId}.obj`,sourceSha256:metadata?.sha256||await hash(text),text});
+  return {project:serializeProject(scene,setPlacement(scene,created.library,'entity-1',created.id)),provenance};
+}
+// Native geometry exchange retains one representable source/licence. Use the
+// bundle API for complete provenance operation history and multiple sources.
+export async function exportWorkbenchHull(raw,hullId){return (await hullProject(raw,hullId)).project;}
+export async function exportWorkbenchHullBundle(raw,hullId){
+  const {project,provenance}=await hullProject(raw,hullId,{bundle:true});
+  const text=JSON.stringify({kind:HULL_BUNDLE_KIND,hull:hullId,project,provenance})+'\n';
+  readWorkbenchProject(text);return text;
 }
 export function importWorkbenchLayout(raw,text) {
   const p=project(text), pack=parsePack(raw), points=[];

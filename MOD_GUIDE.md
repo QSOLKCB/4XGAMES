@@ -342,6 +342,12 @@ JavaScript changes in `core.js`.
 
 ## Visual authoring and Workbench exchange
 
+The [bundled 3D Workbench](editor/index.html) adds native viewport star placement,
+scene transforms, OBJ ship projections, campaign undo/redo and separate recovery.
+See [WORKBENCH.md](docs/WORKBENCH.md) for game/editor handoffs, hull bundles that
+preserve multiple source declarations, offline use and format budgets. Handoffs
+stage a draft for review; the running expedition is not restarted until launch.
+
 See [WORKSHOP.md](docs/WORKSHOP.md) for the complete creator tutorial, including
 VANILLAJS Asset Foundry/Component Forge project conversion and Mod SDK limits.
 The map editor selects stars and edits coordinates numerically; it also edits

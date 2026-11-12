@@ -2,6 +2,58 @@
 
 Implementation work: 12 November 2026.
 
+## VANILLAJS #81 integration — 12 November 2026
+
+PR #4 review follow-up addresses five editor defects: map attachment carryover,
+unusable fixed-size/depth-tested gizmos, stale clean text buffers, unit-cube
+picking for imported meshes, and admission of render-unsafe composed transforms.
+Seven additional Node regressions and five browser scenarios cover the actual
+transactions and pointer interactions. Donor files remain unchanged; fixes live
+in local editor adapters. The new Node suite contains 83 tests; the PR records
+the exact revision and hosted results for this follow-up independently of the
+earlier runs below.
+
+Base: `e2e2b2352428438d3ce377e5daff7b542a6dce10` (4XGAMES #3).
+Donor: `b12f24f789da81325491f96b5c2dd786d31e96f0` (VANILLAJS #81).
+
+This update adds the bundled editor, separate campaign history/recovery, staged
+game/editor handoffs and complete hull attribution bundles. Existing campaign
+files, authoritative simulation and save-codec files are unchanged. The new
+Node authoring tests exercise independent histories, invalid transactions,
+viewport coordinates, mixed mesh/primitive provenance, multi-source roundtrips,
+bundle rejection and the actual packaged module dependency closure.
+
+The full Node suite passes **76 tests**. The public inventory verifies **61
+pinned donor files** and all five campaigns. The package includes every editor
+entry point, stylesheet and transitive runtime module, including the optional
+renderer's local WASM byte module. `tests/workbench-browser.mjs` extends hosted
+QA with real viewport editing, recovery, 320px keyboard use, offline reload and
+editor/game exchange while preserving an existing expedition.
+
+Cloud Chromium launch was attempted and failed before opening a page:
+`process_singleton_posix.cc:297: socket() failed: Operation not permitted`.
+No UI pass or hardware result is claimed for that attempt. Hosted browser
+results for this upgrade are reported separately in its PR/workflow artifacts.
+The owner's workstation was not used. The [first hosted run](https://github.com/QSOLKCB/4XGAMES/actions/runs/43129136165)
+passed all 18 baseline and 14 expansion checks, then the new Workbench test
+failed at its offline game-tab wait with an undefined diagnostic global. The
+wait now checks `globalThis` during initialisation. The [preserved first-run
+summary](evidence/workbench/first-hosted-run.json) identifies the source, merge
+revision and verified artifact digest; it is not an all-pass receipt.
+
+The [second hosted run](https://github.com/QSOLKCB/4XGAMES/actions/runs/43129906668)
+passed the 18 baseline, 14 expansion and 12 Workbench checks at head
+`a35b488fafc70b9f070059e3e85156c9a29e8b53`. Its verified artifact ZIP digest is
+`c7f6d5b3164262ae86516ddc62d8eec4f0014404300e4e7a9df70694fdacffa2`.
+Visual inspection then found desktop viewport overflow after resizing from
+320px back to 1440px. Local CSS now bounds the desktop grid row; an additional
+browser assertion checks that the viewport and side panels stay above the footer.
+That later layout change requires its own hosted result; the earlier 12-check
+PASS does not cover it.
+
+All expansion results below describe
+their recorded historical sources, not this editor update.
+
 Latest expansion browser verification: **PASS — 14/14 expansion checks and
 18/18 checks in each legacy/baseline suite**, on source
 `381383e2c5a54c2e49c3516befb7942030607763`.
